@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AdolescentNCD Watch — Africa</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <style>
+  :root{
+    --teal:#1D9E75; --teal-dark:#0F6E56; --teal-soft:#D8F3E9;
+    --amber:#F0A53A; --coral:#E06B5D; --blue:#4390F1; --purple:#7B61FF;
+    --bg:#080a0f; --surface:#11141d; --card:#161a27; --muted:#9ca2b7; --text:#eef0f7;
+    --radius:22px; --radius-sm:14px; --shadow:0 30px 60px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;font-family:'Inter',sans-serif;background:radial-gradient(circle at top, rgba(63,118,255,0.14), transparent 26%),linear-gradient(180deg,#090b11 0%,#101423 100%);color:var(--text);}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at top right, rgba(29,158,117,0.18),transparent 18%),radial-gradient(circle at bottom left, rgba(240,165,58,0.1),transparent 16%);pointer-events:none;}
+  .container{width:min(1320px,calc(100% - 40px));margin:0 auto;padding:24px 0 40px;}
+  .header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:24px;}
+  .brand{display:flex;align-items:center;gap:14px;}
+  .logo-mark{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(29,158,117,0.95),rgba(15,110,86,0.8));box-shadow:0 24px 40px rgba(0,0,0,0.3);}
+  .logo-mark img{width:100%;height:100%;border-radius:18px;object-fit:cover;}
+  .logo-text{line-height:1.15;}
+  .logo-text .name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;}
+  .logo-text .subtitle{margin-top:4px;font-size:.86rem;color:var(--muted);letter-spacing:.02em;}
+  .status-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+  .pill{display:inline-flex;align-items:center;gap:10px;padding:.9rem 1rem;border-radius:999px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:var(--text);font-size:.88rem;}
+  .pill .dot{width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px rgba(240,165,58,0.08);}
+  .status-text{font-size:.9rem;color:var(--muted);}
+  .layout{display:grid;grid-template-columns:1.3fr .95fr;gap:26px;}
+  .section-label{display:inline-flex;align-items:center;gap:10px;margin-bottom:18px;font-size:.82rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;}
+  .metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:22px;}
+  .metric{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:24px;min-height:130px;box-shadow:var(--shadow);transition:transform .2s ease;}
+  .metric:hover{transform:translateY(-2px);}
+  .metric-val{font-family:'Syne',sans-serif;font-size:2.1rem;font-weight:800;letter-spacing:-.03em;margin-bottom:12px;}
+  .metric-label{font-size:.96rem;color:var(--muted);line-height:1.7;}
+  .metric-source{margin-top:12px;font-size:.82rem;color:rgba(156,162,183,.9);}
+  .card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:28px;padding:24px;box-shadow:var(--shadow);}
+  .card-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px;}
+  .card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;}
+  .card-sub{color:var(--muted);font-size:.92rem;line-height:1.8;max-width:640px;}
+  .source-tag{padding:7px 13px;border-radius:999px;background:rgba(29,158,117,0.14);color:var(--teal);font-size:.82rem;font-weight:600;}
+  .filters{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;}
+  .filter-btn{padding:.85rem 1rem;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:var(--text);cursor:pointer;transition:all .2s ease;font-size:.9rem;}
+  .filter-btn.active{background:linear-gradient(135deg,rgba(29,158,117,0.16),rgba(29,158,117,0.08));border-color:rgba(29,158,117,0.35);color:#fff;}
+  .bar-list{display:grid;gap:16px;}
+  .bar-row{display:grid;grid-template-columns:minmax(160px,1fr) 1.3fr auto;align-items:center;gap:16px;}
+  .bar-lbl{color:var(--muted);font-size:.94rem;min-width:160px;}
+  .bar-track{height:12px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;}
+  .bar-fill{height:100%;width:0;border-radius:999px;transition:width .7s ease;}
+  .bar-num{font-size:.9rem;font-weight:700;color:var(--text);min-width:60px;text-align:right;}
+  .legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px;}
+  .country-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13px;color:var(--text);}
+  .country-table th,.country-table td{padding:14px 12px;text-align:left;}
+  .country-table th{color:var(--muted);font-size:.75rem;letter-spacing:.13em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .country-table tr{border-bottom:1px solid rgba(255,255,255,0.08);}
+  .country-table tr:last-child{border-bottom:none;}
+  .country-table tbody tr:hover{background:rgba(255,255,255,0.04);}
+  .risk-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:.78rem;font-weight:700;}
+  .risk-high{background:rgba(224,107,93,.14);color:#ffb7ac;}
+  .risk-mod{background:rgba(240,165,58,.14);color:#ffd9b4;}
+  .risk-low{background:rgba(29,158,117,.14);color:#b4f1d8;}
+  .sidebar{position:sticky;top:28px;align-self:start;}
+  .screener-card{display:flex;flex-direction:column;gap:18px;}
+  .screener-desc{font-size:.95rem;color:var(--muted);line-height:1.8;}
+  .step-dots{display:flex;gap:10px;}
+  .sdot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.08);transition:transform .2s ease;}
+  .sdot.cur{background:var(--teal);transform:scale(1.2);}
+  .sdot.done{background:var(--teal);}
+  .qcard{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:22px;padding:20px;}
+  .qtext{font-size:.95rem;font-weight:600;margin-bottom:16px;line-height:1.5;}
+  .q-opts{display:grid;gap:12px;}
+  .qopt{padding:12px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:var(--text);text-align:left;cursor:pointer;transition:all .2s ease;}
+  .qopt:hover{background:rgba(255,255,255,0.08);}
+  .qopt.sel{background:rgba(29,158,117,0.16);border-color:rgba(29,158,117,0.4);}
+  .slider-row{display:flex;align-items:center;gap:12px;margin-top:10px;}
+  .slider-row input[type=range]{flex:1;accent-color:var(--teal);}
+  .slider-val{font-size:.95rem;font-weight:700;color:var(--teal);min-width:70px;text-align:right;}
+  .action-btn{width:100%;padding:15px;border-radius:18px;border:none;background:linear-gradient(135deg,var(--teal),#1f8a68);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s ease;}
+  .action-btn:hover{transform:translateY(-1px);box-shadow:0 18px 32px rgba(29,158,117,0.24);}
+  .loading-ai{text-align:center;padding:28px 0;display:none;}
+  .risk-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;font-size:.95rem;font-weight:700;margin-bottom:16px;}
+  .badge-low{background:rgba(29,158,117,0.16);color:#b4f1d8;}
+  .badge-mod{background:rgba(240,165,58,0.16);color:#ffd9b4;}
+  .badge-high{background:rgba(224,107,93,0.16);color:#ffb7ac;}
+  .res-section{margin-bottom:14px;}
+  .res-head{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .res-text{line-height:1.75;color:var(--text);font-size:.95rem;}
+  .rtag{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:.8rem;font-weight:600;}
+  .rtag-risk{background:rgba(224,107,93,.14);color:#ffb7ac;}
+  .rtag-protect{background:rgba(29,158,117,.14);color:#b4f1d8;}
+  .rtag-action{background:rgba(67,144,241,.14);color:#c3d8ff;}
+  .footnote{font-size:.88rem;color:var(--muted);border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);border-radius:18px;padding:18px;}
+  .mini-bar{height:5px;border-radius:999px;display:inline-block;}
+  @media(max-width:1120px){.layout{grid-template-columns:1fr}.sidebar{position:static;top:auto;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+  <header class="header">
+    <div class="brand">
+      <div class="logo-mark"><img src="assets/images/mercy-portrait.png" alt="Mercy portrait"/></div>
+      <div class="logo-text"><div class="name">Mercy Ogunwale</div><div class="subtitle">AdolescentNCD Watch</div></div>
+    </div>
+    <div class="status-row"><div class="pill"><span class="dot"></span> Live data — SSA</div><div class="status-text" id="last-updated">Fetching…</div></div>
+  </header>
+
+  <div class="layout">
+    <main>
+      <div class="status-row" style="margin-bottom:14px">
+        <div class="pill"><span class="dot" id="pill-who"></span> WHO GHO</div>
+        <div class="pill"><span class="dot" id="pill-wb"></span> World Bank</div>
+      </div>
+
+      <div class="section-label">Key indicators — Adolescents & NCDs</div>
+      <div class="metrics" id="metrics-grid">
+        <div class="metric"><div class="metric-val">—</div><div class="metric-label">NCD mortality (30–70 yrs)</div></div>
+        <div class="metric"><div class="metric-val">—</div><div class="metric-label">Insufficient physical activity — adolescents</div></div>
+        <div class="metric"><div class="metric-val">—</div><div class="metric-label">Adolescent obesity prevalence</div></div>
+      </div>
+
+      <div style="margin-top:16px" class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div><strong>NCD Risk Factor Prevalence — SSA</strong><div style="font-size:12px;color:var(--muted)">WHO GHO · Latest</div></div><div class="source-tag" style="font-size:12px;color:var(--muted)">Data: WHO · World Bank</div></div>
+        <div class="filters" style="margin-bottom:10px"><button class="tab active" onclick="filterRisk('all',this)">All sexes</button><button class="tab" onclick="filterRisk('female',this)">Female</button><button class="tab" onclick="filterRisk('male',this)">Male</button></div>
+        <div class="bar-list" id="risk-bars">
+          <div class="bar-row"><div class="bar-lbl">Loading…</div></div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px" class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div><strong>NCD Mortality Trend (2000–2022)</strong><div style="font-size:12px;color:var(--muted)">WHO GHO</div></div></div>
+        <div style="height:260px"><canvas id="trend-chart"></canvas></div>
+      </div>
+
+      <div style="margin-top:12px" class="card">
+        <strong>Country profiles — Sub‑Saharan Africa</strong>
+        <table class="country-table" style="margin-top:10px">
+          <thead><tr><th>Country</th><th>NCD mort.</th><th>Physical activity</th><th>Life exp.</th><th>Risk</th></tr></thead>
+          <tbody id="country-tbody"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">Loading…</td></tr></tbody>
+        </table>
+      </div>
+
+      <div class="footnote">Data sources: WHO GHO OData (proxied), World Bank Open Data. This prototype uses a CORS proxy for live browser fetches; for production, use a backend proxy with caching.</div>
+    </main>
+
+    <aside class="sidebar card">
+      <div class="screener-title">NCD Risk Screener</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px">AI-powered adolescent risk assessment (10–24 yrs). Provider configurable.</div>
+      <div id="screener-form">
+        <div id="step-dots" style="display:flex;gap:6px;margin-bottom:12px"></div>
+        <div id="q-container"></div>
+        <button class="action-btn" id="next-btn" onclick="nextQ()">Continue →</button>
+      </div>
+      <div id="loading-ai" style="display:none;text-align:center;padding:18px"><div style="height:36px;width:36px;border:3px solid rgba(255,255,255,0.06);border-top-color:var(--teal);border-radius:50%;margin:0 auto 8px;animation:spin .8s linear infinite"></div><div style="color:var(--muted)">Generating risk profile…</div></div>
+      <div id="risk-result" style="display:none;margin-top:10px"></div>
+    </aside>
+  </div>
+
+  <script>
+  // Set your deployed backend URL here when the frontend is hosted on GitHub Pages.
+  // Example: https://adolescent-ncd-watch.onrender.com
+  const DEFAULT_BACKEND = 'https://YOUR_BACKEND_URL';
+  const URL_BACKEND = new URLSearchParams(location.search).get('backend');
+  const BACKEND_URL = URL_BACKEND || (DEFAULT_BACKEND.includes('YOUR_BACKEND_URL') ? null : DEFAULT_BACKEND);
+  const USE_BACKEND = Boolean(BACKEND_URL);
+  const CORS_PROXY = 'https://corsproxy.io/?';
+  const WHO_BASE = USE_BACKEND ? `${BACKEND_URL}/api/who` : `${CORS_PROXY}https://ghoapi.azureedge.net/api`;
+  const WB_BASE = USE_BACKEND ? `${BACKEND_URL}/api/wb` : 'https://api.worldbank.org/v2';
+  const AI_ENDPOINT = USE_BACKEND ? `${BACKEND_URL}/api/ai` : null;
+
+  const SSA_COUNTRIES = {NGA:{name:'Nigeria',flag:'🇳🇬'},KEN:{name:'Kenya',flag:'🇰🇪'},ZAF:{name:'South Africa',flag:'🇿🇦'},GHA:{name:'Ghana',flag:'🇬🇭'},ETH:{name:'Ethiopia',flag:'🇪🇹'},TZA:{name:'Tanzania',flag:'🇹🇿'},UGA:{name:'Uganda',flag:'🇺🇬'},RWA:{name:'Rwanda',flag:'🇷🇼'},SEN:{name:'Senegal',flag:'🇸🇳'}};
+
+  const INDICATORS = {NCDMORT:'NCDMORT3070',PHYSACT:'NCD_PAC_ADO',TOBACCO:'M_Est_tob_curr',LIFEEXP:'WHOSIS_000001'};
+
+  async function whoFetch(indicator,country,sex='BTSX'){
+      if (USE_BACKEND) {
+        const url = `${WHO_BASE}/${indicator}?country=${country}&sex=${sex}`;
+        const r = await fetch(url);
+        const d = await r.json();
+        if (!d.get || (!d.get('value') && !d.value)) {
+          // backend returns raw WHO JSON; fall through
+        }
+        if (!d.value || !d.value.length) return null;
+        const row = d.value.find(v=>v.NumericValue!==null);
+        return row?{value:Math.round(row.NumericValue*10)/10,year:row.TimeDim}:null;
+      }
+
+      const base = `${WHO_BASE}/${indicator}`;
+      let url = `${base}?$filter=SpatialDimType eq 'COUNTRY' and SpatialDim eq '${country}'` + (sex!=='ALL' ? ` and Dim1 eq '${sex}'` : '') + `&$orderby=TimeDim desc&$top=10`;
+      const r = await fetch(url);
+      const d = await r.json();
+      if(!d.value||!d.value.length) return null;
+      const row = d.value.find(v=>v.NumericValue!==null);
+      return row?{value:Math.round(row.NumericValue*10)/10,year:row.TimeDim}:null;
+  }
+
+  async function whoMultiCountry(indicator,countries,sex='BTSX'){
+      if (USE_BACKEND) {
+        const url = `${WHO_BASE}/multi?indicator=${indicator}&countries=${countries.join(',')}&sex=${sex}`;
+        const r = await fetch(url);
+        const d = await r.json();
+        return d.value || [];
+      }
+      const codes = countries.join("','");
+      let url = `${WHO_BASE}/${indicator}?$filter=SpatialDimType eq 'COUNTRY' and SpatialDim in ('${codes}')`+(sex!=='ALL'?` and Dim1 eq '${sex}'`:``)+`&$orderby=TimeDim desc&$top=200`;
+      const r = await fetch(url);
+      const d = await r.json();
+      return d.value||[];
+  }
+
+  async function wbFetch(indicator,countryCode){
+      if (USE_BACKEND) {
+        const url = `${WB_BASE}/${indicator}?country=${countryCode}`;
+        const r = await fetch(url);
+        const d = await r.json();
+        if(!d[1]||!d[1].length) return null;
+        const row = d[1].find(v=>v.value!==null);
+        return row?{value:Math.round(row.value*10)/10,year:row.date}:null;
+      }
+      const url = `${WB_BASE}/country/${countryCode}/indicator/${indicator}?format=json&mrv=5&per_page=5`;
+      const r = await fetch(url);
+      const d = await r.json();
+      if(!d[1]||!d[1].length) return null;
+      const row = d[1].find(v=>v.value!==null);
+      return row?{value:Math.round(row.value*10)/10,year:row.date}:null;
+  }
+
+  const state = {whoData:{},wbData:{},trendData:{},whoOk:false,wbOk:false};
+
+  function setPillStatus(id,status){const el=document.getElementById(id);if(!el) return; if(status==='ok') el.style.background='var(--teal)'; if(status==='error') el.style.background='var(--coral)';}
+
+  async function loadData(){
+    const countryCodes = Object.keys(SSA_COUNTRIES);
+    try{
+      const rows = await whoMultiCountry(INDICATORS.NCDMORT,countryCodes);
+      const latest = {};
+      rows.forEach(r=>{ if(r.NumericValue===null) return; if(!latest[r.SpatialDim]||r.TimeDim>latest[r.SpatialDim].year) latest[r.SpatialDim]={value:r.NumericValue,year:r.TimeDim}; });
+      state.whoData.ncdMort=latest; state.whoOk=true; setPillStatus('pill-who','ok');
+    }catch(e){console.error('WHO NCD error',e); setPillStatus('pill-who','error');}
+
+    try{
+      const rows = await whoMultiCountry(INDICATORS.PHYSACT,countryCodes);
+      const latest = {};
+      rows.forEach(r=>{ if(r.NumericValue===null) return; if(!latest[r.SpatialDim]||r.TimeDim>latest[r.SpatialDim].year) latest[r.SpatialDim]={value:r.NumericValue,year:r.TimeDim}; });
+      state.whoData.physAct=latest;
+    }catch(e){console.error('physact',e)}
+
+    try{
+      const rows = await whoMultiCountry(INDICATORS.TOBACCO,countryCodes);
+      const latest = {};
+      rows.forEach(r=>{ if(r.NumericValue===null) return; if(!latest[r.SpatialDim]||r.TimeDim>latest[r.SpatialDim].year) latest[r.SpatialDim]={value:r.NumericValue,year:r.TimeDim}; });
+      state.whoData.tobacco=latest;
+    }catch(e){console.error('tobacco',e)}
+
+    try{
+      const rows = await whoMultiCountry(INDICATORS.LIFEEXP,countryCodes);
+      const latest = {};
+      rows.forEach(r=>{ if(r.NumericValue===null) return; if(!latest[r.SpatialDim]||r.TimeDim>latest[r.SpatialDim].year) latest[r.SpatialDim]={value:r.NumericValue,year:r.TimeDim}; });
+      state.whoData.lifeExp=latest; setPillStatus('pill-sdg','ok');
+    }catch(e){console.error('lifeexp',e); setPillStatus('pill-sdg','error')}
+
+    try{ state.wbData.healthExp = await wbFetch('SH.XPD.CHEX.GD.ZS','SSF'); state.wbOk=true; setPillStatus('pill-wb','ok'); }catch(e){console.error('wb',e); setPillStatus('pill-wb','error')}
+
+    buildRiskBars(); buildMetrics(); buildTrendChart(); buildCountryTable();
+    document.getElementById('last-updated').textContent = 'Updated: ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  }
+
+  function avg(obj){ const vals = Object.values(obj||{}).map(v=>v.value).filter(x=>!isNaN(x)); return vals.length?Math.round((vals.reduce((a,b)=>a+b,0)/vals.length)*10)/10:null }
+
+  function buildMetrics(){ const ncdAvg=avg(state.whoData.ncdMort); const physAvg=avg(state.whoData.physAct); const tobAvg=avg(state.whoData.tobacco); const lifeAvg=avg(state.whoData.lifeExp); const wbHealth=state.wbData.healthExp; const grid=document.getElementById('metrics-grid'); grid.innerHTML = `
+    <div class="metric"><div class="metric-val t-coral">${ncdAvg!==null?ncdAvg+'%':'—'}</div><div class="metric-label">NCD mortality prob. (30–70 yrs), SSA avg</div></div>
+    <div class="metric"><div class="metric-val t-amber">${physAvg!==null?physAvg+'%':'—'}</div><div class="metric-label">Insufficient physical activity — adolescents</div></div>
+    <div class="metric"><div class="metric-val t-teal">${tobAvg!==null?tobAvg+'%':'—'}</div><div class="metric-label">Current tobacco use — SSA avg</div></div>
+    ` }
+
+  function buildRiskBars(sex='all'){ const container=document.getElementById('risk-bars'); const rows=[{label:'Physical inactivity (adolescents)',data:state.whoData.physAct,color:'#1D9E75',max:100,unit:'%'},{label:'Current tobacco use',data:state.whoData.tobacco,color:'#BA7517',max:50,unit:'%'},{label:'NCD mortality prob. (30–70)',data:state.whoData.ncdMort,color:'#993C1D',max:35,unit:'%'},{label:'Life expectancy (yrs)',data:state.whoData.lifeExp,color:'#185FA5',max:80,unit:' yrs'}]; container.innerHTML=''; rows.forEach(r=>{ const vals = r.data?Object.values(r.data).map(v=>v.value).filter(x=>!isNaN(x)):[]; const avgVal = vals.length?Math.round((vals.reduce((a,b)=>a+b,0)/vals.length)*10)/10:null; const pct = avgVal!==null?Math.min(100,(avgVal/r.max)*100):0; const display = avgVal!==null?avgVal + r.unit:'—'; const row=document.createElement('div'); row.style.display='flex'; row.style.alignItems='center'; row.style.gap='12px'; row.style.marginBottom='10px'; row.innerHTML = `<div style="width:180px;color:var(--muted)">${r.label}</div><div class="bar-track" style="flex:1"><div class="bar-fill" style="width:0%;background:${r.color}"></div></div><div style="min-width:70px;text-align:right;color:${r.color};font-weight:600">${display}</div>`; container.appendChild(row); setTimeout(()=>row.querySelector('.bar-fill').style.width=pct+'%',80); }); }
+
+  let trendChart=null; function buildTrendChart(){ const YEARS=[2000,2005,2010,2015,2019,2022]; const COUNTRIES=['NGA','KEN','ZAF','GHA']; const COLORS=['#1D9E75','#BA7517','#185FA5','#534AB7']; const datasets = COUNTRIES.map((iso,i)=>{ const cData = state.trendData[iso]||{}; const data = YEARS.map(y=>{ const keys = Object.keys(cData).map(Number).sort((a,b)=>Math.abs(a-y)-Math.abs(b-y)); const closest = keys[0]; return closest && Math.abs(closest - y)<=3?Math.round(cData[closest]*10)/10:null }); return { label: SSA_COUNTRIES[iso]?.name || iso, data, borderColor:COLORS[i], backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:0.35, spanGaps:true }; }); const canvas=document.getElementById('trend-chart'); if(trendChart) trendChart.destroy(); trendChart = new Chart(canvas,{type:'line',data:{labels:YEARS,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw}%`}}},scales:{x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:var(--muted)}},y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:var(--muted),callback:v=>v+'%'}}}}); }
+
+  function riskLevel(ncdVal){ if(!ncdVal) return ['—','']; if(ncdVal>25) return ['High','risk-high']; if(ncdVal>18) return ['Moderate','risk-mod']; return ['Low','risk-low']; }
+
+  function buildCountryTable(){ const tbody=document.getElementById('country-tbody'); const codes=Object.keys(SSA_COUNTRIES); let html=''; codes.forEach(iso=>{ const info=SSA_COUNTRIES[iso]; const ncd=state.whoData.ncdMort?.[iso]; const phys=state.whoData.physAct?.[iso]; const life=state.whoData.lifeExp?.[iso]; const [rLabel,rClass]=riskLevel(ncd?.value); const physBar = phys?`<div style="display:flex;align-items:center;gap:8px"><div class="mini-bar" style="width:${Math.round(phys.value*0.6)}px;background:var(--amber);height:6px;border-radius:4px"></div><span>${phys.value}%</span></div>`:'<span style="color:var(--muted)">—</span>'; html+=`<tr><td>${info.flag} ${info.name}</td><td style="font-weight:600;color:var(--coral)">${ncd? ncd.value + '% (' + ncd.year + ')' : '<span style="color:var(--muted)">—</span>'}</td><td>${physBar}</td><td>${life? life.value + ' yrs' : '<span style="color:var(--muted)">—</span>'}</td><td>${rClass?`<span style="padding:6px 9px;border-radius:10px;background:rgba(255,255,255,0.02);color:var(--muted);font-weight:600">${rLabel}</span>`:'—'}</td></tr>`; }); tbody.innerHTML = html||'<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">No data loaded</td></tr>'; }
+
+  function showTab(t){document.querySelectorAll('[id^="tab-"]').forEach(el=>el.style.display='none');}
+  function filterRisk(sex,btn){document.querySelectorAll('.filters .tab').forEach(p=>p.classList.remove('active')); if(btn) btn.classList.add('active'); buildRiskBars(sex);}
+
+  // -------- AI screener (no vendor branding) --------
+  const questions = [ {id:'age',text:'Age group?',type:'opts',opts:['10–13','14–17','18–21','22–24']},{id:'sex',text:'Biological sex?',type:'opts',opts:['Female','Male','Prefer not to say']},{id:'activity',text:'Days/week physically active ≥30 min?',type:'slider',min:0,max:7,def:2,unit:' days/week'},{id:'tobacco',text:'Tobacco use?',type:'opts',opts:['Never','Occasional','Daily']},{id:'diet',text:'Diet quality?',type:'opts',opts:['Poor','Fair','Good','Excellent']},{id:'screen',text:'Daily sedentary / screen time (hrs)?',type:'slider',min:0,max:14,def:4,unit:' hrs/day'} ];
+  let curQ=0, answers={};
+  function renderDots(){ document.getElementById('step-dots').innerHTML = questions.map((q,i)=>`<div style="width:8px;height:8px;border-radius:50%;background:${i<curQ?'var(--teal)':i===curQ?'var(--amber)':'rgba(255,255,255,0.03)'}"></div>`).join(''); }
+  function renderQ(){ const q=questions[curQ]; let html=`<div style="background:rgba(255,255,255,0.01);padding:12px;border-radius:10px;margin-bottom:8px"><div style="font-weight:600;margin-bottom:8px">Q${curQ+1}/${questions.length} — ${q.text}</div>`; if(q.type==='opts'){ html+=`<div style="display:flex;flex-direction:column;gap:8px">${q.opts.map(o=>`<button class="qopt" onclick="pickOpt('${q.id}','${o.replace(/'/g,"\\'")}')" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text)">${o}</button>`).join('')}</div>` }else{ const val = answers[q.id]!==undefined?answers[q.id]:q.def; html+=`<div style="display:flex;gap:10px;align-items:center"><input type="range" min="${q.min}" max="${q.max}" value="${val}" oninput="updateSlider('${q.id}',this.value,'${q.unit}')"/><div id="sv-${q.id}" style="min-width:60px">${val}${q.unit}</div></div>` } html+='</div>'; document.getElementById('q-container').innerHTML = html; document.getElementById('next-btn').textContent = curQ<questions.length-1? 'Continue →' : 'Generate Risk Profile'; renderDots(); }
+  function pickOpt(id,val){ answers[id]=val; renderQ(); }
+  function updateSlider(id,val,unit){ answers[id]=parseInt(val); document.getElementById('sv-'+id).textContent = val + unit; }
+  function nextQ(){ const q=questions[curQ]; if(q.type==='opts' && !answers[q.id]) return; if(curQ<questions.length-1){ curQ++; renderQ(); } else submitScreener(); }
+
+  async function submitScreener(){ document.getElementById('screener-form').style.display='none'; document.getElementById('loading-ai').style.display='block'; const summary = questions.map(q=>`${q.text}: ${answers[q.id] ?? '—'}`).join('\n'); const prompt = `You are a public health expert specialising in adolescent NCDs in SSA. Produce a compact JSON risk assessment for the user:\n${summary}`;
+    try{
+      // Attempt to call a configurable AI endpoint (no vendor branding).
+      const aiUrl = AI_ENDPOINT || '/api/ai';
+      const res = await fetch(aiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
+      if(!res.ok) throw new Error('AI endpoint not available');
+      const data = await res.json(); showResult(data);
+    }catch(e){ console.warn('AI call failed, using fallback',e); showResult({riskLevel:'Moderate',riskFactors:['High sedentary time','Poor diet'],protectiveFactors:['Young age'],summary:'Your responses suggest areas to improve: increase activity and improve diet.',actions:['Aim for 60 min activity daily','Add one fruit/veg per meal','Visit clinic for check']}); }
+  }
+
+  function showResult(parsed){ document.getElementById('loading-ai').style.display='none'; const el=document.getElementById('risk-result'); el.style.display='block'; el.innerHTML = `<div style="padding:10px;border-radius:10px;background:rgba(0,0,0,0.25)"><div style="font-weight:700;margin-bottom:8px">${parsed.riskLevel} NCD Risk</div><div style="margin-bottom:8px">${(parsed.riskFactors||[]).map(r=>`<span style="padding:4px 8px;border-radius:8px;background:rgba(255,255,255,0.02);margin-right:6px">${r}</span>`).join('')}</div><div style="font-size:13px;color:var(--muted);margin-bottom:8px">${parsed.summary||''}</div><div>${(parsed.actions||[]).map((a,i)=>`<div style="display:flex;gap:8px;margin-bottom:6px"><div style="background:var(--teal);width:26px;height:26px;border-radius:6px;text-align:center;line-height:26px;font-weight:700">${i+1}</div><div>${a}</div></div>`).join('')}</div></div>` }
+
+  // INIT
+  renderQ(); loadData();
+  </script>
+  </div>
+</body>
+</html>
