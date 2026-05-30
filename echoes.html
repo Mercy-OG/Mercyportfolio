@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Echoes by EPIX</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#070d19; /* Deep Space Black-Blue */
+  --surface:rgba(22, 34, 51, 0.4); /* Translucent Glass */
+  --surface-solid:#162233;
+  --surface2:rgba(28, 41, 61, 0.65); /* Richer Glass for Overlays */
+  
+  --blue:#2AABEE; /* Signature Brand Blue */
+  --blue-dim:rgba(42,171,238,0.12);
+  --blue-border:rgba(42,171,238,0.25);
+  --blue-glow:rgba(42,171,238,0.06);
+  
+  --text:#FFFFFF;
+  --text-dim:rgba(255,255,255,0.72);
+  --text-faint:rgba(255,255,255,0.38);
+  
+  --red:#FF6B6B;
+  --red-dim:rgba(255,107,107,0.12);
+  
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',sans-serif;
+  --radius:16px;
+  --radius-sm:10px;
+  --sidebar-w:240px;
+  --nav-h:66px;
+  --ease:cubic-bezier(.4,0,.2,1);
+  --dur:0.35s;
+}
+
+html,body{height:100%;background:var(--bg);font-family:var(--sans);color:var(--text);overflow:hidden;line-height:1.5;}
+
+/* ── VOLUMETRIC BACKGROUND BLURS ── */
+body::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: -20%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(42, 171, 238, 0.16) 0%, transparent 65%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -20%;
+  right: -20%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.08) 0%, transparent 60%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── ONBOARDING GLASS PANEL ── */
+.onboard{
+  position:fixed;inset:0;z-index:1000;
+  background:radial-gradient(circle at center, rgba(13,23,43,0.75) 0%, rgba(7,13,25,0.98) 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:28px;transition:opacity .55s;
+}
+.onboard.out{opacity:0;pointer-events:none;}
+.ob-logo{display:flex;align-items:center;gap:14px;margin-bottom:46px;}
+.ob-wm-name{font-family:var(--serif);font-style:italic;font-size:34px;font-weight:300;}
+.ob-wm-by{font-size:9px;letter-spacing:.36em;text-transform:uppercase;color:var(--blue);opacity:.85;margin-top:5px;font-weight:600;}
+.ob-dots{display:flex;gap:6px;justify-content:center;margin-bottom:30px;}
+.ob-dot{width:5px;height:5px;border-radius:50%;background:var(--text-faint);transition:all .3s;}
+.ob-dot.a{background:var(--blue);width:22px;border-radius:3px;box-shadow:0 0 8px var(--blue);}
+.ob-step{display:none;flex-direction:column;align-items:center;text-align:center;max-width:400px;width:100%;}
+.ob-step.active{display:flex;}
+.ob-eye{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;opacity:.95;font-weight:700;}
+.ob-title{font-family:var(--serif);font-style:italic;font-size:clamp(20px,5vw,28px);font-weight:300;line-height:1.4;margin-bottom:10px;}
+.ob-sub{font-size:13.5px;color:var(--text-dim);font-weight:300;line-height:1.8;margin-bottom:28px;max-width:340px;}
+
+.ob-inp{
+  width:100%;background:rgba(255,255,255,0.02);
+  border:1.5px solid rgba(255,255,255,0.08);border-radius:var(--radius-sm);
+  padding:14px 16px;color:var(--text);font-family:var(--sans);font-size:14px;outline:none;
+  margin-bottom:14px;transition:all .25s var(--ease);
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,0.01);
+}
+.ob-inp:focus{border-color:var(--blue);background:rgba(42,171,238,0.03);box-shadow:0 0 16px rgba(42,171,238,0.15);}
+.ob-inp::placeholder{color:var(--text-faint);}
+
+.ob-opts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px;}
+.ob-opt{
+  padding:9px 18px;border-radius:100px;border:1.5px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.01);color:var(--text-dim);font-size:12px;cursor:pointer;
+  transition:all .22s;user-select:none;font-weight:500;
+}
+.ob-opt:hover{border-color:var(--blue-border);color:var(--blue);background:rgba(42,171,238,0.04);}
+.ob-opt.sel{border-color:var(--blue);background:var(--blue-dim);color:var(--blue);box-shadow:0 0 12px rgba(42,171,238,0.1);}
+
+/* ── PREMIUM INTERACTIVE BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:12px 32px;border-radius:100px;border:none;
+  background:linear-gradient(135deg, #2AABEE, #1a9cde);
+  color:#fff;font-family:var(--sans);font-size:12px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
+  transition:all .25s var(--ease);user-select:none;-webkit-tap-highlight-color:transparent;
+  box-shadow:0 8px 24px rgba(42,171,238,0.28), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(42,171,238,0.38), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+.btn:active{transform:translateY(0);scale:0.96;box-shadow:0 4px 10px rgba(42,171,238,0.2);}
+.btn.ghost{
+  background:rgba(255,255,255,0.01);border:1.5px solid var(--blue-border);
+  color:var(--blue);box-shadow:inset 0 1px 0 rgba(255,255,255,0.01);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.btn.ghost:hover{background:var(--blue-dim);border-color:var(--blue);box-shadow:0 4px 16px rgba(42,171,238,0.12);}
+.btn.danger{background:rgba(255,107,107,0.02);border:1.5px solid rgba(255,107,107,0.28);color:var(--red);box-shadow:none;}
+.btn.danger:hover{background:var(--red-dim);border-color:var(--red);box-shadow:0 4px 16px rgba(255,107,107,0.12);}
+.btn.sm{padding:9px 22px;font-size:11px;}
+.btn.xs{padding:6px 13px;font-size:10px;}
+
+/* ── LAYOUT & GLASS SIDEBAR ── */
+.app-wrap{display:flex;height:100vh;width:100vw;overflow:hidden;position:relative;z-index:1;}
+.app-wrap.hidden{display:none;}
+
+.sidebar{
+  width:var(--sidebar-w);height:100vh;
+  background:rgba(18, 27, 41, 0.45);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-right:1px solid rgba(255,255,255,0.04);
+  display:flex;flex-direction:column;flex-shrink:0;
+  box-shadow:4px 0 24px rgba(0,0,0,0.25);
+}
+.sb-head{padding:26px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.sb-logo{display:flex;align-items:center;gap:12px;}
+.sb-name{font-family:var(--serif);font-style:italic;font-size:22px;font-weight:300;}
+.sb-by{font-size:8px;letter-spacing:.32em;text-transform:uppercase;color:var(--blue);opacity:.85;margin-top:4px;font-weight:600;}
+.sb-nav{flex:1;padding:10px 0;overflow-y:auto;}
+.sb-nav::-webkit-scrollbar{display:none;}
+
+.ni{
+  display:flex;align-items:center;gap:13px;padding:12px 20px;cursor:pointer;
+  transition:all .25s var(--ease);border-left:3px solid transparent;
+  color:var(--text-faint);user-select:none;-webkit-tap-highlight-color:transparent;position:relative;
+}
+.ni:hover{background:rgba(255,255,255,0.03);color:var(--text-dim);}
+.ni.active{background:rgba(42,171,238,0.08);border-left-color:var(--blue);color:var(--blue);font-weight:600;}
+.ni-icon{font-size:16px;flex-shrink:0;width:22px;text-align:center;line-height:1;transition:all .3s;filter:drop-shadow(0 0 0px var(--blue));}
+.ni.active .ni-icon{filter:drop-shadow(0 0 6px rgba(42,171,238,0.9));}
+.ni-lbl{font-size:13.5px;letter-spacing:0.01em;}
+.ni-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);position:absolute;right:16px;top:50%;transform:translateY(-50%);opacity:0;transition:opacity .3s;box-shadow:0 0 8px var(--blue);}
+.ni.has-activity .ni-dot{opacity:1;}
+
+.sb-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.04);display:flex;flex-direction:column;gap:12px;}
+.impact-box{
+  background:rgba(42,171,238,0.03);
+  border:1px solid var(--blue-border);
+  border-radius:var(--radius-sm);padding:12px 14px;
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,0.01);
+}
+.ic-n{font-size:23px;font-weight:600;color:var(--blue);line-height:1;letter-spacing:-0.5px;}
+.ic-l{font-size:10px;color:var(--text-faint);margin-top:4px;line-height:1.6;font-weight:500;}
+.sb-user{display:flex;align-items:center;gap:10px;}
+.sb-av{
+  width:34px;height:34px;border-radius:50%;background:var(--blue-dim);
+  border:1.5px solid var(--blue-border);display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;box-shadow:inset 1px 1px 0 rgba(255,255,255,0.05);
+}
+.sb-uname{font-size:12.5px;color:var(--text-dim);font-weight:600;}
+.sb-about{font-size:10.5px;color:var(--text-faint);cursor:pointer;margin-top:2px;font-weight:500;transition:color 0.2s;}
+.sb-about:hover{color:var(--blue);}
+
+/* ── MAIN & GLASS PANELS ── */
+.main{flex:1;height:100vh;overflow:hidden;position:relative;background:transparent;}
+
+.panel{
+  position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;
+  opacity:0;transform:translateY(12px);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease);
+  pointer-events:none;padding:32px;
+}
+.panel::-webkit-scrollbar{width:4px;}
+.panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.07);border-radius:2px;}
+.panel.active{opacity:1;transform:translateY(0);pointer-events:all;}
+.ph{margin-bottom:26px;}
+.ph-eye{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--blue);opacity:.95;margin-bottom:7px;font-weight:700;}
+.ph-title{font-family:var(--serif);font-style:italic;font-size:clamp(22px,4vw,34px);font-weight:300;line-height:1.2;}
+.ph-sub{font-size:13.5px;color:var(--text-dim);font-weight:300;line-height:1.8;margin-top:7px;}
+
+/* ── HIGH-FIDELITY GLASSMORT CARD ── */
+.card{
+  background:rgba(255,255,255,0.02);
+  border:1.5px solid rgba(255,255,255,0.06);
+  border-radius:var(--radius);padding:22px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 8px 32px 0 rgba(0, 0, 0, 0.35), inset 1px 1px 0 rgba(255,255,255,0.02);
+}
+.divider{height:1px;background:rgba(255,255,255,0.06);margin:22px 0;}
+
+.wa-wrap{
+  background:rgba(255,255,255,0.015);
+  border:1.5px solid rgba(255,255,255,0.06);
+  border-radius:var(--radius);padding:17px 19px;transition:all .25s var(--ease);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.wa-wrap:focus-within{border-color:var(--blue-border);background:rgba(255,255,255,0.025);box-shadow:0 0 16px rgba(42,171,238,0.08);}
+
+.wa{
+  width:100%;background:transparent;border:none;padding:0;color:var(--text);
+  font-family:var(--serif);font-size:17.5px;font-weight:300;font-style:italic;
+  line-height:1.8;resize:none;outline:none;caret-color:var(--blue);
+}
+.wa::placeholder{color:var(--text-faint);font-style:italic;}
+
+.tag{
+  padding:8px 16px;border-radius:100px;border:1.5px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.01);color:var(--text-dim);font-size:12px;cursor:pointer;
+  transition:all .22s var(--ease);user-select:none;-webkit-tap-highlight-color:transparent;
+  font-weight:500;
+}
+.tag:hover{border-color:var(--blue-border);color:var(--blue);background:rgba(42,171,238,0.03);}
+.tag:active{transform:scale(0.94);}
+.tag.sel{
+  border-color:var(--blue);background:var(--blue-dim);color:var(--blue);
+  box-shadow:0 0 16px rgba(42,171,238,0.18);
+}
+.tags-row{display:flex;flex-wrap:wrap;gap:8px;}
+
+.daily-signal{
+  background:rgba(42,171,238,0.05);
+  border:1.5px solid rgba(42,171,238,0.18);
+  border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:22px;
+  display:flex;align-items:center;gap:10px;animation:fadeSlide .6s ease both;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.ds-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;box-shadow:0 0 8px var(--blue);}
+.ds-txt{font-size:12.5px;color:var(--text-dim);line-height:1.6;font-style:italic;font-family:var(--serif);}
+
+.fscreens{position:relative;flex:1;min-height:280px;}
+.fs{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;pointer-events:none;
+}
+.fs.active{opacity:1;transform:translateY(0);pointer-events:all;}
+.fs.exit{opacity:0;transform:translateY(-10px);}
+.step-q{font-family:var(--serif);font-style:italic;font-size:clamp(17px,3.5vw,24px);font-weight:300;line-height:1.45;margin-bottom:18px;}
+.fdots{display:flex;gap:5px;margin-bottom:18px;}
+.fd{width:4px;height:4px;border-radius:50%;background:var(--text-faint);transition:all .3s;}
+.fd.a{background:var(--blue);width:16px;border-radius:2px;box-shadow:0 0 6px var(--blue);}
+
+.dial-row{display:flex;gap:7px;margin-bottom:18px;}
+.dial{
+  flex:1;padding:13px 6px;background:rgba(255,255,255,0.01);
+  border:1.5px solid rgba(255,255,255,0.07);border-radius:var(--radius-sm);
+  text-align:center;cursor:pointer;transition:all .22s;
+  color:var(--text-faint);font-size:10px;letter-spacing:.08em;text-transform:uppercase;user-select:none;
+}
+.dial:hover{border-color:var(--blue-border);color:var(--blue);background:rgba(42,171,238,0.03);}
+.dial.active{
+  border-color:var(--blue);background:var(--blue-dim);color:var(--blue);
+  box-shadow:0 0 18px rgba(42,171,238,0.16);
+}
+.dial-num{font-family:var(--serif);font-size:24px;font-weight:300;display:block;margin-bottom:3px;color:inherit;}
+
+@keyframes ripOut{0%{transform:scale(1);opacity:.85;}100%{transform:scale(2.8);opacity:0;}}
+.r-ring{animation:ripOut 1.8s ease-out forwards;}
+.r-ring2{animation:ripOut 1.8s ease-out .4s forwards;opacity:0;}
+.r-ring3{animation:ripOut 1.8s ease-out .8s forwards;opacity:0;}
+.release-wrap{text-align:center;padding:28px 20px;display:flex;flex-direction:column;align-items:center;}
+
+/* ── OVERLAYS (GLASS ALERT BOXES) ── */
+.na-ov{
+  position:fixed;inset:0;z-index:700;
+  background:rgba(9,15,28,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .38s;
+}
+.na-ov.show{opacity:1;pointer-events:all;}
+
+.na-card{
+  background:rgba(22, 34, 51, 0.75);
+  border:1.5px solid var(--blue-border);
+  border-radius:var(--radius);padding:32px 28px;max-width:420px;width:100%;text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,0.5), inset 1px 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+}
+.na-q{font-family:var(--serif);font-style:italic;font-size:clamp(17px,4vw,22px);font-weight:300;line-height:1.5;margin-bottom:22px;}
+.na-echo{
+  font-family:var(--serif);font-style:italic;font-size:16px;font-weight:300;color:var(--text-dim);line-height:1.75;
+  padding:18px;background:rgba(42,171,238,0.05);border:1.5px solid rgba(42,171,238,0.15);
+  border-radius:var(--radius-sm);margin-bottom:18px;display:none;
+}
+.na-count{font-size:12px;color:var(--text-faint);margin-bottom:20px;display:none;}
+
+.sky-wrap{
+  flex:1;min-height:280px;position:relative;border-radius:var(--radius);overflow:hidden;
+  background:rgba(0,0,0,0.25);border:1.5px solid rgba(255,255,255,0.05);
+  box-shadow:inset 0 4px 20px rgba(0,0,0,0.5);
+}
+#skyCanvas{position:absolute;inset:0;width:100%;height:100%;}
+.sky-time-badge{position:absolute;top:12px;right:14px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);opacity:.75;pointer-events:none;font-weight:600;}
+.sky-hint{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text-faint);letter-spacing:.12em;white-space:nowrap;pointer-events:none;font-weight:500;}
+.sky-live{position:absolute;bottom:14px;right:14px;display:flex;align-items:center;gap:5px;font-size:9px;color:var(--text-faint);letter-spacing:.1em;pointer-events:none;font-weight:600;}
+.sky-live-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);box-shadow:0 0 6px var(--blue);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+.sky-pop{
+  position:absolute;bottom:14px;left:50%;transform:translateX(-50%) translateY(10px);
+  background:rgba(22, 34, 51, 0.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1.5px solid var(--blue-border);border-radius:var(--radius);padding:18px 20px;
+  max-width:320px;width:90%;text-align:center;opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .38s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 12px 40px rgba(0,0,0,0.5), inset 1px 1px 0 rgba(255,255,255,0.02);
+}
+.sky-pop.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+.sp-txt{font-family:var(--serif);font-size:16px;font-style:italic;font-weight:300;line-height:1.7;margin-bottom:5px;}
+.sp-meta{font-size:9px;color:var(--blue);letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px;opacity:.9;font-weight:600;}
+.sp-btns{display:flex;gap:8px;justify-content:center;}
+.sp-btn{
+  padding:7px 18px;border-radius:100px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;transition:all .18s;user-select:none;-webkit-tap-highlight-color:transparent;
+  font-family:var(--sans);font-weight:700;
+}
+.sp-btn:active{transform:scale(0.92);}
+.sp-btn.metoo{border:1.5px solid var(--blue-border);background:var(--blue-dim);color:var(--blue);}
+.sp-btn.sv{border:1.5px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);color:var(--text-dim);}
+
+.drop-q-wrap{
+  background:rgba(255,255,255,0.015);border:1.5px solid rgba(255,255,255,0.06);
+  border-radius:var(--radius);padding:22px 20px 14px;margin-bottom:14px;position:relative;
+  overflow:hidden;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.tbar{position:absolute;bottom:0;left:0;height:2px;background:var(--blue);opacity:.6;transition:width 1s linear;box-shadow:0 0 6px var(--blue);}
+.drop-q{font-family:var(--serif);font-style:italic;font-size:clamp(15px,3vw,22px);font-weight:300;line-height:1.55;transition:opacity .3s;min-height:52px;}
+.drop-season{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);opacity:.85;margin-bottom:8px;font-weight:600;}
+
+.const-wrap{
+  background:rgba(0,0,0,0.15);border:1.5px solid rgba(255,255,255,0.05);
+  border-radius:var(--radius);overflow:hidden;margin-top:14px;height:100px;position:relative;
+}
+#cCanvas{position:absolute;inset:0;}
+.const-label{position:absolute;bottom:8px;right:12px;font-size:9px;color:var(--text-faint);letter-spacing:.1em;text-transform:uppercase;pointer-events:none;font-weight:600;}
+
+.monthly-echo{
+  background:rgba(42,171,238,0.05);border:1.5px solid rgba(42,171,238,0.18);
+  border-radius:var(--radius-sm);padding:14px 16px;margin-top:12px;display:none;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.me-eye{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:7px;opacity:.9;font-weight:600;}
+.me-txt{font-family:var(--serif);font-style:italic;font-size:14.5px;font-weight:300;color:var(--text-dim);line-height:1.7;}
+
+.burn-canvas-wrap{
+  position:relative;height:130px;background:rgba(0,0,0,0.2);
+  border-radius:var(--radius);overflow:hidden;margin-bottom:14px;
+  border:1.5px solid rgba(255,255,255,0.04);
+}
+#burnCanvas{position:absolute;inset:0;width:100%;height:100%;}
+.burn-done{text-align:center;padding:10px;font-family:var(--serif);font-size:14px;font-style:italic;color:var(--text-dim);opacity:0;transition:opacity .4s;pointer-events:none;}
+.burn-done.show{opacity:1;}
+
+.draft-card{
+  background:rgba(255,255,255,0.015);border:1.5px solid rgba(255,255,255,0.06);
+  border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:8px;display:flex;
+  align-items:flex-start;gap:12px;backdrop-filter:blur(4px);
+}
+.draft-body{flex:1;font-family:var(--serif);font-size:14px;font-style:italic;font-weight:300;color:var(--text-dim);line-height:1.6;}
+.draft-acts{display:flex;gap:6px;flex-shrink:0;padding-top:2px;}
+.empty-st{text-align:center;padding:26px 16px;font-size:13px;color:var(--text-faint);font-style:italic;font-family:var(--serif);line-height:1.7;}
+
+.kit-note-box{
+  background:rgba(255,255,255,0.015);border:1.5px solid var(--blue-border);
+  border-radius:var(--radius);padding:22px;font-family:var(--serif);
+  font-size:16px;font-style:italic;font-weight:300;line-height:1.85;margin-bottom:16px;
+  width:100%;box-shadow:0 0 28px rgba(42,171,238,0.08);backdrop-filter:blur(8px);
+}
+@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}45%,55%{opacity:0.92;}}
+.breath-circle{
+  width:56px;height:56px;border-radius:50%;border:1.5px solid var(--blue-border);
+  display:flex;align-items:center;justify-content:center;margin:14px auto;
+  animation:breathe 4.2s ease-in-out infinite;color:var(--blue);
+  font-size:10px;letter-spacing:.06em;box-shadow:0 0 20px rgba(42,171,238,0.12);
+  font-weight:600;text-transform:uppercase;background:var(--blue-dim);
+}
+.breath-room{
+  background:rgba(42,171,238,0.04);border:1.5px solid var(--blue-border);
+  border-radius:var(--radius);padding:22px;text-align:center;display:none;
+  margin-top:16px;width:100%;backdrop-filter:blur(8px);
+}
+.breath-room.show{display:block;}
+
+.grow-wrap{
+  background:rgba(255,255,255,0.01);border:1.5px solid rgba(255,255,255,0.05);
+  border-radius:var(--radius);padding:16px;margin-top:16px;backdrop-filter:blur(8px);
+}
+.grow-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px;font-weight:600;}
+#growCanvas{width:100%;height:80px;display:block;}
+
+.duo-modes{display:flex;gap:10px;margin-bottom:20px;}
+.dmc{
+  flex:1;background:rgba(255,255,255,0.01);border:1.5px solid rgba(255,255,255,0.06);
+  border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer;
+  transition:all .22s var(--ease);user-select:none;backdrop-filter:blur(8px);
+}
+.dmc:hover{border-color:var(--blue-border);background:rgba(255,255,255,0.02);}
+.dmc.active{border-color:var(--blue);background:var(--blue-dim);box-shadow:0 0 20px rgba(42,171,238,0.12);}
+.dmc-icon{font-size:22px;margin-bottom:7px;line-height:1;color:var(--blue);}
+.dmc-name{font-size:13.5px;font-weight:600;margin-bottom:2px;}
+.dmc-desc{font-size:11px;color:var(--text-dim);font-weight:300;}
+
+.pact-streak-box{
+  display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.015);
+  border:1.5px solid rgba(255,255,255,0.06);border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:14px;backdrop-filter:blur(8px);
+}
+.str-num{font-size:40px;font-family:var(--serif);font-weight:300;color:var(--blue);line-height:1;text-shadow:0 0 20px rgba(42,171,238,0.4);}
+.str-label{font-size:11px;color:var(--text-dim);font-weight:500;}
+.str-sub{font-size:10px;color:var(--text-faint);margin-top:2px;}
+
+.letter-invite{
+  background:rgba(42,171,238,0.03);border:1.5px dashed rgba(42,171,238,0.25);
+  border-radius:var(--radius);padding:20px;margin-top:14px;backdrop-filter:blur(6px);
+}
+.li-eye{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);opacity:.85;margin-bottom:10px;font-weight:700;}
+.li-sub{font-size:12.5px;color:var(--text-dim);line-height:1.7;margin-bottom:12px;}
+
+.anchor-ov{
+  position:fixed;bottom:0;left:0;right:0;z-index:900;
+  transform:translateY(110%);transition:transform .48s cubic-bezier(.34,1.2,.64,1);
+}
+.anchor-ov.show{transform:translateY(0);}
+
+.anchor-card{
+  background:rgba(22, 34, 51, 0.88);
+  border-top:1.5px solid var(--blue-border);
+  border-radius:var(--radius) var(--radius) 0 0;padding:24px 24px 32px;
+  text-align:center;max-width:520px;margin:0 auto;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.55), inset 1px 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+}
+.anchor-title{font-family:var(--serif);font-style:italic;font-size:18px;font-weight:300;margin:14px 0 7px;}
+.anchor-sub{font-size:12.5px;color:var(--text-dim);margin-bottom:18px;line-height:1.75;}
+.anchor-btns{display:flex;gap:9px;justify-content:center;}
+.anchor-dismiss{font-size:11px;color:var(--text-faint);cursor:pointer;margin-top:13px;letter-spacing:.04em;font-weight:600;}
+.anchor-dismiss:hover{color:var(--text-dim);}
+
+.mission-ov{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(9,15,28,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .35s;
+}
+.mission-ov.show{opacity:1;pointer-events:all;}
+
+.mission-card{
+  background:rgba(22, 34, 51, 0.78);
+  border:1.5px solid var(--blue-border);
+  border-radius:var(--radius);padding:32px;max-width:440px;width:100%;text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5), inset 1px 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+}
+.mission-body{font-family:var(--serif);font-style:italic;font-size:17.5px;font-weight:300;line-height:1.85;color:var(--text-dim);margin:18px 0;}
+.mission-note{font-size:11.5px;color:var(--text-faint);line-height:1.8;margin-bottom:22px;}
+
+/* ── BOTTOM MOBILE BAR ── */
+.bottom-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);
+  background:rgba(18, 27, 41, 0.88);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid rgba(255,255,255,0.04);
+  z-index:100;align-items:center;justify-content:space-around;padding:0 4px;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.3);
+}
+.bn{
+  display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;
+  padding:7px 10px;border-radius:var(--radius-sm);transition:all .22s;flex:1;
+  color:var(--text-faint);-webkit-tap-highlight-color:transparent;user-select:none;position:relative;
+}
+.bn.active{color:var(--blue);font-weight:600;}
+.bn-icon{font-size:17px;line-height:1;transition:all .3s;filter:drop-shadow(0 0 0px var(--blue));}
+.bn.active .bn-icon{filter:drop-shadow(0 0 7px rgba(42,171,238,0.9));}
+.bn-lbl{font-size:8px;letter-spacing:.07em;text-transform:uppercase;font-weight:500;}
+.bn-dot{width:4px;height:4px;border-radius:50%;background:var(--blue);position:absolute;top:4px;right:calc(50% - 16px);opacity:0;box-shadow:0 0 5px var(--blue);}
+.bn.has-activity .bn-dot{opacity:1;}
+
+/* ── MOBILE RETURN PORTFOLIO BUTTON ── */
+.mob-exit-btn{
+  display:none;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+  color:var(--text-dim);text-decoration:none;transition:all 0.25s var(--ease);
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,0.02);
+}
+.mob-exit-btn:hover, .mob-exit-btn:active{
+  background:rgba(42,171,238,0.12);border-color:var(--blue);color:var(--blue);
+  box-shadow:0 0 8px rgba(42,171,238,0.15);
+}
+
+/* ── RESPONSIVE ADAPTABILITY ── */
+@media(max-width:767px){
+  .sidebar{display:none;}
+  .bottom-nav{display:flex;}
+  .main{height:calc(100vh - var(--nav-h));}
+  .panel{padding:18px 16px 28px;}
+  .anchor-card{padding:18px 16px 26px;}
+  .mob-exit-btn { display: flex !important; }
+}
+@media(min-width:768px) and (max-width:1023px){
+  :root{--sidebar-w:200px;}
+  .panel{padding:24px;}
+}
+</style>
+</head>
+<body>
+
+<div id="onboarding" class="onboard">
+  <div class="ob-logo">
+    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 8px rgba(42, 171, 238, 0.45));">
+      <path d="M23 4C12.5066 4 4 12.5066 4 23C4 33.4934 12.5066 42 23 42" stroke="#2AABEE" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>
+      <path d="M23 9C15.268 9 9 15.268 9 23C9 30.732 15.268 37 23 37" stroke="#2AABEE" stroke-width="2" stroke-linecap="round" opacity="0.45" stroke-dasharray="2 3 8 2"/>
+      <path d="M23 14C18.0294 14 14 18.0294 14 23C14 27.9706 18.0294 32 23 32" stroke="#2AABEE" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
+      <path d="M27 18.5C25.5 17.5 23.5 17.5 22 18.5C20.5 19.5 19.5 21.2 19.5 23C19.5 24.8 20.5 26.5 22 27.5C23.5 28.5 25.5 28.5 27 27.5" stroke="#2AABEE" stroke-width="2" stroke-linecap="round"/>
+      <path d="M20 23H26" stroke="#2AABEE" stroke-width="2" stroke-linecap="round"/>
+      <path d="M23 15.5L24.5 21.5L30.5 23L24.5 24.5L23 30.5L21.5 24.5L15.5 23L21.5 21.5L23 15.5Z" fill="#FFFFFF" opacity="0.9"/>
+      <path d="M23 18L24 22L28 23L24 24L23 28L22 24L18 23L22 22L23 18Z" fill="#2AABEE"/>
+    </svg>
+    <div><div class="ob-wm-name">Echoes</div><div class="ob-wm-by">by EPIX</div></div>
+  </div>
+  <div class="ob-dots"><div class="ob-dot a"></div><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+  <div class="ob-step active" id="obs1">
+    <div class="ob-eye">Welcome</div>
+    <div class="ob-title">"Some things need to be said, even if no one is listening."</div>
+    <div class="ob-sub">Echoes is a quiet space to release what you carry. Anonymous. Unjudged. Real.</div>
+    <button class="btn" onclick="obNext(2)">Begin quietly</button>
+  </div>
+  <div class="ob-step" id="obs2">
+    <div class="ob-eye">Who are you here</div>
+    <div class="ob-title">What should we call you?</div>
+    <div class="ob-sub">A nickname, an initial, or nothing at all.</div>
+    <input class="ob-inp" id="obName" placeholder="e.g. Sam, or leave blank..." maxlength="30"/>
+    <div class="ob-opts">
+      <div class="ob-opt sel" onclick="selAge(this,'u18')">Under 18</div>
+      <div class="ob-opt" onclick="selAge(this,'1824')">18 to 24</div>
+      <div class="ob-opt" onclick="selAge(this,'2534')">25 to 34</div>
+      <div class="ob-opt" onclick="selAge(this,'35p')">35 plus</div>
+    </div>
+    <button class="btn" onclick="obNext(3)">Continue</button>
+  </div>
+  <div class="ob-step" id="obs3">
+    <div class="ob-eye">Your anchor</div>
+    <div class="ob-title">Name one person in your life.</div>
+    <div class="ob-sub">Just a nickname. Someone who would want to know if you were struggling.</div>
+    <input class="ob-inp" id="obAnchor" placeholder="e.g. Mum, Tade, my sister..." maxlength="30"/>
+    <button class="btn" onclick="obNext(4)" style="margin-bottom:10px">Save my anchor</button>
+    <button class="btn ghost sm" onclick="obNext(4)">Skip for now</button>
+  </div>
+  <div class="ob-step" id="obs4">
+    <div class="ob-eye">Where are you</div>
+    <div class="ob-title">One last thing.</div>
+    <div class="ob-sub">Helps us surface relevant support when you need it.</div>
+    <div class="ob-opts" style="margin-bottom:18px">
+      <div class="ob-opt sel" onclick="selReg(this,'ng')">Nigeria</div>
+      <div class="ob-opt" onclick="selReg(this,'wa')">West Africa</div>
+      <div class="ob-opt" onclick="selReg(this,'uk')">UK</div>
+      <div class="ob-opt" onclick="selReg(this,'ot')">Elsewhere</div>
+    </div>
+    <div style="font-size:10px;color:var(--text-faint);margin-bottom:20px;line-height:1.85;max-width:300px">Echoes is not a crisis service. If you are in immediate danger, please contact emergency services.</div>
+    <button class="btn" onclick="finishOnboard()">Enter Echoes</button>
+  </div>
+</div>
+
+<div id="app" class="app-wrap hidden">
+  <aside class="sidebar">
+    <div class="sb-head">
+      <div class="sb-logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 6px rgba(42, 171, 238, 0.4));">
+          <path d="M16 3C8.8203 3 3 8.8203 3 16C3 23.1797 8.8203 29 16 29" stroke="#2AABEE" stroke-width="1.2" stroke-linecap="round" opacity="0.25"/>
+          <path d="M16 7C11.0294 7 7 11.0294 7 16C7 20.9706 11.0294 25 16 25" stroke="#2AABEE" stroke-width="1.8" stroke-linecap="round" opacity="0.55" stroke-dasharray="1 2 4 1"/>
+          <path d="M16 10C12.6863 10 10 12.6863 10 16C10 19.3137 12.6863 22 16 22" stroke="#2AABEE" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+          <path d="M19 13C18 12.3 16.5 12.3 15.5 13C14.5 13.7 13.8 14.8 13.8 16C13.8 17.2 14.5 18.3 15.5 19C16.5 19.7 18 19.7 19 19" stroke="#2AABEE" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14 16H18.5" stroke="#2AABEE" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M16 11L17 15L21 16L17 17L16 21L15 17L11 16L15 15L16 11Z" fill="#FFFFFF" opacity="0.95"/>
+        </svg>
+        <div><div class="sb-name">Echoes</div><div class="sb-by">by EPIX</div></div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="ni active" data-p="pEchoes" onclick="navTo('pEchoes',this)"><span class="ni-icon">&#9993;</span><span class="ni-lbl">Echoes</span><span class="ni-dot"></span></div>
+      <div class="ni" data-p="pSky" onclick="navTo('pSky',this)"><span class="ni-icon">&#10022;</span><span class="ni-lbl">Sky</span><span class="ni-dot"></span></div>
+      <div class="ni" data-p="pDrop" onclick="navTo('pDrop',this)"><span class="ni-icon">&#10792;</span><span class="ni-lbl">Drop</span><span class="ni-dot"></span></div>
+      <div class="ni" data-p="pBurn" onclick="navTo('pBurn',this)"><span class="ni-icon">&#9651;</span><span class="ni-lbl">Burn</span><span class="ni-dot"></span></div>
+      <div class="ni" data-p="pKit" onclick="navTo('pKit',this)"><span class="ni-icon">&#9671;</span><span class="ni-lbl">Kit</span><span class="ni-dot"></span></div>
+      <div class="ni" data-p="pDuo" onclick="navTo('pDuo',this)"><span class="ni-icon">&#8734;</span><span class="ni-lbl">Duo</span><span class="ni-dot"></span></div>
+    </nav>
+    <div class="sb-footer">
+      <div class="impact-box"><div class="ic-n" id="impactNum">47,382</div><div class="ic-l">echoes released<br>you are not alone</div></div>
+      <a href="projects.html" class="btn ghost sm" style="width: 100%; justify-content: center; display: inline-flex; align-items: center; gap: 6px; text-transform: none; border-radius: 12px; font-weight: 600; font-size: 0.8rem; padding: 7px; border-color: rgba(255,255,255,0.06); color: var(--text-dim);"><i class="fa-solid fa-arrow-left" style="font-size:0.75rem;"></i> Exit to Portfolio</a>
+      <div class="sb-user">
+        <div class="sb-av" id="sbAv">&#127769;</div>
+        <div><div class="sb-uname" id="sbNm">Anonymous</div><div class="sb-about" onclick="showMission()">About Echoes</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <!-- ECHOES -->
+    <div class="panel active" id="pEchoes">
+      <div id="dailySignalWrap"></div>
+      <div class="ph">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+          <div>
+            <div class="ph-eye" id="echoEye">Release something</div>
+            <div class="ph-title" id="echoTitle">What is sitting with you?</div>
+          </div>
+          <a href="projects.html" class="mob-exit-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div class="ph-sub">Anonymous. Sealed. Released when you are ready.</div>
+      </div>
+      <div class="fscreens">
+        <div class="fs active" id="f1">
+          <div class="fdots"><div class="fd a"></div><div class="fd"></div><div class="fd"></div><div class="fd"></div></div>
+          <div class="step-q">"What area of life is carrying the weight right now?"</div>
+          <div class="tags-row">
+            <div class="tag" data-t="stress" onclick="selTag(this)">Stress and pressure</div>
+            <div class="tag" data-t="relationships" onclick="selTag(this)">Relationships</div>
+            <div class="tag" data-t="body" onclick="selTag(this)">My body</div>
+            <div class="tag" data-t="future" onclick="selTag(this)">The future</div>
+            <div class="tag" data-t="identity" onclick="selTag(this)">Who I am</div>
+            <div class="tag" data-t="loneliness" onclick="selTag(this)">Loneliness</div>
+            <div class="tag" data-t="safety" onclick="selTag(this)">Safety</div>
+            <div class="tag" data-t="substances" onclick="selTag(this)">Substances</div>
+          </div>
+        </div>
+        <div class="fs" id="f2">
+          <div class="fdots"><div class="fd"></div><div class="fd a"></div><div class="fd"></div><div class="fd"></div></div>
+          <div class="step-q">"How deep does it go?"</div>
+          <div class="dial-row">
+            <div class="dial" onclick="selDial(this)"><span class="dial-num">1</span>surface</div>
+            <div class="dial active" onclick="selDial(this)"><span class="dial-num">3</span>real</div>
+            <div class="dial" onclick="selDial(this)"><span class="dial-num">5</span>raw</div>
+          </div>
+          <button class="btn sm" onclick="flowTo(3)" style="align-self:flex-start">Continue</button>
+        </div>
+        <div class="fs" id="f3">
+          <div class="fdots"><div class="fd"></div><div class="fd"></div><div class="fd a"></div><div class="fd"></div></div>
+          <div class="step-q" id="tFill">"Write it out..."</div>
+          <div class="wa-wrap" style="margin-bottom:14px"><textarea class="wa" id="lBody" rows="5" placeholder="Start wherever feels honest..."></textarea></div>
+          <div style="display:flex;gap:10px">
+            <button class="btn sm" onclick="flowTo(4)">Seal it</button>
+            <button class="btn ghost sm" onclick="flowRst()">Start over</button>
+          </div>
+        </div>
+        <div class="fs" id="f4">
+          <div class="fdots"><div class="fd"></div><div class="fd"></div><div class="fd"></div><div class="fd a"></div></div>
+          <div class="release-wrap">
+            <svg width="84" height="84" viewBox="0 0 84 84" fill="none">
+              <circle cx="42" cy="42" r="4.5" fill="#2AABEE" opacity="0.9"/>
+              <circle cx="42" cy="42" r="15" stroke="#2AABEE" stroke-width="2" class="r-ring"/>
+              <circle cx="42" cy="42" r="28" stroke="#2AABEE" stroke-width="1.3" class="r-ring2"/>
+              <circle cx="42" cy="42" r="40" stroke="#2AABEE" stroke-width="0.8" class="r-ring3"/>
+            </svg>
+            <div style="font-family:var(--serif);font-style:italic;font-size:22px;font-weight:300;margin-bottom:8px;margin-top:10px">Released into the sky.</div>
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:24px;line-height:1.85" id="releaseCount">Someone out there has felt this too.</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+              <button class="btn sm" id="notAloneBtn" onclick="showNotAlone()" style="display:none">Do you want to know you are not alone?</button>
+              <button class="btn ghost sm" onclick="flowRst()">Release another</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKY -->
+    <div class="panel" id="pSky">
+      <div class="ph">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+          <div>
+            <div class="ph-eye">Shared Sky</div>
+            <div class="ph-title">You are not the only one.</div>
+          </div>
+          <a href="projects.html" class="mob-exit-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div class="ph-sub">Every star carries something someone released. Tap a glowing one to hear it.</div>
+      </div>
+      <div class="sky-wrap">
+        <canvas id="skyCanvas"></canvas>
+        <div class="sky-hint">tap a glowing star</div>
+        <div class="sky-time-badge" id="skyTimeBadge"></div>
+        <div class="sky-live"><div class="sky-live-dot"></div><span id="liveCount">live</span></div>
+        <div class="sky-pop" id="skyPop">
+          <div class="sp-txt" id="skyText"></div>
+          <div class="sp-meta" id="skyMeta"></div>
+          <div class="sp-btns">
+            <button class="sp-btn metoo" onclick="meTooBounce(this)">Me too</button>
+            <button class="sp-btn sv" onclick="saveEcho(this)">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DROP -->
+    <div class="panel" id="pDrop">
+      <div class="ph">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+          <div>
+            <div class="ph-eye">Today's Drop</div>
+            <div class="ph-title">One question. One honest answer.</div>
+          </div>
+          <a href="projects.html" class="mob-exit-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+      </div>
+      <div class="drop-q-wrap">
+        <div class="drop-season" id="dropSeason"></div>
+        <div class="drop-q" id="dropQ"></div>
+        <div class="tbar" id="tbar" style="width:100%"></div>
+      </div>
+      <div class="wa-wrap" style="margin-bottom:12px"><textarea class="wa" id="dInp" rows="3" placeholder="Write whatever comes first..."></textarea></div>
+      <button class="btn sm" onclick="submitDrop()">Drop it into the sky</button>
+      <div class="const-wrap"><canvas id="cCanvas"></canvas><div class="const-label" id="constLabel">your constellation</div></div>
+      <div class="monthly-echo" id="monthlyEcho"><div class="me-eye">A month ago, you wrote</div><div class="me-txt" id="monthlyEchoTxt"></div></div>
+    </div>
+
+    <!-- BURN -->
+    <div class="panel" id="pBurn">
+      <div class="ph">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+          <div>
+            <div class="ph-eye">The Burn Room</div>
+            <div class="ph-title">Write it. Then let it go.</div>
+          </div>
+          <a href="projects.html" class="mob-exit-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div class="ph-sub">Some things just need to exist for a moment, then disappear.</div>
+      </div>
+      <div class="burn-canvas-wrap"><canvas id="burnCanvas"></canvas></div>
+      <div class="wa-wrap" style="margin-bottom:12px"><textarea class="wa" id="burnTxt" rows="5" placeholder="Write what you cannot say out loud..."></textarea></div>
+      <div style="display:flex;gap:10px;margin-bottom:8px">
+        <button class="btn danger sm" onclick="doBurn()">Burn this</button>
+        <button class="btn ghost sm" onclick="saveDraft()">Save as draft</button>
+      </div>
+      <div class="burn-done" id="burnDone">Gone. It no longer owns you.</div>
+      <div class="divider"></div>
+      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);margin-bottom:12px">Drafts</div>
+      <div id="draftList"></div>
+    </div>
+
+    <!-- KIT -->
+    <div class="panel" id="pKit">
+      <div id="kitMain">
+        <div class="ph">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+            <div>
+              <div class="ph-eye">Dear Current Me</div>
+              <div class="ph-title">A letter from you, to you.</div>
+            </div>
+            <a href="projects.html" class="mob-exit-btn"><i class="fa-solid fa-arrow-left"></i></a>
+          </div>
+          <div class="ph-sub">On a good day, write yourself something. It waits here, sealed, only for when you truly need it.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn sm" onclick="showKitWrite()">Write my note for later</button>
+          <button class="btn ghost sm" onclick="openKit()">I need it right now</button>
+        </div>
+        <div class="grow-wrap"><div class="grow-label">Your constellation, every time you showed up</div><canvas id="growCanvas"></canvas></div>
+      </div>
+      <div id="kitWrite" style="display:none">
+        <div class="ph"><div class="ph-eye">Write to yourself</div><div class="ph-title">What do you want to hear on a hard day?</div></div>
+        <div class="wa-wrap" style="margin-bottom:14px"><textarea class="wa" id="kitNote" rows="7" placeholder="Hey, I know things feel heavy right now. But remember..."></textarea></div>
+        <button class="btn sm" onclick="saveKit()">Lock this away for hard days</button>
+      </div>
+      <div id="kitRead" style="display:none;flex-direction:column;align-items:center;width:100%">
+        <div style="font-size:34px;margin-bottom:10px;text-align:center">&#128156;</div>
+        <div style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:14px">From you, on a better day</div>
+        <div class="kit-note-box" id="kitNoteDisplay"></div>
+        <button class="btn ghost sm" onclick="lockKit()" style="margin-bottom:10px">I am okay now. Lock it again.</button>
+        <div class="breath-room" id="breathRoom">
+          <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:6px">Take a moment</div>
+          <div class="breath-circle">breathe</div>
+          <div style="font-family:var(--serif);font-style:italic;font-size:14px;font-weight:300;color:var(--text-dim);line-height:1.75">"You do not have to carry this in one go. One hour at a time is enough."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DUO -->
+    <div class="panel" id="pDuo">
+      <div class="ph">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+          <div>
+            <div class="ph-eye">Duo</div>
+            <div class="ph-title">Two people. One quiet thread.</div>
+          </div>
+          <a href="projects.html" class="mob-exit-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div class="ph-sub">Choose how you want to connect.</div>
+      </div>
+      <div class="duo-modes">
+        <div class="dmc active" onclick="selDuoMode(this,'pact')"><div class="dmc-icon">&#9678;</div><div class="dmc-name">The Pact</div><div class="dmc-desc">Daily check-ins, silent streak</div></div>
+        <div class="dmc" onclick="selDuoMode(this,'capsule')"><div class="dmc-icon">&#10711;</div><div class="dmc-name">Time Capsule</div><div class="dmc-desc">Write now, open together later</div></div>
+      </div>
+      <div id="duoPact">
+        <div class="pact-streak-box">
+          <div><div class="str-num" id="pactStreak">0</div><div class="str-label">day streak</div><div class="str-sub">with your partner</div></div>
+          <div style="flex:1;text-align:right">
+            <div style="font-size:10px;color:var(--text-faint);margin-bottom:7px">Their signal</div>
+            <svg width="58" height="38" viewBox="0 0 58 38" id="partnerSig" style="opacity:0.28;transition:opacity .6s">
+              <circle cx="29" cy="19" r="2.5" fill="#2AABEE"/>
+              <circle cx="29" cy="19" r="9" stroke="#2AABEE" stroke-width="1.4" opacity="0.65"/>
+              <circle cx="29" cy="19" r="16" stroke="#2AABEE" stroke-width="0.7" opacity="0.3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <div style="font-size:10px;color:var(--text-faint);margin-bottom:10px;letter-spacing:.12em;text-transform:uppercase">Today's check-in</div>
+          <div style="font-family:var(--serif);font-style:italic;font-size:16px;font-weight:300;margin-bottom:14px" id="duoDayQ">How heavy does today feel?</div>
+          <div style="display:flex;gap:6px">
+            <div class="dial" style="flex:1;padding:10px 4px" onclick="selMood(this,1)"><span class="dial-num" style="font-size:20px">1</span></div>
+            <div class="dial" style="flex:1;padding:10px 4px" onclick="selMood(this,2)"><span class="dial-num" style="font-size:20px">2</span></div>
+            <div class="dial" style="flex:1;padding:10px 4px" onclick="selMood(this,3)"><span class="dial-num" style="font-size:20px">3</span></div>
+            <div class="dial" style="flex:1;padding:10px 4px" onclick="selMood(this,4)"><span class="dial-num" style="font-size:20px">4</span></div>
+            <div class="dial" style="flex:1;padding:10px 4px" onclick="selMood(this,5)"><span class="dial-num" style="font-size:20px">5</span></div>
+          </div>
+        </div>
+        <div class="letter-invite" id="pactLinkSec">
+          <div class="li-eye">Send a ripple to someone</div>
+          <div class="li-sub">Write them a reason. One sentence about why you want to show up quietly for each other.</div>
+          <div class="wa-wrap" style="margin-bottom:10px;background:transparent;border-color:rgba(42,171,238,0.15)">
+            <textarea class="wa" id="inviteLetter" rows="2" style="font-size:14px" placeholder="I think we both need someone to silently check in on us..."></textarea>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <input class="ob-inp" id="pactCode" placeholder="their echo code..." style="margin:0;flex:1;padding:10px 14px;font-size:12px"/>
+            <button class="btn sm" onclick="linkPact()">Send ripple</button>
+          </div>
+          <div style="text-align:center;margin-top:10px;font-size:10px;color:var(--text-faint)">Your code: <span style="color:var(--blue);font-weight:500" id="myCode"></span></div>
+        </div>
+      </div>
+      <div id="duoCapsule" style="display:none">
+        <div class="card" style="margin-bottom:12px">
+          <div style="font-size:10px;color:var(--text-faint);margin-bottom:10px;letter-spacing:.12em;text-transform:uppercase">Your sealed words</div>
+          <div class="wa-wrap" style="margin-bottom:12px;background:transparent;border-color:rgba(255,255,255,0.06)"><textarea class="wa" rows="4" id="capsuleTxt" placeholder="Write to your future self, or to both of you..."></textarea></div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <div style="font-size:12px;color:var(--text-dim)">Unlock on:</div>
+            <input type="date" id="capsuleDate" class="ob-inp" style="flex:1;margin:0;padding:9px 12px;font-size:12px"/>
+            <button class="btn sm" onclick="sealCapsule()">Seal it</button>
+          </div>
+        </div>
+        <div class="card"><div style="font-size:10px;color:var(--text-faint);margin-bottom:6px;letter-spacing:.12em;text-transform:uppercase">Their words</div><div style="font-family:var(--serif);font-style:italic;font-size:14px;color:var(--text-faint);line-height:1.7">"Waiting for their words..."</div></div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="bn active" data-p="pEchoes" onclick="navTo('pEchoes',this)"><span class="bn-icon">&#9993;</span><span class="bn-lbl">Echoes</span><span class="bn-dot"></span></div>
+    <div class="bn" data-p="pSky" onclick="navTo('pSky',this)"><span class="bn-icon">&#10022;</span><span class="bn-lbl">Sky</span><span class="bn-dot"></span></div>
+    <div class="bn" data-p="pDrop" onclick="navTo('pDrop',this)"><span class="bn-icon">&#10792;</span><span class="bn-lbl">Drop</span><span class="bn-dot"></span></div>
+    <div class="bn" data-p="pBurn" onclick="navTo('pBurn',this)"><span class="bn-icon">&#9651;</span><span class="bn-lbl">Burn</span><span class="bn-dot"></span></div>
+    <div class="bn" data-p="pKit" onclick="navTo('pKit',this)"><span class="bn-icon">&#9671;</span><span class="bn-lbl">Kit</span><span class="bn-dot"></span></div>
+    <div class="bn" data-p="pDuo" onclick="navTo('pDuo',this)"><span class="bn-icon">&#8734;</span><span class="bn-lbl">Duo</span><span class="bn-dot"></span></div>
+  </nav>
+</div>
+
+<div id="naOv" class="na-ov">
+  <div class="na-card">
+    <div class="na-q" id="naQ">Do you want to know you are not alone?</div>
+    <div class="na-echo" id="naEcho"></div>
+    <div class="na-count" id="naCount"></div>
+    <div style="display:flex;gap:10px;justify-content:center" id="naBtns">
+      <button class="btn sm" onclick="revealNotAlone()">Yes</button>
+      <button class="btn ghost sm" onclick="hideNotAlone()">I am okay</button>
+    </div>
+    <div id="naAfter" style="display:none;margin-top:4px"><button class="btn ghost sm" onclick="hideNotAlone()">Close quietly</button></div>
+  </div>
+</div>
+
+<div id="anchorOv" class="anchor-ov">
+  <div class="anchor-card">
+    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" style="margin:0 auto;display:block">
+      <circle cx="23" cy="23" r="2.5" fill="#2AABEE"/>
+      <circle cx="23" cy="23" r="9" stroke="#2AABEE" stroke-width="1.5" opacity="0.8"/>
+      <circle cx="23" cy="23" r="20" stroke="#2AABEE" stroke-width="0.7" opacity="0.26"/>
+    </svg>
+    <div class="anchor-title">"If this is more than you can carry alone..."</div>
+    <div class="anchor-sub" id="anchorSub">You named someone you trust. It might be time to say something.</div>
+    <div class="anchor-btns"><button class="btn sm" onclick="hideAnchor()">I will reach out</button><button class="btn ghost sm" onclick="hideAnchor()">Not yet</button></div>
+    <div class="anchor-dismiss" onclick="hideAnchor()">Dismiss</div>
+  </div>
+</div>
+
+<div id="missionOv" class="mission-ov">
+  <div class="mission-card">
+    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" style="margin:0 auto">
+      <circle cx="23" cy="23" r="2.8" fill="#2AABEE"/>
+      <circle cx="23" cy="23" r="9.5" stroke="#2AABEE" stroke-width="1.8" opacity="0.85"/>
+      <circle cx="23" cy="23" r="16" stroke="#2AABEE" stroke-width="1.1" opacity="0.42"/>
+      <circle cx="23" cy="23" r="22" stroke="#2AABEE" stroke-width="0.6" opacity="0.17"/>
+    </svg>
+    <div style="font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--blue);margin-top:14px;opacity:.82">What Echoes believes</div>
+    <div class="mission-body">"Everyone carries something no one else can see. Echoes exists to prove that you are not carrying it alone, even when it feels that way."</div>
+    <div class="mission-note">Built for young people who feel too much and say too little.<br><br>Echoes is not a crisis service. If you are in immediate danger, please contact emergency services.<br><br>Built by EPIX. Not a replacement for professional help.</div>
+    <button class="btn sm" onclick="hideMission()">Close</button>
+  </div>
+</div>
+
+<script>
+(function(){
+var HR=new Date().getHours();
+var DAY=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][new Date().getDay()];
+var MO=new Date().getMonth();
+var sTopic=null,drafts=[],dAnswers=[],growPts=[],kitSaved=false,kitContent="",myStarData=null;
+var skyStars=[],sCtx=null,skyDone=false,skyRAF=null,cCtx=null,bCtx=null;
+var dIdx=0,dTimer=null,dCd=9,anchorVis=false,constPts=[];
+
+function timeGreeting(){
+  if(HR>=5&&HR<12)return{eye:"Good morning",title:"What are you bringing into today?"};
+  if(HR>=12&&HR<17)return{eye:"This afternoon",title:"What is weighing on you right now?"};
+  if(HR>=17&&HR<21)return{eye:"This evening",title:"What are you carrying into the night?"};
+  return{eye:"Late night",title:"What is keeping you up?"};
+}
+var DAY_MSGS={Monday:"It is Monday. The week already has a weight. You showed up anyway.",Tuesday:"It is Tuesday. Quiet days matter too.",Wednesday:"It is Wednesday. You showed up.",Thursday:"Almost through. Thursday counts.",Friday:"It is Friday. What are you carrying into the weekend?",Saturday:"Saturday. No performance needed today.",Sunday:"Sunday. Whatever you are holding, you do not have to fix it today."};
+function daySignal(){return DAY_MSGS[DAY]||"You showed up today. That counts.";}
+function getSeason(){if(MO>=2&&MO<=4)return"spring";if(MO>=5&&MO<=7)return"summer";if(MO>=8&&MO<=10)return"autumn";return"winter";}
+function seasonLabel(){var m={spring:"as things start again",summer:"in the long days",autumn:"as things shift",winter:"in the still season"};return m[getSeason()]||"";}
+function skyNight(){return HR<6||HR>=21;}
+
+window.selAge=function(el,v){document.querySelectorAll("#obs2 .ob-opt").forEach(function(o){o.classList.remove("sel");});el.classList.add("sel");};
+window.selReg=function(el,v){document.querySelectorAll("#obs4 .ob-opt").forEach(function(o){o.classList.remove("sel");});el.classList.add("sel");};
+window.obNext=function(n){
+  document.querySelectorAll(".ob-step").forEach(function(s){s.classList.remove("active");});
+  document.getElementById("obs"+n).classList.add("active");
+  document.querySelectorAll(".ob-dot").forEach(function(d,i){d.classList.remove("a");if(i===n-1)d.classList.add("a");});
+};
+window.finishOnboard=function(){
+  var nm=document.getElementById("obName").value.trim();
+  var anch=document.getElementById("obAnchor").value.trim()||"someone you trust";
+  document.getElementById("sbNm").textContent=nm||"Anonymous";
+  if(nm)document.getElementById("sbAv").textContent=nm[0].toUpperCase();
+  document.getElementById("anchorSub").textContent="You named "+anch+". It might be time to say something, even just a little.";
+  var ob=document.getElementById("onboarding");ob.classList.add("out");
+  setTimeout(function(){ob.style.display="none";},540);
+  document.getElementById("app").classList.remove("hidden");
+  var g=timeGreeting();
+  document.getElementById("echoEye").textContent=g.eye;
+  document.getElementById("echoTitle").textContent=g.title;
+  animateCounter();renderDrafts();drawGrow();
+  setTimeout(function(){
+    var w=document.getElementById("dailySignalWrap");
+    w.innerHTML='<div class="daily-signal"><div class="ds-dot"></div><div class="ds-txt">'+daySignal()+"</div></div>";
+  },700);
+  setTimeout(function(){document.querySelectorAll("[data-p='pSky']").forEach(function(n){n.classList.add("has-activity");});},4000);
+};
+
+function animateCounter(){
+  var el=document.getElementById("impactNum"),cur=47000,end=47382,step=(end-cur)/80;
+  var t=setInterval(function(){cur=Math.min(cur+step,end);el.textContent=Math.round(cur).toLocaleString();if(cur>=end){clearInterval(t);setInterval(function(){var v=parseInt(el.textContent.replace(/,/g,""))+1;el.textContent=v.toLocaleString();},18000);}},16);
+}
+
+window.navTo=function(id,el){
+  document.querySelectorAll(".panel").forEach(function(p){p.classList.remove("active");});
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".ni,.bn").forEach(function(n){n.classList.remove("active");});
+  document.querySelectorAll("[data-p='"+id+"']").forEach(function(n){n.classList.add("active");n.classList.remove("has-activity");});
+  if(id==="pSky")initSky();
+  if(id==="pDrop")initDrop();
+  if(id==="pBurn")initBurnCanvas();
+};
+
+var PROMPTS={stress:"the kind of pressure nobody else seems to notice...",relationships:"someone who has been on my mind more than I would admit...",body:"how I have been treating my body, and what I wish I understood...",substances:"a choice I have been thinking about, and what it really means...",future:"the version of myself I am quietly hoping to become...",safety:"a situation where I did not feel safe, and what I wish I had done...",identity:"who I actually am, beneath everything people expect from me...",loneliness:"the kind of alone that does not go away even in a crowd..."};
+var MATCHING={stress:["I smile at people when I am the loneliest I have ever been.","I said I was fine many times today.","The pressure does not go away when I close my eyes."],relationships:["I care about them more than I have ever said out loud.","I keep waiting for them to notice. They do not.","I do not know how to tell them without losing them."],body:["I do not know when I started being at war with myself.","Some days I just want to feel at home here.","I pretend it does not bother me. It does."],loneliness:["I can be in a full room and feel completely invisible.","I stopped telling people because they do not know what to say.","I have never actually said this out loud before."],future:["I do not know who I am outside of who they need me to be.","I am terrified of becoming someone I do not recognise.","I keep pretending I have it figured out."],identity:["I wear so many versions of myself I do not know the real one.","I do not know how to just be, without performing.","Sometimes I do not recognise who I am becoming."],safety:["I kept quiet because it was easier than explaining.","I still think about what I should have done differently.","Some days the safest place is inside my own head."],substances:["I use it to feel less. I am not sure that is okay.","It helps in the moment. After, I do not know.","I have not told anyone how often it is."]};
+
+window.selTag=function(el){document.querySelectorAll(".tags-row .tag").forEach(function(t){t.classList.remove("sel");});el.classList.add("sel");sTopic=el.dataset.t;setTimeout(function(){flowTo(2);},300);};
+window.selDial=function(el){document.querySelectorAll("#f2 .dial").forEach(function(d){d.classList.remove("active");});el.classList.add("active");};
+window.flowTo=function(n){
+  var c=document.querySelector(".fs.active");
+  if(c){c.classList.add("exit");setTimeout(function(){c.classList.remove("active","exit");},360);}
+  if(n===3&&sTopic)document.getElementById("tFill").textContent='"Tell me about '+PROMPTS[sTopic]+'"';
+  setTimeout(function(){document.getElementById("f"+n).classList.add("active");},75);
+  if(n===4){
+    bumpImpact();growAdd();
+    var cnt=Math.floor(8+Math.random()*90);
+    document.getElementById("releaseCount").textContent=cnt+" people have felt this too.";
+    document.getElementById("notAloneBtn").style.display="inline-flex";
+    myStarData=document.getElementById("lBody").value.slice(0,60);
+    if(checkHeavy(document.getElementById("lBody").value))setTimeout(showAnchor,2200);
+    setTimeout(function(){document.querySelectorAll("[data-p='pSky']").forEach(function(n){n.classList.add("has-activity");});},600);
+  }
+};
+window.flowRst=function(){
+  document.querySelectorAll(".fs").forEach(function(f){f.classList.remove("active","exit");});
+  var s=document.querySelector(".tags-row .tag.sel");if(s)s.classList.remove("sel");
+  document.getElementById("lBody").value="";sTopic=null;
+  document.getElementById("notAloneBtn").style.display="none";
+  document.getElementById("f1").classList.add("active");
+};
+function bumpImpact(){var el=document.getElementById("impactNum");el.textContent=(parseInt(el.textContent.replace(/,/g,""))+1).toLocaleString();}
+var HEAVY=["alone","cannot stop","nobody","empty","numb","end it","tired of","worthless","failure","hopeless","disappear","hurt myself","no point"];
+function checkHeavy(t){var l=t.toLowerCase();return HEAVY.some(function(w){return l.indexOf(w)>-1;});}
+
+window.showNotAlone=function(){document.getElementById("naOv").classList.add("show");};
+window.hideNotAlone=function(){
+  document.getElementById("naOv").classList.remove("show");
+  document.getElementById("naBtns").style.display="flex";
+  document.getElementById("naAfter").style.display="none";
+  document.getElementById("naEcho").style.display="none";
+  document.getElementById("naCount").style.display="none";
+  document.getElementById("naQ").textContent="Do you want to know you are not alone?";
+};
+window.revealNotAlone=function(){
+  var arr=(sTopic&&MATCHING[sTopic])?MATCHING[sTopic]:MATCHING.loneliness;
+  var echo=arr[Math.floor(Math.random()*arr.length)];
+  document.getElementById("naEcho").textContent='"'+echo+'"';
+  document.getElementById("naEcho").style.display="block";
+  document.getElementById("naCount").textContent="anonymous, someone else, somewhere";
+  document.getElementById("naCount").style.display="block";
+  document.getElementById("naQ").textContent="You are not the only one.";
+  document.getElementById("naBtns").style.display="none";
+  document.getElementById("naAfter").style.display="block";
+};
+
+var SKY_ECHOES=[
+  {t:"nobody knows how lonely I am in a full room.",ago:"3 hrs ago"},
+  {t:"I failed my exam but did not tell anyone at home.",ago:"2 hrs ago"},
+  {t:"I think I am falling for my best friend and it terrifies me.",ago:"4 hrs ago"},
+  {t:"Sometimes I skip meals just to feel in control of something.",ago:"6 hrs ago"},
+  {t:"I said yes when I really meant no.",ago:"3 hrs ago"},
+  {t:"I have not been okay in weeks but I keep smiling.",ago:"1 hr ago"},
+  {t:"I am scared of what happens after school ends.",ago:"8 hrs ago"},
+  {t:"I miss the person I used to be.",ago:"5 hrs ago"},
+  {t:"I almost told someone today. Almost.",ago:"30 min ago"},
+  {t:"I am pretending everything is fine and it is exhausting.",ago:"7 hrs ago"},
+  {t:"I keep starting over. I do not know if that is strength or fear.",ago:"1 hr ago"},
+  {t:"I have been carrying this for two years.",ago:"just now"}
+];
+
+function initSky(){
+  var cv=document.getElementById("skyCanvas"),wp=cv.parentElement;
+  cv.width=wp.offsetWidth;cv.height=wp.offsetHeight||320;
+  sCtx=cv.getContext("2d");skyDone=true;skyStars=[];
+  document.getElementById("skyTimeBadge").textContent=skyNight()?"night sky":"day sky";
+  document.getElementById("liveCount").textContent=(Math.floor(14+Math.random()*80))+" live";
+  SKY_ECHOES.forEach(function(e){skyStars.push({x:32+Math.random()*(cv.width-64),y:32+Math.random()*(cv.height-64),r:2.8+Math.random()*2,p:Math.random()*Math.PI*2,echo:e,isMine:false,metoo:0});});
+  if(myStarData)skyStars.push({x:cv.width/2+(-30+Math.random()*60),y:cv.height/2+(-30+Math.random()*60),r:3.2,p:0,echo:{t:myStarData,ago:"just now"},isMine:true,metoo:0});
+  for(var i=0;i<(skyNight()?90:50);i++)skyStars.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:.3+Math.random()*.8,p:Math.random()*Math.PI*2,echo:null,isMine:false,metoo:0});
+  cv.onclick=skyClick;
+  if(skyRAF)cancelAnimationFrame(skyRAF);
+  drawSky();
+  setTimeout(spawnLiveStar,3500);setTimeout(spawnLiveStar,8000);
+}
+
+function spawnLiveStar(){
+  if(!sCtx||!document.getElementById("pSky").classList.contains("active"))return;
+  var cv=document.getElementById("skyCanvas");
+  var ne={t:SKY_ECHOES[Math.floor(Math.random()*SKY_ECHOES.length)].t,ago:"just now"};
+  skyStars.splice(Math.floor(Math.random()*SKY_ECHOES.length),0,{x:16+Math.random()*(cv.width-32),y:16+Math.random()*(cv.height-32),r:2.2,p:0,echo:ne,isMine:false,metoo:0,born:Date.now()});
+  var lc=document.getElementById("liveCount");lc.textContent=(parseInt(lc.textContent)+1)+" live";
+}
+
+function drawSky(){
+  if(!sCtx||!skyDone)return;
+  var cv=document.getElementById("skyCanvas"),night=skyNight();
+  sCtx.fillStyle=night?"rgba(15,22,34,0.98)":"rgba(23,33,43,0.82)";
+  sCtx.fillRect(0,0,cv.width,cv.height);
+  skyStars.forEach(function(s){
+    s.p+=night?0.012:0.018;
+    if(s.echo){
+      var base=s.isMine?0.95:0.55+Math.sin(s.p)*0.38;
+      var gr=s.isMine?22:16+Math.sin(s.p)*5;
+      var c=s.isMine?"255,220,100":"42,171,238";
+      var bb=(s.born&&Date.now()-s.born<1500)?Math.max(0,1-(Date.now()-s.born)/1500):0;
+      
+      // Soft outer neon aura
+      sCtx.shadowBlur = 0; // reset
+      sCtx.beginPath();
+      sCtx.arc(s.x,s.y,gr+12,0,Math.PI*2);
+      sCtx.strokeStyle="rgba("+c+","+(0.04+bb*.2)*base+")";
+      sCtx.lineWidth=.5;
+      sCtx.stroke();
+      
+      // Inner sharp neon border
+      sCtx.beginPath();
+      sCtx.arc(s.x,s.y,gr,0,Math.PI*2);
+      sCtx.strokeStyle="rgba("+c+","+(0.22+bb*.4)*base+")";
+      sCtx.lineWidth=.8;
+      sCtx.stroke();
+      
+      // Soft volumetric glowing fill
+      var g=sCtx.createRadialGradient(s.x,s.y,0,s.x,s.y,gr);
+      g.addColorStop(0,"rgba("+c+","+(0.25+bb*.3)*base+")");
+      g.addColorStop(0.5,"rgba("+c+","+(0.08)*base+")");
+      g.addColorStop(1,"transparent");
+      sCtx.beginPath();
+      sCtx.arc(s.x,s.y,gr,0,Math.PI*2);
+      sCtx.fillStyle=g;
+      sCtx.fill();
+      
+      // Star core with shadow blur glow
+      sCtx.save();
+      sCtx.shadowBlur = s.isMine ? 18 : 12;
+      sCtx.shadowColor = s.isMine ? "rgba(255,220,100,0.95)" : "rgba(42,171,238,0.95)";
+      sCtx.beginPath();
+      sCtx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      sCtx.fillStyle="rgba("+c+","+base+")";
+      sCtx.fill();
+      sCtx.restore();
+      
+      if(s.metoo>0){
+        sCtx.beginPath();
+        sCtx.arc(s.x,s.y,s.r+6+s.metoo*3,0,Math.PI*2);
+        sCtx.strokeStyle="rgba("+c+",0.25)";
+        sCtx.lineWidth=1.0;
+        sCtx.stroke();
+      }
+    }else{
+      var a=(night?0.04:0.025)+Math.sin(s.p)*(night?0.04:0.025);
+      sCtx.beginPath();
+      sCtx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      sCtx.fillStyle="rgba(220,235,255,"+a+")";
+      sCtx.fill();
+      
+      // Twinkle glow for background stars
+      if(Math.sin(s.p) > 0.8) {
+        sCtx.beginPath();
+        sCtx.arc(s.x,s.y,s.r*2.5,0,Math.PI*2);
+        sCtx.fillStyle="rgba(42,171,238,"+(a*0.35)+")";
+        sCtx.fill();
+      }
+    }
+  });
+  if(document.getElementById("pSky").classList.contains("active"))skyRAF=requestAnimationFrame(drawSky);
+}
+
+function skyClick(e){
+  var cv=document.getElementById("skyCanvas"),r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top,hit=null;
+  skyStars.forEach(function(s){if(!s.echo)return;var dx=s.x-mx,dy=s.y-my;if(Math.sqrt(dx*dx+dy*dy)<26)hit=s;});
+  var pop=document.getElementById("skyPop");
+  if(hit){document.getElementById("skyText").textContent='"'+hit.echo.t+'"';document.getElementById("skyMeta").textContent=(hit.isMine?"yours, ":"")+"anonymous, "+hit.echo.ago;pop.classList.add("show");pop._star=hit;}
+  else pop.classList.remove("show");
+}
+window.meTooBounce=function(btn){var pop=document.getElementById("skyPop");if(pop._star)pop._star.metoo=(pop._star.metoo||0)+1;btn.textContent="Felt";setTimeout(function(){btn.textContent="Me too";},2200);};
+window.saveEcho=function(btn){btn.textContent="Saved";setTimeout(function(){btn.textContent="Save";},2200);};
+
+var DQS={spring:["Something is starting again. Are you ready for it?","What do you want this season to be different?","What did winter teach you that you are carrying forward?"],summer:["In the longest days, what are you avoiding?","What does rest actually look like for you?","What is one thing you want before this season ends?"],autumn:["What are you letting go of as things shift?","What are you holding onto that no longer fits?","What changed this year that you have not fully processed?"],winter:["What do you need that you have not asked for?","In the stillness, what is loudest?","What would it mean to be gentle with yourself right now?"],def:["What are you overthinking today?","What is one thing you wish you could say out loud?","What emotion are you carrying that nobody sees?","What do you need but have not asked for?","What are you afraid to admit, even to yourself?"]};
+
+function initDrop(){
+  if(dTimer)clearInterval(dTimer);
+  document.getElementById("dropSeason").textContent=seasonLabel();
+  var pool=DQS[getSeason()]||DQS.def;dIdx=Math.floor(Math.random()*pool.length);showDropQ(pool);startDTimer(pool);
+  var cv=document.getElementById("cCanvas"),wp=cv.parentElement;cv.width=wp.offsetWidth;cv.height=wp.offsetHeight||100;cCtx=cv.getContext("2d");redrawConst();
+  if(dAnswers.length>0){document.getElementById("monthlyEchoTxt").textContent='"'+dAnswers[0]+'"';document.getElementById("monthlyEcho").style.display="block";}
+}
+function showDropQ(pool){var p=pool||DQS[getSeason()]||DQS.def,el=document.getElementById("dropQ");el.style.opacity=0;setTimeout(function(){el.textContent='"'+p[dIdx]+'"';el.style.opacity=1;},280);}
+function startDTimer(pool){dCd=9;updTbar();dTimer=setInterval(function(){dCd--;updTbar();if(dCd<=0){var p=pool||DQS[getSeason()]||DQS.def;dIdx=(dIdx+1)%p.length;showDropQ(p);dCd=9;updTbar();}},1000);}
+function updTbar(){document.getElementById("tbar").style.width=(dCd/9*100)+"%";}
+window.submitDrop=function(){
+  var inp=document.getElementById("dInp"),v=inp.value.trim();if(!v)return;
+  dAnswers.push(v);inp.value="";addCStar(v);bumpImpact();growAdd();
+  document.getElementById("constLabel").textContent=dAnswers.length+" drop"+(dAnswers.length!==1?"s":"");
+  setTimeout(function(){document.querySelectorAll("[data-p='pSky']").forEach(function(n){n.classList.add("has-activity");});},400);
+};
+function redrawConst(){if(!cCtx)return;var cv=document.getElementById("cCanvas");cCtx.clearRect(0,0,cv.width,cv.height);for(var i=0;i<28;i++){cCtx.beginPath();cCtx.arc(Math.random()*cv.width,Math.random()*cv.height,.4,0,Math.PI*2);cCtx.fillStyle="rgba(255,255,255,.05)";cCtx.fill();}}
+function addCStar(txt){
+  if(!cCtx)return;var cv=document.getElementById("cCanvas"),x=16+Math.random()*(cv.width-32),y=10+Math.random()*(cv.height-20);
+  if(constPts.length>0){var lp=constPts[constPts.length-1];cCtx.strokeStyle="rgba(42,171,238,.08)";cCtx.lineWidth=.6;cCtx.beginPath();cCtx.moveTo(lp.x,lp.y);cCtx.lineTo(x,y);cCtx.stroke();}
+  constPts.push({x:x,y:y});
+  var g=cCtx.createRadialGradient(x,y,0,x,y,7);g.addColorStop(0,"rgba(42,171,238,.95)");g.addColorStop(1,"rgba(42,171,238,0)");
+  cCtx.beginPath();cCtx.arc(x,y,3,0,Math.PI*2);cCtx.fillStyle=g;cCtx.fill();
+  cCtx.font="9px DM Sans";cCtx.fillStyle="rgba(255,255,255,.3)";
+  cCtx.fillText(txt.length>22?txt.slice(0,22)+"...":txt,x+7,y+4);
+}
+
+function initBurnCanvas(){var cv=document.getElementById("burnCanvas");cv.width=cv.parentElement.offsetWidth||340;cv.height=140;bCtx=cv.getContext("2d");}
+window.doBurn=function(){
+  var ta=document.getElementById("burnTxt");if(!ta.value.trim())return;
+  var txt=ta.value,heavy=checkHeavy(txt);
+  ta.style.opacity=".05";ta.style.pointerEvents="none";
+  if(bCtx){
+    var cv=document.getElementById("burnCanvas");
+    bCtx.clearRect(0,0,cv.width,cv.height);
+    var words=txt.split(/\s+/).slice(0,24);
+    
+    // Generate text objects
+    var textItems = [];
+    var columns = Math.ceil(Math.sqrt(words.length));
+    var rowHeight = 22;
+    
+    words.forEach(function(w, idx) {
+      var col = idx % columns;
+      var row = Math.floor(idx / columns);
+      var startX = 30 + col * ((cv.width - 60) / columns) + (Math.random() * 15 - 7.5);
+      var startY = cv.height - 25 - row * rowHeight + (Math.random() * 8 - 4);
+      textItems.push({
+        w: w,
+        x: startX,
+        y: startY,
+        a: 1.0,
+        sz: 12 + Math.random() * 4,
+        burnRate: 0.008 + Math.random() * 0.008,
+        fadeStart: 0.15 + Math.random() * 0.2
+      });
+    });
+    
+    // Particles (embers)
+    var embers = [];
+    
+    function spawnEmber(x, y, isOrange) {
+      var angle = -Math.PI/2 + (Math.random() - 0.5) * 0.7; // upwards with spread
+      var speed = 0.8 + Math.random() * 1.6;
+      var size = 1.0 + Math.random() * 2.2;
+      var col = isOrange 
+        ? (Math.random() > 0.45 ? "rgba(255, 107, 40, " : "rgba(255, 200, 50, ")
+        : "rgba(42, 171, 238, ";
+        
+      embers.push({
+        x: x,
+        y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 0.4,
+        r: size,
+        col: col,
+        a: 1.0,
+        life: 0.007 + Math.random() * 0.012,
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.03 + Math.random() * 0.05,
+        swayAmp: 0.3 + Math.random() * 0.6
+      });
+    }
+    
+    var startAnimTime = Date.now();
+    function anim(){
+      bCtx.clearRect(0,0,cv.width,cv.height);
+      var active = false;
+      
+      // Update and draw text items
+      textItems.forEach(function(item) {
+        if (item.a > 0) {
+          active = true;
+          item.a -= item.burnRate;
+          
+          // Render burning text with glowing overlay
+          bCtx.save();
+          if (item.a < 0.85) {
+            bCtx.shadowBlur = 4 + (1 - item.a) * 6;
+            bCtx.shadowColor = Math.random() > 0.4 ? "rgba(255, 107, 40, 0.8)" : "rgba(42, 171, 238, 0.8)";
+          }
+          bCtx.fillStyle = "rgba(42, 171, 238, " + (item.a * 0.7) + ")";
+          bCtx.font = "italic bold " + item.sz + "px Cormorant Garamond";
+          bCtx.fillText(item.w, item.x, item.y);
+          bCtx.restore();
+          
+          // Spawn embers at text positions as they dissolve
+          if (item.a < 0.95 && Math.random() < 0.6) {
+            var num = Math.random() > 0.5 ? 2 : 1;
+            for (var k = 0; k < num; k++) {
+              var emberX = item.x + Math.random() * bCtx.measureText(item.w).width;
+              var emberY = item.y - Math.random() * item.sz * 0.6;
+              spawnEmber(emberX, emberY, Math.random() > 0.55);
+            }
+          }
+        }
+      });
+      
+      // Update and draw embers
+      embers.forEach(function(p, pIdx) {
+        p.x += p.vx + Math.sin(p.sway) * p.swayAmp;
+        p.y += p.vy;
+        p.sway += p.swaySpeed;
+        p.a -= p.life;
+        
+        var currentR = p.r * (0.6 + Math.sin(p.sway * 2) * 0.4);
+        if (currentR < 0.3) currentR = 0.3;
+        
+        if (p.a > 0 && p.y > 0 && p.x > 0 && p.x < cv.width) {
+          active = true;
+          bCtx.beginPath();
+          bCtx.arc(p.x, p.y, currentR, 0, Math.PI*2);
+          bCtx.fillStyle = p.col + p.a + ")";
+          
+          if (p.r > 1.8) {
+            bCtx.save();
+            bCtx.shadowBlur = 4;
+            bCtx.shadowColor = p.col + "0.8)";
+            bCtx.fill();
+            bCtx.restore();
+          } else {
+            bCtx.fill();
+          }
+        } else {
+          embers.splice(pIdx, 1);
+        }
+      });
+      
+      if(active) requestAnimationFrame(anim);
+    }
+    anim();
+  }
+  setTimeout(function(){
+    ta.value="";
+    ta.style.opacity="1";
+    ta.style.pointerEvents="auto";
+    var d=document.getElementById("burnDone");
+    d.classList.add("show");
+    setTimeout(function(){d.classList.remove("show");},3200);
+    if(heavy)setTimeout(showAnchor,900);
+    growAdd();
+  },2800);
+};
+window.saveDraft=function(){var ta=document.getElementById("burnTxt"),v=ta.value.trim();if(!v)return;drafts.unshift({body:v});ta.value="";renderDrafts();};
+function renderDrafts(){
+  var el=document.getElementById("draftList");
+  if(!drafts.length){el.innerHTML='<div class="empty-st">No drafts yet.<br>Some things are safer here first.</div>';return;}
+  el.innerHTML=drafts.map(function(d,i){return'<div class="draft-card"><div class="draft-body">"'+(d.body.slice(0,90))+(d.body.length>90?"...":"")+'"</div><div class="draft-acts"><button class="btn xs danger" onclick="burnDraftItem('+i+')">Burn</button><button class="btn xs ghost" onclick="delDraft('+i+')">&times;</button></div></div>';}).join("");
+}
+window.burnDraftItem=function(i){document.getElementById("burnTxt").value=drafts[i].body;drafts.splice(i,1);renderDrafts();initBurnCanvas();window.doBurn();};
+window.delDraft=function(i){drafts.splice(i,1);renderDrafts();};
+
+window.showKitWrite=function(){document.getElementById("kitMain").style.display="none";document.getElementById("kitWrite").style.display="block";document.getElementById("kitRead").style.display="none";};
+window.saveKit=function(){var v=document.getElementById("kitNote").value.trim();if(!v)return;kitContent=v;kitSaved=true;document.getElementById("kitWrite").style.display="none";document.getElementById("kitMain").style.display="block";};
+window.openKit=function(){if(!kitSaved){window.showKitWrite();return;}document.getElementById("kitMain").style.display="none";document.getElementById("kitRead").style.display="flex";document.getElementById("kitNoteDisplay").textContent=kitContent;setTimeout(function(){document.getElementById("breathRoom").classList.add("show");},1000);setTimeout(showAnchor,4000);};
+window.lockKit=function(){document.getElementById("kitRead").style.display="none";document.getElementById("kitMain").style.display="block";document.getElementById("breathRoom").classList.remove("show");};
+
+function growAdd(){growPts.push({t:Date.now()});drawGrow();}
+function drawGrow(){
+  var cv=document.getElementById("growCanvas");if(!cv)return;cv.width=cv.offsetWidth||300;cv.height=82;
+  var ctx=cv.getContext("2d");ctx.clearRect(0,0,cv.width,cv.height);
+  if(!growPts.length){ctx.font="11px DM Sans";ctx.fillStyle="rgba(255,255,255,.18)";ctx.textAlign="center";ctx.fillText("your constellation grows each time you show up",cv.width/2,44);return;}
+  var pts=growPts.map(function(_,i){return{x:14+(((i*137.5)%1)*(cv.width-28)),y:10+(((i*97.3)%1)*(cv.height-20))};});
+  pts.forEach(function(p,i){
+    if(i>0){ctx.strokeStyle="rgba(42,171,238,.1)";ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(pts[i-1].x,pts[i-1].y);ctx.lineTo(p.x,p.y);ctx.stroke();}
+    var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,8);g.addColorStop(0,"rgba(42,171,238,.95)");g.addColorStop(1,"rgba(42,171,238,0)");
+    ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+  });
+  ctx.font="9px DM Sans";ctx.fillStyle="rgba(42,171,238,.5)";ctx.textAlign="right";ctx.fillText(growPts.length+" moment"+(growPts.length!==1?"s":""),cv.width-10,cv.height-6);
+}
+
+var DUO_QS=["How heavy does today feel?","What word best describes your mood?","What do you need most right now?","What are you proud of today, even if it is small?"];
+window.selDuoMode=function(el,mode){document.querySelectorAll(".dmc").forEach(function(c){c.classList.remove("active");});el.classList.add("active");document.getElementById("duoPact").style.display=mode==="pact"?"block":"none";document.getElementById("duoCapsule").style.display=mode==="capsule"?"block":"none";};
+window.selMood=function(el,v){
+  document.querySelectorAll("#duoPact .dial").forEach(function(d){d.classList.remove("active");});el.classList.add("active");
+  var s=parseInt(document.getElementById("pactStreak").textContent||"0")+1;document.getElementById("pactStreak").textContent=s;
+  document.getElementById("partnerSig").style.opacity=v>3?"0.92":"0.52";
+  document.getElementById("duoDayQ").textContent=DUO_QS[Math.floor(Math.random()*DUO_QS.length)];
+  growAdd();if(v>=4)setTimeout(showAnchor,1600);
+};
+window.linkPact=function(){
+  var letter=document.getElementById("inviteLetter").value.trim(),code=document.getElementById("pactCode").value.trim();if(!code)return;
+  document.getElementById("pactLinkSec").innerHTML='<div style="background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:var(--radius-sm);padding:18px;text-align:center"><div style="font-size:24px;margin-bottom:8px">&#127754;</div><div style="font-size:13px;color:var(--blue);margin-bottom:4px;font-weight:500">Ripple sent.</div><div style="font-size:11px;color:var(--text-dim);line-height:1.75">'+(letter?'"'+letter+'"<br><br>':"")+'Check in daily. Their signal lights up when they do.</div></div>';
+  document.getElementById("partnerSig").style.opacity="0.55";
+};
+window.sealCapsule=function(){
+  var txt=document.getElementById("capsuleTxt").value.trim(),dt=document.getElementById("capsuleDate").value;if(!txt||!dt)return;
+  document.getElementById("duoCapsule").innerHTML='<div class="card" style="text-align:center;padding:32px"><div style="font-size:38px;margin-bottom:12px">&#128274;</div><div style="font-family:var(--serif);font-style:italic;font-size:22px;font-weight:300;margin-bottom:8px">Sealed.</div><div style="font-size:12px;color:var(--text-dim);line-height:1.85">Your words are locked until <strong>'+dt+'</strong>.<br>Neither of you can open it alone.</div></div>';
+};
+
+function showAnchor(){if(anchorVis)return;anchorVis=true;document.getElementById("anchorOv").classList.add("show");}
+window.hideAnchor=function(){anchorVis=false;document.getElementById("anchorOv").classList.remove("show");};
+window.showMission=function(){document.getElementById("missionOv").classList.add("show");};
+window.hideMission=function(){document.getElementById("missionOv").classList.remove("show");};
+
+renderDrafts();
+document.getElementById("myCode").textContent="EPX-"+Math.floor(1000+Math.random()*9000);
+var capMin=new Date();capMin.setDate(capMin.getDate()+30);
+document.getElementById("capsuleDate").min=capMin.toISOString().split("T")[0];
+document.getElementById("capsuleDate").value=new Date(Date.now()+180*24*60*60*1000).toISOString().split("T")[0];
+})();
+</script>
+</body>
+</html>
