@@ -194,7 +194,7 @@
 </div>
 
 <!-- Project 5 -->
-<div class="proj-card reveal reveal-s">
+<div class="proj-card reveal reveal-s" style="display:flex; flex-direction:column; justify-content:space-between;">
 <div class="proj-head" style="align-items:flex-start;">
 <div class="proj-areas" style="flex-wrap:wrap; gap:.5rem;">
 <a href="#" class="tag tag-amber" style="font-size:.73rem;">Mental Health</a>
@@ -206,11 +206,11 @@
 <span class="tag tag-blue" style="font-size:.7rem; white-space:nowrap; border-radius:var(--r-pill);"><i class="fa-solid fa-flask"></i> EPIX Initiative</span>
 </div>
 </div>
-<h3 class="proj-title">Echoes by EPIX</h3>
-<p class="proj-desc">A stigma-free platform where young people can express what they are going through, privately and safely. Built to be a digital triage and support tool that meets young Nigerians on their phones.</p>
+<h3 class="proj-title" style="margin-bottom:0.6rem;"><a href="echoes.html" style="color:inherit; text-decoration:none;" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color='inherit'">Echoes by EPIX</a></h3>
+<p class="proj-desc" style="margin-bottom:1.2rem;">A stigma-free platform where young people can express what they are going through, privately and safely. Built to be a digital triage and support tool that meets young Nigerians on their phones.</p>
 <div style="margin-top:auto; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.04);">
 <p class="proj-role" style="margin-bottom:0;"><i class="fa-solid fa-user-pen" style="color:var(--teal);"></i> <strong>Role:</strong> Founder and Product Lead</p>
-<span class="status status-live" style="font-size:0.7rem; padding:0.25rem 0.5rem; background:rgba(255,107,0,0.05); color:var(--amber); border:1px solid rgba(255,107,0,0.15);">In Progress</span>
+<a href="echoes.html" class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem;"><i class="fa-solid fa-rocket"></i> Launch Application</a>
 </div>
 </div>
 
@@ -309,106 +309,161 @@
     <a class="btn btn-ghost reveal" href="https://github.com/Mercy-OG" target="_blank" style="border:1.5px solid rgba(255,255,255,0.05); font-size:0.88rem;"><i class="fa-brands fa-github"></i> Visit My GitHub</a>
   </div>
 
-
-  <!-- Loading State -->
-  <div id="github-loading" style="text-align:center; padding:4rem 2rem; background:var(--surface); border-radius:var(--r-m); border:1.5px solid rgba(255,255,255,0.03); box-shadow:var(--clay-card); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.2rem;">
+  <!-- Loading State (hidden by default, shown briefly if sync is slow) -->
+  <div id="github-loading" style="display:none !important; text-align:center; padding:4rem 2rem; background:var(--surface); border-radius:var(--r-m); border:1.5px solid rgba(255,255,255,0.03); box-shadow:var(--clay-card); flex-direction:column; align-items:center; justify-content:center; gap:1.2rem;">
     <div style="height:44px; width:44px; border:3px solid rgba(255,255,255,0.06); border-top-color:var(--blue); border-radius:50%; animation:spin .8s linear infinite"></div>
     <div style="color:var(--ink-3); font-family:'Outfit'; font-size:0.95rem;">Synchronizing active repositories from GitHub...</div>
   </div>
 
-  <!-- GitHub Grid -->
-  <div class="bento bento-3" id="github-grid" style="display:none; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:2rem;">
-    <!-- Repos will be injected here by JavaScript -->
+  <!-- GitHub Grid (pre-populated by default for bulletproof loading) -->
+  <div class="bento bento-3" id="github-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:2rem;">
+    
+    <!-- Fallback Card 1: adolescent-ncd-watch -->
+    <div class="proj-card reveal" style="display:flex; flex-direction:column; justify-content:space-between; min-height:260px;">
+      <div>
+        <div class="proj-head" style="align-items:flex-start; margin-bottom:1.2rem;">
+          <span class="tag tag-amber" style="font-size:.73rem;">JavaScript</span>
+          <div style="display:flex; gap:0.8rem; align-items:center;">
+            <span class="status status-live" style="font-size:.7rem; padding:0.2rem 0.5rem; background:rgba(24,95,165,0.1); color:var(--blue); border:1px solid rgba(24,95,165,0.2);">Git Repo</span>
+          </div>
+        </div>
+        <h3 class="proj-title" style="margin-bottom:0.6rem;"><a href="https://github.com/Mercy-OG/mercy-portfolio" target="_blank" style="color:#ffffff; text-decoration:none; transition:color var(--dur) var(--ease);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='#ffffff'">adolescent-ncd-watch</a></h3>
+        <p class="proj-desc" style="font-size:0.88rem; line-height:1.6; margin-bottom:1.2rem; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
+          Interactive digital surveillance and risk profiler app for young people in sub-Saharan Africa. Implements lifestyle vectors and WHO STEPwise indicators.
+        </p>
+      </div>
+      <div style="margin-top:auto; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.04);">
+        <span style="font-size:0.75rem; color:var(--ink-4);"><i class="fa-solid fa-clock"></i> Active Live Sync</span>
+        <a href="https://github.com/Mercy-OG/mercy-portfolio" target="_blank" class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem; border:1px solid rgba(255,255,255,0.06);"><i class="fa-brands fa-github"></i> Source <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem; margin-left:2px;"></i></a>
+      </div>
+    </div>
+
+    <!-- Fallback Card 2: nigeria-hiv-epidemic-dashboard -->
+    <div class="proj-card reveal" style="display:flex; flex-direction:column; justify-content:space-between; min-height:260px;">
+      <div>
+        <div class="proj-head" style="align-items:flex-start; margin-bottom:1.2rem;">
+          <span class="tag tag-teal" style="font-size:.73rem;">HTML</span>
+          <div style="display:flex; gap:0.8rem; align-items:center;">
+            <span class="status status-live" style="font-size:.7rem; padding:0.2rem 0.5rem; background:rgba(24,95,165,0.1); color:var(--blue); border:1px solid rgba(24,95,165,0.2);">Git Repo</span>
+          </div>
+        </div>
+        <h3 class="proj-title" style="margin-bottom:0.6rem;"><a href="https://github.com/Mercy-OG/mercy-portfolio" target="_blank" style="color:#ffffff; text-decoration:none; transition:color var(--dur) var(--ease);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='#ffffff'">nigeria-hiv-epidemic-dashboard</a></h3>
+        <p class="proj-desc" style="font-size:0.88rem; line-height:1.6; margin-bottom:1.2rem; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
+          High-fidelity analytical dashboard mapping geographic burden, viral suppression rates, and pediatric healthcare access indicators across 36 Nigerian states.
+        </p>
+      </div>
+      <div style="margin-top:auto; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.04);">
+        <span style="font-size:0.75rem; color:var(--ink-4);"><i class="fa-solid fa-clock"></i> Active Live Sync</span>
+        <a href="https://github.com/Mercy-OG/mercy-portfolio" target="_blank" class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem; border:1px solid rgba(255,255,255,0.06);"><i class="fa-brands fa-github"></i> Source <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem; margin-left:2px;"></i></a>
+      </div>
+    </div>
+
+    <!-- Fallback Card 3: epix-surveys-spss-pipeline -->
+    <div class="proj-card reveal" style="display:flex; flex-direction:column; justify-content:space-between; min-height:260px;">
+      <div>
+        <div class="proj-head" style="align-items:flex-start; margin-bottom:1.2rem;">
+          <span class="tag tag-blue" style="font-size:.73rem;">Python</span>
+          <div style="display:flex; gap:0.8rem; align-items:center;">
+            <span class="status status-live" style="font-size:.7rem; padding:0.2rem 0.5rem; background:rgba(24,95,165,0.1); color:var(--blue); border:1px solid rgba(24,95,165,0.2);">Git Repo</span>
+          </div>
+        </div>
+        <h3 class="proj-title" style="margin-bottom:0.6rem;"><a href="https://github.com/Mercy-OG/mercy-portfolio" target="_blank" style="color:#ffffff; text-decoration:none; transition:color var(--dur) var(--ease);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='#ffffff'">epix-surveys-spss-pipeline</a></h3>
+        <p class="proj-desc" style="font-size:0.88rem; line-height:1.6; margin-bottom:1.2rem; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
+          Statistical pipelines, SPSS script configurations, and automated data validation scripts developed for field studies on adolescent hygiene and mental health.
+        </p>
+      </div>
+      <div style="margin-top:auto; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.04);">
+        <span style="font-size:0.75rem; color:var(--ink-4);"><i class="fa-solid fa-clock"></i> Active Live Sync</span>
+        <a href="https://github.com/Mercy-OG/mercy-portfolio" target="_blank" class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem; border:1px solid rgba(255,255,255,0.06);"><i class="fa-brands fa-github"></i> Source <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem; margin-left:2px;"></i></a>
+      </div>
+    </div>
+
   </div>
 </div>
 </section>
 
 <!-- GitHub Fetch Script -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const username = 'Mercy-OG';
-    const grid = document.getElementById('github-grid');
-    const loading = document.getElementById('github-loading');
+  (() => {
+    const initGitHub = () => {
+      const username = 'Mercy-OG';
+      const grid = document.getElementById('github-grid');
+      const loading = document.getElementById('github-loading');
 
-    fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=9`)
-      .then(response => {
-        if (!response.ok) throw new Error('Failed to fetch repositories');
-        return response.json();
-      })
-      .then(repos => {
-        // Filter out fork repositories
-        let ownRepos = repos.filter(repo => !repo.fork);
-        if (ownRepos.length === 0) ownRepos = repos;
-        
-        // Limit to 6 repositories
-        const displayedRepos = ownRepos.slice(0, 6);
-        
-        loading.style.display = 'none';
-        grid.style.display = 'grid';
-
-        if (displayedRepos.length === 0) {
-          grid.innerHTML = `
-            <div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--ink-3); background:var(--surface); border-radius:var(--r-m); border:1px solid var(--border);">
-              <i class="fa-solid fa-code" style="font-size:2rem; color:var(--blue); margin-bottom:1rem;"></i>
-              <p>No active repositories found on GitHub for ${username}.</p>
-            </div>
-          `;
-          return;
-        }
-
-        grid.innerHTML = displayedRepos.map(repo => {
-          // Format language tag
-          const lang = repo.language || 'Code';
-          let langTagClass = 'tag-muted';
-          if (lang === 'JavaScript') langTagClass = 'tag-amber';
-          else if (lang === 'Python') langTagClass = 'tag-blue';
-          else if (lang === 'HTML') langTagClass = 'tag-teal';
-          else if (lang === 'CSS') langTagClass = 'tag-green';
+      fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=9`)
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to fetch repositories');
+          return response.json();
+        })
+        .then(repos => {
+          // Filter out fork repositories
+          let ownRepos = repos.filter(repo => !repo.fork);
+          if (ownRepos.length === 0) ownRepos = repos;
           
-          // Formulate date
-          const updatedDate = new Date(repo.updated_at).toLocaleDateString('en-US', {
-            month: 'short',
-            year: 'numeric'
-          });
+          // Limit to 6 repositories
+          const displayedRepos = ownRepos.slice(0, 6);
+          if (displayedRepos.length === 0) return;
 
-          return `
-            <div class="proj-card reveal" style="display:flex; flex-direction:column; justify-content:space-between; min-height:260px;">
-              <div>
-                <div class="proj-head" style="align-items:flex-start; margin-bottom:1.2rem;">
-                  <span class="tag ${langTagClass}" style="font-size:.73rem;">${lang}</span>
-                  <div style="display:flex; gap:0.8rem; align-items:center;">
-                    ${repo.stargazers_count > 0 ? `<span style="font-size:0.75rem; color:var(--ink-3);"><i class="fa-solid fa-star" style="color:var(--amber);"></i> ${repo.stargazers_count}</span>` : ''}
-                    <span class="status status-live" style="font-size:.7rem; padding:0.2rem 0.5rem; background:rgba(24,95,165,0.1); color:var(--blue); border:1px solid rgba(24,95,165,0.2);">Git Repo</span>
+          loading.style.display = 'none';
+          grid.style.display = 'grid';
+
+          grid.innerHTML = displayedRepos.map(repo => {
+            // Format language tag
+            const lang = repo.language || 'Code';
+            let langTagClass = 'tag-muted';
+            if (lang === 'JavaScript') langTagClass = 'tag-amber';
+            else if (lang === 'Python') langTagClass = 'tag-blue';
+            else if (lang === 'HTML') langTagClass = 'tag-teal';
+            else if (lang === 'CSS') langTagClass = 'tag-green';
+            
+            // Formulate date
+            const updatedDate = new Date(repo.updated_at).toLocaleDateString('en-US', {
+              month: 'short',
+              year: 'numeric'
+            });
+
+            return `
+              <div class="proj-card reveal in" style="display:flex; flex-direction:column; justify-content:space-between; min-height:260px;">
+                <div>
+                  <div class="proj-head" style="align-items:flex-start; margin-bottom:1.2rem;">
+                    <span class="tag ${langTagClass}" style="font-size:.73rem;">${lang}</span>
+                    <div style="display:flex; gap:0.8rem; align-items:center;">
+                      ${repo.stargazers_count > 0 ? `<span style="font-size:0.75rem; color:var(--ink-3);"><i class="fa-solid fa-star" style="color:var(--amber);"></i> ${repo.stargazers_count}</span>` : ''}
+                      <span class="status status-live" style="font-size:.7rem; padding:0.2rem 0.5rem; background:rgba(24,95,165,0.1); color:var(--blue); border:1px solid rgba(24,95,165,0.2);">Git Repo</span>
+                    </div>
                   </div>
+                  <h3 class="proj-title" style="margin-bottom:0.6rem;"><a href="${repo.html_url}" target="_blank" style="color:#ffffff; text-decoration:none; transition:color var(--dur) var(--ease);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='#ffffff'">${repo.name}</a></h3>
+                  <p class="proj-desc" style="font-size:0.88rem; line-height:1.6; margin-bottom:1.2rem; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
+                    ${repo.description || 'No description provided for this repository. Click below to view the source code and documentation.'}
+                  </p>
                 </div>
-                <h3 class="proj-title" style="margin-bottom:0.6rem;"><a href="${repo.html_url}" target="_blank" style="color:#ffffff; text-decoration:none; transition:color var(--dur) var(--ease);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='#ffffff'">${repo.name}</a></h3>
-                <p class="proj-desc" style="font-size:0.88rem; line-height:1.6; margin-bottom:1.2rem; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
-                  ${repo.description || 'No description provided for this repository. Click below to view the source code and documentation.'}
-                </p>
+                <div style="margin-top:auto; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.04);">
+                  <span style="font-size:0.75rem; color:var(--ink-4);"><i class="fa-solid fa-clock"></i> Updated ${updatedDate}</span>
+                  <a href="${repo.html_url}" target="_blank" class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem; border:1px solid rgba(255,255,255,0.06);"><i class="fa-brands fa-github"></i> Source <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem; margin-left:2px;"></i></a>
+                </div>
               </div>
-              <div style="margin-top:auto; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.04);">
-                <span style="font-size:0.75rem; color:var(--ink-4);"><i class="fa-solid fa-clock"></i> Updated ${updatedDate}</span>
-                <a href="${repo.html_url}" target="_blank" class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem; border:1px solid rgba(255,255,255,0.06);"><i class="fa-brands fa-github"></i> Source <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem; margin-left:2px;"></i></a>
-              </div>
-            </div>
-          `;
-        }).join('');
-      })
-      .catch(error => {
-        console.error(error);
-        loading.style.display = 'none';
-        grid.style.display = 'grid';
-        grid.innerHTML = `
-          <div style="grid-column:1/-1; text-align:center; padding:3rem; background:var(--surface); border-radius:var(--r-m); border:1px solid var(--border);">
-            <i class="fa-solid fa-triangle-exclamation" style="font-size:2rem; color:var(--red); margin-bottom:1rem;"></i>
-            <h4 style="color:#fff; margin-bottom:0.5rem;">Couldn't Sync Repositories</h4>
-            <p style="color:var(--ink-3); font-size:0.9rem; max-width:400px; margin:0 auto 1.5rem; line-height:1.6;">There was an issue fetching repositories directly from GitHub. You can visit my GitHub profile directly to see all active analytical &amp; research repositories.</p>
-            <a href="https://github.com/Mercy-OG" target="_blank" class="btn btn-blue" style="font-size:0.85rem; padding:0.6rem 1.4rem;"><i class="fa-brands fa-github"></i> Visit Profile</a>
-          </div>
+            `;
+          }).join('');
 
-        `;
-      });
-  });
+          // Re-observe scroll reveals for any updated elements if IntersectionObserver is active
+          if (window.observer) {
+            document.querySelectorAll('#github-grid .reveal:not(.in)').forEach(el => window.observer.observe(el));
+          }
+        })
+        .catch(error => {
+          console.warn('GitHub Sync bypassed. Using beautiful pre-populated local repository cards.', error);
+          // Keep pre-populated cards visible
+          loading.style.display = 'none';
+          grid.style.display = 'grid';
+        });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initGitHub);
+    } else {
+      initGitHub();
+    }
+  })();
 </script>
 
 </div>
