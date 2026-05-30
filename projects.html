@@ -19,15 +19,18 @@
 <button class="mob-btn" id="mobBtn"><i class="fa-solid fa-bars"></i></button>
 <nav class="nav-links" id="navLinks">
 <a href="index.html">Home</a>
-      <a href="about.html">About</a>
+<a href="about.html">About</a>
 <a href="research.html">Research</a>
 <a class="active" href="projects.html">Projects</a>
-<a href="epix.html">EPIX Initiative</a>
+<a href="adolescent-ncd-watch.html">NCD App</a>
+<a href="gallery.html">Gallery</a>
+<a href="epix.html">EPIX</a>
 <a href="work-with-me.html">Work With Me</a>
 <a class="btn btn-primary nav-cta" href="work-with-me.html">Let's Talk</a>
 </nav>
 </div>
 </header>
+
 <!-- HERO -->
 <div class="page-hero">
 <div class="page-hero-bg-img" style="background-image:url('assets/images/hero_bg_projects.png');"></div>
@@ -78,7 +81,7 @@
 <a href="#" class="tag tag-green" style="font-size:.75rem;">NYSC</a>
 </div>
 <h2 style="font-size:clamp(1.5rem, 3vw, 2.2rem); margin-bottom:.5rem;">Understanding Nigeria's HIV Epidemic</h2>
-<p style="color:var(--ink-3); font-size:1.1rem; max-width:800px; line-height:1.6;">An interactive data dashboard to visualise Nigeria's HIV epidemic &mdash; where the burden is heaviest, where the treatment gaps are, and what the most recent data says about new infections.</p>
+<p style="color:var(--ink-3); font-size:1.1rem; max-width:800px; line-height:1.6;">An interactive data dashboard to visualise Nigeria's HIV epidemic, where the burden is heaviest, where the treatment gaps are, and what the most recent data says about new infections.</p>
 </div>
 <div style="text-align:right;">
 <span class="status status-done" style="font-size:.85rem; padding:.4rem .8rem;">Completed &#10003;</span>
@@ -112,26 +115,47 @@
 <!-- PROJECTS GRID -->
 <section class="alt" style="padding-top:2rem;">
 <div class="wrap">
+
+  <!-- Path to Technical Projects Banner -->
+  <div class="reveal" style="margin-top:1rem; margin-bottom:3.5rem;">
+    <div style="background:linear-gradient(135deg, rgba(67,144,241,0.08) 0%, rgba(67,144,241,0.03) 100%); border:1.5px solid rgba(67,144,241,0.15); border-radius:var(--r-m); padding:1.5rem 2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.2rem; box-shadow:var(--clay-card);">
+      <div style="display:flex; align-items:center; gap:1.2rem;">
+        <div class="i-icon i-blue" style="margin-bottom:0; flex-shrink:0; width:46px; height:46px; font-size:1.15rem; background:rgba(67,144,241,0.1); color:var(--blue);"><i class="fa-brands fa-github"></i></div>
+        <div>
+          <h4 style="font-size:1.1rem; color:#fff; font-family:'Outfit'; margin-bottom:0.2rem;">Looking for Research Data &amp; Analytical Code?</h4>
+          <p style="font-size:0.88rem; color:var(--ink-3); line-height:1.5; margin:0;">Explore my data pipelines, research scripts, SPSS workflows, and interactive analytics platforms directly synced from my GitHub.</p>
+        </div>
+      </div>
+      <a href="#github-projects" class="btn btn-blue" style="font-size:0.85rem; padding:0.6rem 1.4rem;"><i class="fa-solid fa-arrow-down"></i> Data &amp; Code Sync</a>
+    </div>
+  </div>
+
+
 <p class="sec-kicker reveal">Portfolio</p>
 <h2 class="sec-title reveal">Featured Projects</h2>
 <div class="bento bento-2" style="margin-top:2.5rem;">
 
 <!-- Project 2 -->
-<div class="proj-card reveal">
-<div class="proj-head" style="align-items:flex-start;">
-<div class="proj-areas" style="flex-wrap:wrap; gap:.5rem;">
-<a href="#" class="tag tag-muted" style="font-size:.73rem;">Community Health</a>
-<a href="#" class="tag tag-blue" style="font-size:.73rem;">Hygiene</a>
-<a href="#" class="tag tag-green" style="font-size:.73rem;">Vocational Training</a>
-</div>
-<div style="display:flex; flex-direction:column; gap:.4rem; align-items:flex-end;">
-<span class="status status-done" style="font-size:.7rem; white-space:nowrap;">Completed &#10003;</span>
-<span class="tag tag-blue" style="font-size:.7rem; white-space:nowrap; border-radius:var(--r-pill);"><i class="fa-solid fa-flask"></i> EPIX Initiative</span>
-</div>
-</div>
-<h3 class="proj-title">Project SHIELD</h3>
-<p class="proj-desc">A large-scale community health programme that brought hygiene education and vocational skills to 2,000 students across three schools in Etim Ekpo LGA, Akwa Ibom State.</p>
-<p class="proj-role"><i class="fa-solid fa-user-pen" style="color:var(--teal);"></i> <strong>Role:</strong> Lead Health Educator &amp; Communications Designer</p>
+<div class="proj-card reveal" style="display:flex; flex-direction:column; justify-content:space-between;">
+  <div>
+    <div class="proj-head" style="align-items:flex-start; margin-bottom:1.2rem;">
+      <div class="proj-areas" style="flex-wrap:wrap; gap:.5rem;">
+        <span class="tag tag-muted" style="font-size:.73rem;">Community Health</span>
+        <span class="tag tag-blue" style="font-size:.73rem;">Hygiene</span>
+        <span class="tag tag-green" style="font-size:.73rem;">Vocational Training</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:.4rem; align-items:flex-end;">
+        <span class="status status-done" style="font-size:.7rem; white-space:nowrap;">Completed &#10003;</span>
+        <span class="tag tag-blue" style="font-size:.7rem; white-space:nowrap; border-radius:var(--r-pill);"><i class="fa-solid fa-flask"></i> EPIX Initiative</span>
+      </div>
+    </div>
+    <h3 class="proj-title" style="margin-bottom:0.6rem;"><a href="gallery.html?filter=fieldwork" style="color:inherit; text-decoration:none;" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color='inherit'">Project SHIELD</a></h3>
+    <p class="proj-desc" style="margin-bottom:1.2rem;">A large-scale community health programme that brought hygiene education and vocational skills to 2,000 students across three schools in Etim Ekpo LGA, Akwa Ibom State.</p>
+  </div>
+  <div style="margin-top:auto; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.04);">
+    <p class="proj-role" style="margin-bottom:0;"><i class="fa-solid fa-user-pen" style="color:var(--teal);"></i> <strong>Role:</strong> Lead Health Educator</p>
+    <a href="gallery.html?filter=fieldwork" class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem;"><i class="fa-solid fa-images"></i> View Gallery</a>
+  </div>
 </div>
 
 <!-- Project 1 -->
@@ -184,8 +208,208 @@
 </div>
 <h3 class="proj-title">Echoes by EPIX</h3>
 <p class="proj-desc">A stigma-free platform where young people can express what they are going through, privately and safely. Built to be a digital triage and support tool that meets young Nigerians on their phones.</p>
-<p class="proj-role"><i class="fa-solid fa-user-pen" style="color:var(--teal);"></i> <strong>Role:</strong> Founder and Product Lead</p>
+<div style="margin-top:auto; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.04);">
+<p class="proj-role" style="margin-bottom:0;"><i class="fa-solid fa-user-pen" style="color:var(--teal);"></i> <strong>Role:</strong> Founder and Product Lead</p>
+<span class="status status-live" style="font-size:0.7rem; padding:0.25rem 0.5rem; background:rgba(255,107,0,0.05); color:var(--amber); border:1px solid rgba(255,107,0,0.15);">In Progress</span>
 </div>
+</div>
+
+<!-- Project 5: Adolescent NCD Watch -->
+<div class="proj-card reveal reveal-m" style="display:flex; flex-direction:column; justify-content:space-between;">
+  <div>
+    <div class="proj-head" style="align-items:flex-start; margin-bottom:1.2rem;">
+      <div class="proj-areas" style="flex-wrap:wrap; gap:.5rem;">
+        <span class="tag tag-green" style="font-size:.73rem;">NCDs</span>
+        <span class="tag tag-blue" style="font-size:.73rem;">AI &amp; Health</span>
+        <span class="tag tag-amber" style="font-size:.73rem;">Adolescents</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:.4rem; align-items:flex-end;">
+        <span class="status status-live" style="font-size:.7rem; white-space:nowrap;">Beta App</span>
+        <span class="tag tag-teal" style="font-size:.7rem; white-space:nowrap; border-radius:var(--r-pill);"><i class="fa-solid fa-laptop-code"></i> Interactive App</span>
+      </div>
+    </div>
+    <h3 class="proj-title" style="margin-bottom:0.6rem;"><a href="adolescent-ncd-watch.html" style="color:inherit; text-decoration:none;" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color='inherit'">Adolescent NCD Watch &amp; Risk Profiler</a></h3>
+    <p class="proj-desc" style="margin-bottom:1.2rem;">A custom-built public health web application leveraging WHO STEPwise survey metrics, lifestyle factors, and predictive indicators to evaluate non-communicable disease risk in sub-Saharan African adolescents. Built to provide direct visual insights and interactive risk forecasting.</p>
+  </div>
+  <div style="margin-top:auto; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.04);">
+    <p class="proj-role" style="margin-bottom:0;"><i class="fa-solid fa-user-pen" style="color:var(--teal);"></i> <strong>Role:</strong> Creator &amp; Lead Developer</p>
+    <a href="adolescent-ncd-watch.html" class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem;"><i class="fa-solid fa-rocket"></i> Launch Application</a>
+  </div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- APPLICATION SHOWCASE: ADOLESCENT NCD WATCH -->
+<section class="alt" style="padding-top:4rem; padding-bottom:4rem; border-top:1px solid rgba(255,255,255,0.03);">
+<div class="wrap">
+  <div class="reveal" style="text-align:center; margin-bottom:3.5rem;">
+    <p class="sec-kicker" style="color:var(--teal);"><i class="fa-solid fa-laptop-code"></i> Application Showcase</p>
+    <h2 class="sec-title">Adolescent NCD Watch &amp; Risk Profiler</h2>
+    <p class="sec-sub" style="max-width:600px; margin:0 auto;">An interactive web application designed to evaluate and profile lifestyle-based non-communicable disease (NCD) risks among sub-Saharan African youth.</p>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
+    <!-- Left Side: Interactive Explanation -->
+    <div class="reveal reveal-s">
+      <h3 style="font-size:1.8rem; color:#fff; font-family:'Outfit'; margin-bottom:1.5rem;">How the Application Works</h3>
+      
+      <div style="display:flex; flex-direction:column; gap:1.8rem;">
+        <!-- Step 1 -->
+        <div style="display:flex; gap:1.2rem; align-items:flex-start;">
+          <div class="i-icon i-teal" style="margin-bottom:0; flex-shrink:0; width:44px; height:44px; font-size:1.05rem; background:rgba(29,158,117,0.1); color:var(--teal);"><i class="fa-solid fa-sliders"></i></div>
+          <div>
+            <h4 style="font-size:1.1rem; color:#fff; font-family:'Outfit'; margin-bottom:0.3rem;">1. Lifestyle Indicators Input</h4>
+            <p style="font-size:0.9rem; color:var(--ink-3); line-height:1.6; margin:0;">Users complete a targeted digital screener mapping out standard lifestyle vectors: physical inactivity days, screen time hours, diet quality, and tobacco usage facts.</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="display:flex; gap:1.2rem; align-items:flex-start;">
+          <div class="i-icon i-blue" style="margin-bottom:0; flex-shrink:0; width:44px; height:44px; font-size:1.05rem; background:rgba(67,144,241,0.1); color:var(--blue);"><i class="fa-solid fa-map-location-dot"></i></div>
+          <div>
+            <h4 style="font-size:1.1rem; color:#fff; font-family:'Outfit'; margin-bottom:0.3rem;">2. WHO STEPwise Comparative Analysis</h4>
+            <p style="font-size:0.9rem; color:var(--ink-3); line-height:1.6; margin:0;">The system processes input metrics against standard regional WHO datasets across sub-Saharan Africa, contrasting personal indicators with national country-level benchmarks.</p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="display:flex; gap:1.2rem; align-items:flex-start;">
+          <div class="i-icon i-amber" style="margin-bottom:0; flex-shrink:0; width:44px; height:44px; font-size:1.05rem; background:rgba(255,107,0,0.1); color:var(--amber);"><i class="fa-solid fa-circle-nodes"></i></div>
+          <div>
+            <h4 style="font-size:1.1rem; color:#fff; font-family:'Outfit'; margin-bottom:0.3rem;">3. Risk Profiling &amp; Interactive Charts</h4>
+            <p style="font-size:0.9rem; color:var(--ink-3); line-height:1.6; margin:0;">Outputs personalized risk levels (High, Moderate, Low), maps protective lifestyle guidelines, and constructs live multi-country comparison charts via Chart.js.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side: Beautiful App Preview / CTA -->
+    <div class="reveal reveal-m" style="background:var(--surface); border:1.5px solid rgba(255,255,255,0.03); border-radius:var(--r-m); padding:2.5rem; box-shadow:var(--clay-card); text-align:center; position:relative; overflow:hidden;">
+      <div class="blob blob-a" style="background:radial-gradient(circle,rgba(29,158,117,.12),transparent 70%);opacity:.6; top:-20%; right:-20%; width:100%; height:100%;"></div>
+      <div class="i-icon i-teal" style="width:64px; height:64px; font-size:1.6rem; margin:0 auto 1.5rem; background:rgba(29,158,117,0.1); color:var(--teal);"><i class="fa-solid fa-heart-pulse"></i></div>
+      <h4 style="font-size:1.4rem; color:#fff; font-family:'Outfit'; margin-bottom:0.8rem;">Adolescent NCD Watch</h4>
+      <p style="font-size:0.92rem; color:var(--ink-3); line-height:1.65; max-width:320px; margin:0 auto 2rem;">Experience the application in action. Run the interactive lifestyle questionnaire, query WHO regional databases, and visualise health forecasts instantly.</p>
+      <a href="adolescent-ncd-watch.html" class="btn btn-primary" style="font-size:0.95rem; padding:0.9rem 2.2rem; width:100%; max-width:280px; display:inline-flex; align-items:center; justify-content:center; gap:0.5rem;"><i class="fa-solid fa-rocket"></i> Launch Beta Application</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TECHNICAL PROJECTS (GITHUB SYNC) SECTION -->
+<section class="alt" id="github-projects" style="padding-top:4rem; padding-bottom:4rem; border-top:1px solid rgba(255,255,255,0.03);">
+<div class="wrap">
+  <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3rem; flex-wrap:wrap; gap:1rem;">
+    <div class="reveal">
+      <p class="sec-kicker" style="color:var(--blue);"><i class="fa-brands fa-github"></i> Data &amp; Code Sync</p>
+      <h2 class="sec-title">Analytical Projects &amp; Code Repositories</h2>
+      <p class="sec-sub" style="max-width:540px;">Research data pipelines, statistical R/Python scripts, and interactive data dashboards. Dynamically synchronized in real-time from my GitHub.</p>
+    </div>
+    <a class="btn btn-ghost reveal" href="https://github.com/Mercy-OG" target="_blank" style="border:1.5px solid rgba(255,255,255,0.05); font-size:0.88rem;"><i class="fa-brands fa-github"></i> Visit My GitHub</a>
+  </div>
+
+
+  <!-- Loading State -->
+  <div id="github-loading" style="text-align:center; padding:4rem 2rem; background:var(--surface); border-radius:var(--r-m); border:1.5px solid rgba(255,255,255,0.03); box-shadow:var(--clay-card); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.2rem;">
+    <div style="height:44px; width:44px; border:3px solid rgba(255,255,255,0.06); border-top-color:var(--blue); border-radius:50%; animation:spin .8s linear infinite"></div>
+    <div style="color:var(--ink-3); font-family:'Outfit'; font-size:0.95rem;">Synchronizing active repositories from GitHub...</div>
+  </div>
+
+  <!-- GitHub Grid -->
+  <div class="bento bento-3" id="github-grid" style="display:none; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:2rem;">
+    <!-- Repos will be injected here by JavaScript -->
+  </div>
+</div>
+</section>
+
+<!-- GitHub Fetch Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const username = 'Mercy-OG';
+    const grid = document.getElementById('github-grid');
+    const loading = document.getElementById('github-loading');
+
+    fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=9`)
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to fetch repositories');
+        return response.json();
+      })
+      .then(repos => {
+        // Filter out fork repositories
+        let ownRepos = repos.filter(repo => !repo.fork);
+        if (ownRepos.length === 0) ownRepos = repos;
+        
+        // Limit to 6 repositories
+        const displayedRepos = ownRepos.slice(0, 6);
+        
+        loading.style.display = 'none';
+        grid.style.display = 'grid';
+
+        if (displayedRepos.length === 0) {
+          grid.innerHTML = `
+            <div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--ink-3); background:var(--surface); border-radius:var(--r-m); border:1px solid var(--border);">
+              <i class="fa-solid fa-code" style="font-size:2rem; color:var(--blue); margin-bottom:1rem;"></i>
+              <p>No active repositories found on GitHub for ${username}.</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = displayedRepos.map(repo => {
+          // Format language tag
+          const lang = repo.language || 'Code';
+          let langTagClass = 'tag-muted';
+          if (lang === 'JavaScript') langTagClass = 'tag-amber';
+          else if (lang === 'Python') langTagClass = 'tag-blue';
+          else if (lang === 'HTML') langTagClass = 'tag-teal';
+          else if (lang === 'CSS') langTagClass = 'tag-green';
+          
+          // Formulate date
+          const updatedDate = new Date(repo.updated_at).toLocaleDateString('en-US', {
+            month: 'short',
+            year: 'numeric'
+          });
+
+          return `
+            <div class="proj-card reveal" style="display:flex; flex-direction:column; justify-content:space-between; min-height:260px;">
+              <div>
+                <div class="proj-head" style="align-items:flex-start; margin-bottom:1.2rem;">
+                  <span class="tag ${langTagClass}" style="font-size:.73rem;">${lang}</span>
+                  <div style="display:flex; gap:0.8rem; align-items:center;">
+                    ${repo.stargazers_count > 0 ? `<span style="font-size:0.75rem; color:var(--ink-3);"><i class="fa-solid fa-star" style="color:var(--amber);"></i> ${repo.stargazers_count}</span>` : ''}
+                    <span class="status status-live" style="font-size:.7rem; padding:0.2rem 0.5rem; background:rgba(24,95,165,0.1); color:var(--blue); border:1px solid rgba(24,95,165,0.2);">Git Repo</span>
+                  </div>
+                </div>
+                <h3 class="proj-title" style="margin-bottom:0.6rem;"><a href="${repo.html_url}" target="_blank" style="color:#ffffff; text-decoration:none; transition:color var(--dur) var(--ease);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='#ffffff'">${repo.name}</a></h3>
+                <p class="proj-desc" style="font-size:0.88rem; line-height:1.6; margin-bottom:1.2rem; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">
+                  ${repo.description || 'No description provided for this repository. Click below to view the source code and documentation.'}
+                </p>
+              </div>
+              <div style="margin-top:auto; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.04);">
+                <span style="font-size:0.75rem; color:var(--ink-4);"><i class="fa-solid fa-clock"></i> Updated ${updatedDate}</span>
+                <a href="${repo.html_url}" target="_blank" class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem; border:1px solid rgba(255,255,255,0.06);"><i class="fa-brands fa-github"></i> Source <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem; margin-left:2px;"></i></a>
+              </div>
+            </div>
+          `;
+        }).join('');
+      })
+      .catch(error => {
+        console.error(error);
+        loading.style.display = 'none';
+        grid.style.display = 'grid';
+        grid.innerHTML = `
+          <div style="grid-column:1/-1; text-align:center; padding:3rem; background:var(--surface); border-radius:var(--r-m); border:1px solid var(--border);">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size:2rem; color:var(--red); margin-bottom:1rem;"></i>
+            <h4 style="color:#fff; margin-bottom:0.5rem;">Couldn't Sync Repositories</h4>
+            <p style="color:var(--ink-3); font-size:0.9rem; max-width:400px; margin:0 auto 1.5rem; line-height:1.6;">There was an issue fetching repositories directly from GitHub. You can visit my GitHub profile directly to see all active analytical &amp; research repositories.</p>
+            <a href="https://github.com/Mercy-OG" target="_blank" class="btn btn-blue" style="font-size:0.85rem; padding:0.6rem 1.4rem;"><i class="fa-brands fa-github"></i> Visit Profile</a>
+          </div>
+
+        `;
+      });
+  });
+</script>
 
 </div>
 </div>
@@ -204,6 +428,7 @@
 <a href="index.html">Home</a><a href="about.html">About</a>
 <a href="research.html">Research</a>
 <a href="projects.html">Projects</a>
+<a href="gallery.html">Gallery</a>
 </div>
 </div>
 <div class="foot-col">

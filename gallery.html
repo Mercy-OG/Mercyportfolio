@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gallery — Mercy Ogunwale</title>
+<meta content="A visual record of public health fieldwork, community outreaches, and research competitions led by Mercy Ogunwale in Nigeria." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&amp;family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="assets/images/mercy-portrait.png" rel="icon" type="image/png"/>
+<style>
+  /* ── GALLERY & LIGHTBOX CUSTOM STYLING ── */
+  .gallery-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .filter-btn {
+    padding: 0.65rem 1.8rem;
+    font-size: 0.9rem;
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--ink-3);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--dur) var(--ease);
+    border: 1.5px solid rgba(255, 255, 255, 0.04);
+    box-shadow: var(--clay);
+  }
+  
+  .filter-btn:hover {
+    color: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: var(--clay-hover);
+  }
+  
+  .filter-btn.active {
+    color: #ffffff;
+    background: var(--surface-2);
+    box-shadow: var(--clay-inset);
+    border: 1.5px solid rgba(255, 107, 0, 0.2);
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .gallery-card {
+    background: var(--surface);
+    border-radius: var(--r-m);
+    border: 1.5px solid rgba(255, 255, 255, 0.04);
+    box-shadow: var(--clay-card);
+    overflow: hidden;
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), opacity 0.4s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .gallery-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--clay-hover);
+  }
+  
+  .gallery-img-container {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    background: #141416;
+  }
+  
+  .gallery-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease);
+  }
+  
+  .gallery-card:hover .gallery-img-container img {
+    transform: scale(1.03);
+  }
+  
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.8) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity var(--dur) var(--ease);
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+  }
+  
+  .gallery-card:hover .gallery-overlay {
+    opacity: 1;
+  }
+  
+  .zoom-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 107, 0, 0.95);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+    margin-left: auto;
+    transform: translateY(10px);
+    transition: transform 0.3s var(--ease);
+  }
+  
+  .gallery-card:hover .zoom-icon {
+    transform: translateY(0);
+  }
+  
+  .gallery-details {
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .gallery-tag {
+    align-self: flex-start;
+    margin-bottom: 0.8rem;
+  }
+  
+  .gallery-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: #ffffff;
+  }
+  
+  .gallery-desc {
+    font-size: 0.88rem;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+  
+  /* Creative batch invitation card */
+  .gallery-card.cta-card {
+    background: linear-gradient(135deg, rgba(28, 28, 31, 0.9) 0%, rgba(255, 107, 0, 0.03) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    cursor: default;
+    border: 1.5px dashed rgba(255, 107, 0, 0.2);
+  }
+  
+  .gallery-card.cta-card:hover {
+    transform: none;
+    box-shadow: var(--clay-card);
+  }
+  
+  /* ── LIGHTBOX MODAL ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 12, 0.96);
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    backdrop-filter: blur(8px);
+  }
+  
+  .lightbox.active {
+    display: flex;
+    opacity: 1;
+  }
+  
+  .lightbox-content {
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: zoomIn 0.3s var(--ease);
+  }
+  
+  @keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  
+  .lightbox-img-wrapper {
+    position: relative;
+    width: 100%;
+    max-height: 70vh;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: var(--r-m);
+    border: 3px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  }
+  
+  .lightbox-img-wrapper img {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: var(--r-m);
+  }
+  
+  .lightbox-caption {
+    width: 100%;
+    margin-top: 1.5rem;
+    text-align: center;
+    max-width: 600px;
+  }
+  
+  .lightbox-tag {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .lightbox-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    font-family: 'Outfit', sans-serif;
+  }
+  
+  .lightbox-desc {
+    font-size: 0.95rem;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+  
+  /* Lightbox buttons */
+  .lightbox-close {
+    position: absolute;
+    top: -3.5rem;
+    right: 0;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 2.2rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .lightbox-close:hover {
+    color: var(--teal);
+  }
+  
+  .lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(28, 28, 31, 0.8);
+    border: 1.5px solid rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s var(--ease);
+    z-index: 1010;
+  }
+  
+  .lightbox-arrow:hover {
+    background: var(--teal);
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
+    transform: translateY(-50%) scale(1.05);
+  }
+  
+  .lightbox-prev {
+    left: -4rem;
+  }
+  
+  .lightbox-next {
+    right: -4rem;
+  }
+  
+  @media (max-width: 1024px) {
+    .lightbox-arrow {
+      width: 46px;
+      height: 46px;
+    }
+    .lightbox-prev { left: -1.5rem; }
+    .lightbox-next { right: -1.5rem; }
+  }
+  
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+    .lightbox-close {
+      top: 1rem;
+      right: 1rem;
+      background: rgba(10, 10, 12, 0.7);
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .lightbox-arrow {
+      top: auto;
+      bottom: 2rem;
+      transform: none;
+    }
+    .lightbox-arrow:hover {
+      transform: scale(1.05);
+    }
+    .lightbox-prev {
+      left: calc(50% - 60px);
+    }
+    .lightbox-next {
+      right: calc(50% - 60px);
+    }
+    .lightbox-caption {
+      margin-top: 1rem;
+      margin-bottom: 5rem;
+    }
+  }
+</style>
+</head>
+<body>
+<header id="hdr">
+<div class="nav-pill">
+<a class="logo" href="index.html"><img alt="Mercy Ogunwale" class="logo-img" src="assets/images/mercy-portrait.png"/>Mercy <em>Ogunwale</em></a>
+<div id="mob-overlay"></div>
+<button class="mob-btn" id="mobBtn"><i class="fa-solid fa-bars"></i></button>
+<nav class="nav-links" id="navLinks">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="research.html">Research</a>
+<a href="projects.html">Projects</a>
+<a href="adolescent-ncd-watch.html">NCD App</a>
+<a class="active" href="gallery.html">Gallery</a>
+<a href="epix.html">EPIX</a>
+<a href="work-with-me.html">Work With Me</a>
+<a class="btn btn-primary nav-cta" href="work-with-me.html">Let's Talk</a>
+</nav>
+</div>
+</header>
+
+
+<!-- HERO -->
+<div class="page-hero" style="min-height: 55vh; padding-bottom: 3rem;">
+<div class="page-hero-bg-img" style="background-image:url('assets/images/hero_bg_work.png');"></div>
+<div class="hero-bg">
+<div class="blob blob-a" style="background:radial-gradient(circle,rgba(255,140,51,.15),transparent 70%);opacity:.6;"></div>
+<div class="blob blob-b" style="opacity:.45;"></div>
+</div>
+<div class="wrap">
+<div class="page-hero-inner">
+<p class="sec-kicker reveal" style="margin-bottom:1.2rem;">Moments in Action</p>
+<h1 class="reveal">My Work in<br/><span class="grad">Field &amp; Action</span></h1>
+<p class="lead reveal reveal-s">A dynamic, visual record of fieldwork, grassroots community health outreach, and research advocacy on the ground. Features photos updated continuously in batches.</p>
+<div class="page-hero-meta">
+<div class="hero-stat-pill clay reveal reveal-s">
+<div>
+<div class="hsp-num grad">22</div>
+<div class="hsp-lbl">Real-time<br/>featured photos</div>
+</div>
+</div>
+<div class="hero-stat-pill clay reveal reveal-m">
+<div>
+<div class="hsp-num grad">2</div>
+<div class="hsp-lbl">Primary<br/>communities</div>
+</div>
+</div>
+<div class="hero-stat-pill clay reveal reveal-l">
+<div>
+<div class="hsp-num" style="color:var(--teal);">1st</div>
+<div class="hsp-lbl">Mega Designathon<br/>prize award</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- GALLERY GRID SECTION -->
+<section class="alt" style="padding-top: 4rem;">
+<div class="wrap">
+  
+  <!-- Category Filters -->
+  <div class="gallery-filters reveal">
+    <button class="filter-btn active" data-filter="all">All Photos</button>
+    <button class="filter-btn" data-filter="fieldwork">Field Work</button>
+    <button class="filter-btn" data-filter="competitions">Competitions</button>
+    <button class="filter-btn" data-filter="workshops">Workshops</button>
+  </div>
+
+  <!-- Dynamic Gallery Grid -->
+  <div class="gallery-grid" id="gallery-grid">
+    
+    <!-- Photo 1 (Fieldwork) -->
+    <div class="gallery-card reveal" data-category="fieldwork" data-index="0">
+      <div class="gallery-img-container">
+        <img alt="Community health outreach survey administration, Oyo State" src="assets/images/fieldwork_1.png"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-map-location-dot"></i> Field Work</span>
+        <h3 class="gallery-title">Community Health Outreach</h3>
+        <p class="gallery-desc">On the ground in Oyo State communities. Reviewing consent forms, research documentation, and participant protocols before administering health surveys.</p>
+      </div>
+    </div>
+
+    <!-- Photo 2 (Fieldwork) -->
+    <div class="gallery-card reveal reveal-s" data-category="fieldwork" data-index="1">
+      <div class="gallery-img-container">
+        <img alt="Conducting ACCESS HPV survey questionnaire" src="assets/images/fieldwork_2.png"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-clipboard-question"></i> Field Work</span>
+        <h3 class="gallery-title">Access HPV Survey Administration</h3>
+        <p class="gallery-desc">Administering questionnaires for the Access HPV Research Study (targeting women aged 30-65 years) to understand local demand and vaccine awareness patterns.</p>
+      </div>
+    </div>
+
+    <!-- Photo 3 (Competitions) -->
+    <div class="gallery-card reveal reveal-m" data-category="competitions" data-index="2">
+      <div class="gallery-img-container">
+        <img alt="Mercy Ogunwale holding First Price 2024 Mega Designathon check" src="assets/images/competition_award.png"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-amber gallery-tag"><i class="fa-solid fa-trophy"></i> Competitions</span>
+        <h3 class="gallery-title">Mega Designathon 2024 Winner</h3>
+        <p class="gallery-desc">Team "INFINITY" claiming the First Prize check of N500,000 at the Youth by Youth (4YBY) Mega Designathon, sponsored by NIH and NYU School of Medicine.</p>
+      </div>
+    </div>
+
+    <!-- Photo 4 (Competitions) -->
+    <div class="gallery-card reveal reveal-s" data-category="competitions" data-index="3">
+      <div class="gallery-img-container">
+        <img alt="Mercy Ogunwale at 4YBY Mega Designathon 2024" src="assets/images/competition_selfie.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-amber gallery-tag"><i class="fa-solid fa-users-viewfinder"></i> Competitions</span>
+        <h3 class="gallery-title">SI TEST 4YBY Participant</h3>
+        <p class="gallery-desc">Mercy Ogunwale at the 4Youth by Youth 2024 Mega Designathon. Collaborating with cross-disciplinary teams to design evidence-based solutions for HIV prevention.</p>
+      </div>
+    </div>
+
+    <!-- Photo 5 (Workshops - Flyer) -->
+    <div class="gallery-card reveal" data-category="workshops" data-index="4">
+      <div class="gallery-img-container">
+        <img alt="Cee Writing Services CV Training Masterclass flyer" src="assets/images/cv_workshop_flyer.png"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-blue gallery-tag"><i class="fa-solid fa-file-invoice"></i> Workshops</span>
+        <h3 class="gallery-title">CV Masterclass Flyer</h3>
+        <p class="gallery-desc">The official flyer for Cee Writing Services' free online CV Training Masterclass. Designed to help students craft professional resumes that land interviews.</p>
+      </div>
+    </div>
+
+    <!-- Photo 6 (Workshops - Chat 1) -->
+    <div class="gallery-card reveal reveal-s" data-category="workshops" data-index="5">
+      <div class="gallery-img-container">
+        <img alt="Masterclass chat on recruiter criteria" src="assets/images/cv_workshop_chat1.png"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-blue gallery-tag"><i class="fa-solid fa-magnifying-glass"></i> Workshops</span>
+        <h3 class="gallery-title">Recruiter Scanning Insights</h3>
+        <p class="gallery-desc">Masterclass teachings explaining the standard 6-second resume scan and detailing the core layout features that catch recruiters' eyes.</p>
+      </div>
+    </div>
+
+    <!-- Photo 7 (Workshops - Chat 2) -->
+    <div class="gallery-card reveal reveal-m" data-category="workshops" data-index="6">
+      <div class="gallery-img-container">
+        <img alt="Masterclass chat on ATS facts" src="assets/images/cv_workshop_chat2.png"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-blue gallery-tag"><i class="fa-solid fa-robot"></i> Workshops</span>
+        <h3 class="gallery-title">Bypassing Automated Filters</h3>
+        <p class="gallery-desc">Analyzing Applicant Tracking Systems (ATS) and highlighting how unoptimized resumes get auto-rejected by algorithms.</p>
+      </div>
+    </div>
+
+    <!-- Photo 8 (Workshops - Testimonials) -->
+    <div class="gallery-card reveal reveal-s" data-category="workshops" data-index="7">
+      <div class="gallery-img-container">
+        <img alt="Student testimonials from the CV workshop" src="assets/images/cv_workshop_testimonials.png"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-blue gallery-tag"><i class="fa-solid fa-comments"></i> Workshops</span>
+        <h3 class="gallery-title">Student Testimonials</h3>
+        <p class="gallery-desc">Feedback from participants sharing how the CV Masterclass helped them understand resume branding and discover hidden industry standards.</p>
+      </div>
+    </div>
+
+    <!-- Photo 9 (Workshops - Chat 3) -->
+    <div class="gallery-card reveal reveal-m" data-category="workshops" data-index="8">
+      <div class="gallery-img-container">
+        <img alt="Masterclass chat on result oriented writing" src="assets/images/cv_workshop_chat3.png"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-blue gallery-tag"><i class="fa-solid fa-bullseye"></i> Workshops</span>
+        <h3 class="gallery-title">Result-Oriented Positioning</h3>
+        <p class="gallery-desc">Explaining the difference between generic roles and result-oriented writing, instructing students to package achievements effectively.</p>
+      </div>
+    </div>
+
+    <!-- Photo 10 (Fieldwork - Soap Making) -->
+    <div class="gallery-card reveal" data-category="fieldwork" data-index="9">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Project SHIELD students with liquid soap, Obong Christian High School" src="assets/images/shield_students_soap.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-map-location-dot"></i> Field Work</span>
+        <h3 class="gallery-title">Project SHIELD Outreach</h3>
+        <p class="gallery-desc">Project SHIELD sensitisation at Obong Christian High School, Etim Ekpo LGA, Akwa Ibom. Teaching students liquid soap making to support hygiene and self-reliance.</p>
+      </div>
+    </div>
+
+    <!-- Photo 11 (Fieldwork - Mercy & Student) -->
+    <div class="gallery-card reveal reveal-s" data-category="fieldwork" data-index="10">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Mercy Ogunwale and high school student holding liquid soap" src="assets/images/shield_mercy_student.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-map-location-dot"></i> Field Work</span>
+        <h3 class="gallery-title">Outreach Mentorship</h3>
+        <p class="gallery-desc">Mercy Ogunwale with an Obong Christian High School student holding a bottle of self-formulated liquid soap during the Project SHIELD program.</p>
+      </div>
+    </div>
+
+    <!-- Photo 12 (Fieldwork - Stage Presentation) -->
+    <div class="gallery-card reveal reveal-m" data-category="fieldwork" data-index="11">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Leading sensitisation assembly on stage" src="assets/images/shield_mercy_stage.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-person-chalkboard"></i> Field Work</span>
+        <h3 class="gallery-title">sensitisation Session</h3>
+        <p class="gallery-desc">Leading the school-wide sensitisation assembly on personal hygiene, sanitation, and health capacity building in the Obong Christian High School assembly hall.</p>
+      </div>
+    </div>
+
+    <!-- Photo 13 (Fieldwork - Hall Assembly) -->
+    <div class="gallery-card reveal reveal-s" data-category="fieldwork" data-index="12">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Students sitting in Obong Christian High School assembly hall" src="assets/images/shield_hall_sensitization.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-people-group"></i> Field Work</span>
+        <h3 class="gallery-title">Hygiene Training Assembly</h3>
+        <p class="gallery-desc">A full hall of students participating actively in the liquid soap making sensitisation and health education session at Obong Christian High School.</p>
+      </div>
+    </div>
+
+    <!-- Photo 14 (Fieldwork - Student Close-up) -->
+    <div class="gallery-card reveal reveal-m" data-category="fieldwork" data-index="13">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="High school students displaying keen interest in sensitisation materials" src="assets/images/shield_students_close.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-people-line"></i> Field Work</span>
+        <h3 class="gallery-title">Attentive Students</h3>
+        <p class="gallery-desc">Obong Christian High School students displaying high engagement with sensitisation materials, soap-making recipes, and health guidelines.</p>
+      </div>
+    </div>
+
+    <!-- Photo 15 (Fieldwork - Excellent Christian High School Group) -->
+    <div class="gallery-card reveal" data-category="fieldwork" data-index="14">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Mercy Ogunwale with Excellent Christian High School students holding liquid soap" src="assets/images/shield_excellent_mercy_group.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-map-location-dot"></i> Field Work</span>
+        <h3 class="gallery-title">EPIX Soap Making Outreach</h3>
+        <p class="gallery-desc">Project SHIELD outreach at Excellent Christian High School, Etim Ekpo LGA, Akwa Ibom. Mercy Ogunwale standing with students showing off their finished liquid soap bottles.</p>
+      </div>
+    </div>
+
+    <!-- Photo 16 (Fieldwork - Digital Literacy Teaching) -->
+    <div class="gallery-card reveal reveal-s" data-category="fieldwork" data-index="15">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Teaching digital technologies and machine learning in classroom" src="assets/images/shield_excellent_teaching.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-laptop-code"></i> Field Work</span>
+        <h3 class="gallery-title">Digital Literacy Sensitisation</h3>
+        <p class="gallery-desc">Teaching digital technologies and an introduction to Machine Learning on the blackboard to secondary school students at Excellent Christian High School.</p>
+      </div>
+    </div>
+
+    <!-- Photo 17 (Fieldwork - Classroom Sensitisation) -->
+    <div class="gallery-card reveal reveal-m" data-category="fieldwork" data-index="16">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Students listening attentively during classroom sensitisation" src="assets/images/shield_excellent_listening.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-book-open"></i> Field Work</span>
+        <h3 class="gallery-title">Classroom Sensitisation</h3>
+        <p class="gallery-desc">Secondary school students sitting together and listening attentively during the digital technology and hygiene sensitisation sessions conducted by EPIX.</p>
+      </div>
+    </div>
+
+    <!-- Photo 18 (Fieldwork - Soap Close-up) -->
+    <div class="gallery-card reveal reveal-s" data-category="fieldwork" data-index="17">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Close-up of students holding bottles of self-made liquid soap" src="assets/images/shield_excellent_soap_closeup.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-bottle-droplet"></i> Field Work</span>
+        <h3 class="gallery-title">Soap Making Success</h3>
+        <p class="gallery-desc">Close-up of students showing off their self-made bottles of pink liquid soap, reinforcing health guidelines and vocational skills in grassroots communities.</p>
+      </div>
+    </div>
+
+    <!-- Photo 19 (Fieldwork - Grace Dieu Mercy & Student) -->
+    <div class="gallery-card reveal" data-category="fieldwork" data-index="18">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Mercy Ogunwale standing with a female student in green and purple uniform holding liquid soap" src="assets/images/shield_gracedieu_mercy_student.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-map-location-dot"></i> Field Work</span>
+        <h3 class="gallery-title">Empowering Young Women</h3>
+        <p class="gallery-desc">Mercy Ogunwale with a female student at Grace Dieu Model College, Etim Ekpo LGA, holding self-formulated liquid soap, promoting feminine hygiene and vocational independence.</p>
+      </div>
+    </div>
+
+    <!-- Photo 20 (Fieldwork - Grace Dieu Mercy Group) -->
+    <div class="gallery-card reveal reveal-s" data-category="fieldwork" data-index="19">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Mercy Ogunwale and five male students holding liquid soap bottles and Project SHIELD flyers" src="assets/images/shield_gracedieu_mercy_group.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-map-location-dot"></i> Field Work</span>
+        <h3 class="gallery-title">Outreach Group Mentorship</h3>
+        <p class="gallery-desc">Mercy Ogunwale alongside male students of Grace Dieu Model College showcasing their newly made liquid soap and health guidance flyers during the Project SHIELD outreach.</p>
+      </div>
+    </div>
+
+    <!-- Photo 21 (Fieldwork - Grace Dieu Students All) -->
+    <div class="gallery-card reveal reveal-m" data-category="fieldwork" data-index="20">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="A large group of students standing under a roof holding Project SHIELD hygiene pamphlets" src="assets/images/shield_gracedieu_students_all.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-people-group"></i> Field Work</span>
+        <h3 class="gallery-title">Grace Dieu Student Assembly</h3>
+        <p class="gallery-desc">A large group of students at Grace Dieu Model College, Akwa Ibom, holding Project SHIELD health guidelines and hygiene flyers, showcasing community interest in public health advocacy.</p>
+      </div>
+    </div>
+
+    <!-- Photo 22 (Fieldwork - Grace Dieu Students Group) -->
+    <div class="gallery-card reveal reveal-s" data-category="fieldwork" data-index="21">
+      <div class="gallery-img-container" style="aspect-ratio:3/4;">
+        <img alt="Mercy Ogunwale and students showing off self-made liquid soap bottles under a building overhang" src="assets/images/shield_gracedieu_students_group.jpg"/>
+        <div class="gallery-overlay">
+          <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
+      </div>
+      <div class="gallery-details">
+        <span class="tag tag-teal gallery-tag"><i class="fa-solid fa-map-location-dot"></i> Field Work</span>
+        <h3 class="gallery-title">Project SHIELD Outreach Success</h3>
+        <p class="gallery-desc">Project SHIELD outreach at Grace Dieu Model College in Etim Ekpo LGA, Akwa Ibom. Mercy Ogunwale with a group of enthusiastic students demonstrating their liquid soap creations.</p>
+      </div>
+    </div>
+
+    <!-- Interactive CTA / Batch Alert Card -->
+    <div class="gallery-card cta-card reveal reveal-s" data-category="workshops">
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%;">
+        <div class="i-icon i-teal" style="margin-bottom:1.2rem;"><i class="fa-solid fa-images"></i></div>
+        <h3 style="font-size:1.25rem; font-family:'Outfit'; margin-bottom:0.8rem; color:#fff;">Batch Uploading In Progress</h3>
+        <p style="font-size:0.88rem; color:var(--ink-3); line-height:1.6; max-width:280px; margin-bottom:1.5rem;">More photos highlighting capacity development workshops, career teaching, and one-on-one student mentorship sessions are on their way!</p>
+        <a class="btn btn-ghost" href="work-with-me.html" style="font-size:0.85rem; padding:0.6rem 1.4rem;"><i class="fa-solid fa-handshake"></i> Partner With Me</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- LIGHTBOX MODAL CONTAINER -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close">&times;</button>
+  <button class="lightbox-arrow lightbox-prev" id="lightbox-prev"><i class="fa-solid fa-chevron-left"></i></button>
+  <button class="lightbox-arrow lightbox-next" id="lightbox-next"><i class="fa-solid fa-chevron-right"></i></button>
+  
+  <div class="lightbox-content">
+    <div class="lightbox-img-wrapper">
+      <img id="lightbox-img" src="" alt=""/>
+    </div>
+    <div class="lightbox-caption">
+      <span class="tag tag-teal lightbox-tag" id="lightbox-tag"></span>
+      <h4 class="lightbox-title" id="lightbox-title"></h4>
+      <p class="lightbox-desc" id="lightbox-desc"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+<div class="foot-wrap">
+<div class="wrap">
+<div class="foot-inner">
+<div class="foot-brand">
+<a class="logo" href="index.html"><img alt="Mercy Ogunwale" class="logo-img" src="assets/images/mercy-portrait.png"/>Mercy <em>Ogunwale</em></a>
+<p class="foot-tagline">Public health researcher, founder and educator working at the intersection of evidence and community in Nigeria.</p>
+</div>
+<div class="foot-col">
+<h4>Pages</h4>
+<div class="foot-col-links">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="research.html">Research</a>
+<a href="projects.html">Projects</a>
+<a href="gallery.html">Gallery</a>
+</div>
+</div>
+<div class="foot-col">
+<h4>More</h4>
+<div class="foot-col-links">
+<a href="epix.html">EPIX Initiative</a>
+<a href="work-with-me.html">Work With Me</a>
+<a href="work-with-me.html">CeeWriting Service</a>
+</div>
+</div>
+<div class="foot-col">
+<h4>Get in Touch</h4>
+<div class="foot-col-links">
+<a href="mailto:contact@mercyogunwale.com">Send an Email</a>
+<a href="#">LinkedIn</a>
+<a href="#">Twitter / X</a>
+</div>
+</div>
+</div>
+<div class="foot-bottom-bar">
+<p class="foot-copy">© 2025 Mercy Ogunwale. Built for impact and evidence.</p>
+<div class="foot-social">
+<a aria-label="LinkedIn" class="soc-btn" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+<a aria-label="Twitter/X" class="soc-btn" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+<a aria-label="Email" class="soc-btn" href="mailto:contact@mercyogunwale.com"><i class="fa-solid fa-envelope"></i></a>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  // ── FILTERING LOGIC ──
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const galleryCards = document.querySelectorAll('.gallery-card');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Toggle active button
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      const filterValue = button.getAttribute('data-filter');
+
+      galleryCards.forEach(card => {
+        // We always show the CTA card or card matching criteria
+        const category = card.getAttribute('data-category');
+        
+        if (filterValue === 'all') {
+          card.style.display = 'flex';
+          setTimeout(() => card.style.opacity = '1', 50);
+        } else if (category === filterValue) {
+          card.style.display = 'flex';
+          setTimeout(() => card.style.opacity = '1', 50);
+        } else {
+          card.style.opacity = '0';
+          setTimeout(() => card.style.display = 'none', 300);
+        }
+      });
+    });
+  });
+
+  // URL Query Filter on Load (e.g. gallery.html?filter=fieldwork)
+  const urlParams = new URLSearchParams(window.location.search);
+  const filterParam = urlParams.get('filter');
+  if (filterParam) {
+    const targetButton = document.querySelector(`.filter-btn[data-filter="${filterParam}"]`);
+    if (targetButton) {
+      setTimeout(() => targetButton.click(), 100);
+    }
+  }
+
+  // ── LIGHTBOX LOGIC ──
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxTag = document.getElementById('lightbox-tag');
+  const lightboxTitle = document.getElementById('lightbox-title');
+  const lightboxDesc = document.getElementById('lightbox-desc');
+  const closeBtn = document.getElementById('lightbox-close');
+  const prevBtn = document.getElementById('lightbox-prev');
+  const nextBtn = document.getElementById('lightbox-next');
+
+  // Collect data of valid image cards (excluding CTA card)
+  const imageCards = Array.from(document.querySelectorAll('.gallery-card[data-index]'));
+  let activeIndex = 0;
+
+  const showImage = (index) => {
+    const card = imageCards[index];
+    if (!card) return;
+    
+    activeIndex = index;
+    const imgElement = card.querySelector('img');
+    const tagElement = card.querySelector('.gallery-tag');
+    const titleElement = card.querySelector('.gallery-title');
+    const descElement = card.querySelector('.gallery-desc');
+
+    lightboxImg.src = imgElement.src;
+    lightboxImg.alt = imgElement.alt;
+    lightboxTag.innerHTML = tagElement.innerHTML;
+    
+    // Maintain classes for tag style
+    if (tagElement.classList.contains('tag-amber')) {
+      lightboxTag.className = 'tag tag-amber lightbox-tag';
+    } else {
+      lightboxTag.className = 'tag tag-teal lightbox-tag';
+    }
+    
+    lightboxTitle.innerText = titleElement.innerText;
+    lightboxDesc.innerText = descElement.innerText;
+  };
+
+  imageCards.forEach((card, idx) => {
+    card.addEventListener('click', () => {
+      showImage(idx);
+      lightbox.classList.add('active');
+    });
+  });
+
+  const closeLightbox = () => {
+    lightbox.classList.remove('active');
+  };
+
+  closeBtn.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  const navigateLightbox = (direction) => {
+    let nextIndex = activeIndex + direction;
+    if (nextIndex < 0) nextIndex = imageCards.length - 1;
+    if (nextIndex >= imageCards.length) nextIndex = 0;
+    showImage(nextIndex);
+  };
+
+  prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navigateLightbox(-1);
+  });
+  nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navigateLightbox(1);
+  });
+
+  // Keyboard controls
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+  });
+</script>
+</body>
+</html>
