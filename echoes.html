@@ -503,6 +503,46 @@ body::after {
   box-shadow:0 0 8px rgba(42,171,238,0.15);
 }
 
+/* ── GLASSMORPHIC TOAST NOTIFICATION ── */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: rgba(18, 27, 41, 0.88);
+  border: 1px solid var(--blue-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 1px 1px 0 rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.4s var(--ease);
+  pointer-events: auto;
+}
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+.toast-icon {
+  color: var(--blue);
+  font-size: 14px;
+  text-shadow: 0 0 8px rgba(42, 171, 238, 0.6);
+}
+
 /* ── RESPONSIVE ADAPTABILITY ── */
 @media(max-width:767px){
   .sidebar{display:none;}
@@ -511,6 +551,19 @@ body::after {
   .panel{padding:18px 16px 28px;}
   .anchor-card{padding:18px 16px 26px;}
   .mob-exit-btn { display: flex !important; }
+  .toast-container {
+    bottom: auto;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    align-items: center;
+  }
+  .toast {
+    transform: translateY(-20px);
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
 }
 @media(min-width:768px) and (max-width:1023px){
   :root{--sidebar-w:200px;}
@@ -892,6 +945,8 @@ body::after {
   </div>
 </div>
 
+<div id="toastContainer" class="toast-container"></div>
+
 <div id="missionOv" class="mission-ov">
   <div class="mission-card">
     <svg width="46" height="46" viewBox="0 0 46 46" fill="none" style="margin:0 auto">
@@ -903,7 +958,10 @@ body::after {
     <div style="font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--blue);margin-top:14px;opacity:.82">What Echoes believes</div>
     <div class="mission-body">"Everyone carries something no one else can see. Echoes exists to prove that you are not carrying it alone, even when it feels that way."</div>
     <div class="mission-note">Built for young people who feel too much and say too little.<br><br>Echoes is not a crisis service. If you are in immediate danger, please contact emergency services.<br><br>Built by EPIX. Not a replacement for professional help.</div>
-    <button class="btn sm" onclick="hideMission()">Close</button>
+    <div style="display:flex; gap:10px; justify-content:center; margin-top:8px;">
+      <button class="btn sm" onclick="hideMission()">Close</button>
+      <button class="btn ghost sm danger" style="border-color: rgba(255,107,107,0.3); color: var(--red);" onclick="resetProfile()">Reset Profile</button>
+    </div>
   </div>
 </div>
 
@@ -928,8 +986,156 @@ function getSeason(){if(MO>=2&&MO<=4)return"spring";if(MO>=5&&MO<=7)return"summe
 function seasonLabel(){var m={spring:"as things start again",summer:"in the long days",autumn:"as things shift",winter:"in the still season"};return m[getSeason()]||"";}
 function skyNight(){return HR<6||HR>=21;}
 
-window.selAge=function(el,v){document.querySelectorAll("#obs2 .ob-opt").forEach(function(o){o.classList.remove("sel");});el.classList.add("sel");};
-window.selReg=function(el,v){document.querySelectorAll("#obs4 .ob-opt").forEach(function(o){o.classList.remove("sel");});el.classList.add("sel");};
+// ── ACCOUNT RETENTION & STATE STORAGE ──
+var userState = {
+  onboarded: false,
+  name: "Anonymous",
+  age: "u18",
+  region: "ng",
+  anchor: "",
+  streak: 0,
+  dAnswers: [],
+  growPts: [],
+  drafts: [],
+  kitContent: "",
+  kitSaved: false,
+  pactStreak: 0,
+  unlockedDuo: false,
+  capsules: []
+};
+
+function saveState() {
+  try {
+    userState.drafts = drafts;
+    userState.dAnswers = dAnswers;
+    userState.growPts = growPts;
+    userState.kitSaved = kitSaved;
+    userState.kitContent = kitContent;
+    localStorage.setItem("echoes_user_state_v2", JSON.stringify(userState));
+  } catch(e) {
+    console.error("Local storage save failed", e);
+  }
+}
+
+function loadState() {
+  try {
+    var stored = localStorage.getItem("echoes_user_state_v2");
+    if (stored) {
+      userState = JSON.parse(stored);
+      drafts = userState.drafts || [];
+      dAnswers = userState.dAnswers || [];
+      growPts = userState.growPts || [];
+      kitSaved = userState.kitSaved || false;
+      kitContent = userState.kitContent || "";
+      
+      document.getElementById("sbNm").textContent = userState.name || "Anonymous";
+      if(userState.name && userState.name !== "Anonymous") {
+        document.getElementById("sbAv").textContent = userState.name[0].toUpperCase();
+      }
+      document.getElementById("pactStreak").textContent = userState.pactStreak || 0;
+      
+      var anch = userState.anchor || "someone you trust";
+      document.getElementById("anchorSub").textContent = "You named " + anch + ". It might be time to say something, even just a little.";
+      
+      if (userState.onboarded) {
+        var ob = document.getElementById("onboarding");
+        ob.style.display = "none";
+        ob.classList.add("out");
+        document.getElementById("app").classList.remove("hidden");
+        
+        var g = timeGreeting();
+        document.getElementById("echoEye").textContent = g.eye;
+        document.getElementById("echoTitle").textContent = g.title;
+        animateCounter();
+        renderDrafts();
+        drawGrow();
+        
+        setTimeout(function(){
+          var w = document.getElementById("dailySignalWrap");
+          if(w) w.innerHTML = '<div class="daily-signal"><div class="ds-dot"></div><div class="ds-txt">' + daySignal() + '</div></div>';
+        }, 700);
+      }
+    }
+  } catch(e) {
+    console.error("Local storage load failed", e);
+  }
+}
+
+window.resetProfile = function() {
+  try {
+    localStorage.removeItem("echoes_user_state_v2");
+    showToast("Profile reset. Reloading...", "fa-rotate");
+    setTimeout(function(){
+      window.location.reload();
+    }, 1000);
+  } catch(e) {
+    window.location.reload();
+  }
+};
+
+// ── TOAST ALERTS SYSTEM ──
+window.showToast = function(msg, iconClass) {
+  var container = document.getElementById("toastContainer");
+  if (!container) return;
+  
+  var toast = document.createElement("div");
+  toast.className = "toast";
+  
+  var iconHTML = iconClass ? '<i class="fa-solid ' + iconClass + ' toast-icon"></i>' : '<i class="fa-solid fa-bell toast-icon"></i>';
+  toast.innerHTML = iconHTML + '<span>' + msg + '</span>';
+  
+  container.appendChild(toast);
+  setTimeout(function(){ toast.classList.add("show"); }, 50);
+  
+  setTimeout(function(){
+    toast.classList.remove("show");
+    setTimeout(function(){ toast.remove(); }, 400);
+  }, 3200);
+};
+
+// ── REGIONAL QUESTIONS MAPPING ──
+var DQS_REGION = {
+  ng: [
+    "In the rush of Lagos or the quiet of home, what is keeping your mind busy today?",
+    "What expectations from family or school feel the heaviest to carry right now?",
+    "What is one thing you wish your closest friends understood about your silent moments?",
+    "When the surrounding noise gets too loud, where does your heart go to seek rest?"
+  ],
+  wa: [
+    "What is a weight from your community or home that you are carrying in silence?",
+    "What is one dream you hold close that you have not told anyone, in case they laugh?",
+    "What does quiet resilience and strength look like to you on a day like today?",
+    "What is a boundary you wish you had the courage to express to those around you?"
+  ],
+  uk: [
+    "In the grey weather or busy transit commutes, what are you holding tightly inside?",
+    "What quiet pressure to perform, succeed, or blend in is keeping you awake?",
+    "What does isolated silence feel like in a city crowded with millions?",
+    "What is one honest truth about your well-being you have held back from your doctor?"
+  ],
+  ot: [
+    "No matter where you are in the world, what is sitting heaviest with you today?",
+    "What constant pressure to 'have it all together' is breaking you down slowly?",
+    "What is the most challenging part about starting over or being far from home?",
+    "What deep emotion are you carrying today that has no clean word or language?"
+  ]
+};
+
+function getRegionQuestions() {
+  var reg = userState.region || "ng";
+  return DQS_REGION[reg] || DQS_REGION.ng;
+}
+
+window.selAge=function(el,v){
+  document.querySelectorAll("#obs2 .ob-opt").forEach(function(o){o.classList.remove("sel");});
+  el.classList.add("sel");
+  userState.age = v;
+};
+window.selReg=function(el,v){
+  document.querySelectorAll("#obs4 .ob-opt").forEach(function(o){o.classList.remove("sel");});
+  el.classList.add("sel");
+  userState.region = v;
+};
 window.obNext=function(n){
   document.querySelectorAll(".ob-step").forEach(function(s){s.classList.remove("active");});
   document.getElementById("obs"+n).classList.add("active");
@@ -937,10 +1143,19 @@ window.obNext=function(n){
 };
 window.finishOnboard=function(){
   var nm=document.getElementById("obName").value.trim();
-  var anch=document.getElementById("obAnchor").value.trim()||"someone you trust";
-  document.getElementById("sbNm").textContent=nm||"Anonymous";
-  if(nm)document.getElementById("sbAv").textContent=nm[0].toUpperCase();
-  document.getElementById("anchorSub").textContent="You named "+anch+". It might be time to say something, even just a little.";
+  var anch=document.getElementById("obAnchor").value.trim();
+  
+  userState.name = nm || "Anonymous";
+  userState.anchor = anch;
+  userState.onboarded = true;
+  saveState();
+  
+  document.getElementById("sbNm").textContent=userState.name;
+  if(userState.name && userState.name !== "Anonymous") {
+    document.getElementById("sbAv").textContent=userState.name[0].toUpperCase();
+  }
+  document.getElementById("anchorSub").textContent="You named "+(anch || "someone you trust")+". It might be time to say something, even just a little.";
+  
   var ob=document.getElementById("onboarding");ob.classList.add("out");
   setTimeout(function(){ob.style.display="none";},540);
   document.getElementById("app").classList.remove("hidden");
@@ -950,8 +1165,9 @@ window.finishOnboard=function(){
   animateCounter();renderDrafts();drawGrow();
   setTimeout(function(){
     var w=document.getElementById("dailySignalWrap");
-    w.innerHTML='<div class="daily-signal"><div class="ds-dot"></div><div class="ds-txt">'+daySignal()+"</div></div>";
+    if(w) w.innerHTML='<div class="daily-signal"><div class="ds-dot"></div><div class="ds-txt">'+daySignal()+"</div></div>";
   },700);
+  showToast("Welcome to Echoes, " + userState.name, "fa-circle-user");
   setTimeout(function(){document.querySelectorAll("[data-p='pSky']").forEach(function(n){n.classList.add("has-activity");});},4000);
 };
 
@@ -985,8 +1201,18 @@ window.flowTo=function(n){
     var cnt=Math.floor(8+Math.random()*90);
     document.getElementById("releaseCount").textContent=cnt+" people have felt this too.";
     document.getElementById("notAloneBtn").style.display="inline-flex";
-    myStarData=document.getElementById("lBody").value.slice(0,60);
-    if(checkHeavy(document.getElementById("lBody").value))setTimeout(showAnchor,2200);
+    var textBody = document.getElementById("lBody").value;
+    myStarData=textBody.slice(0,60);
+    
+    var isCrisis = scanForCrisis(textBody);
+    if(isCrisis) {
+      setTimeout(function() { showAnchor(true); }, 2200);
+    } else if(checkHeavy(textBody)) {
+      setTimeout(function() { showAnchor(false); }, 2200);
+    }
+    
+    showToast("Echo released into the shared sky.", "fa-paper-plane");
+    saveState();
     setTimeout(function(){document.querySelectorAll("[data-p='pSky']").forEach(function(n){n.classList.add("has-activity");});},600);
   }
 };
@@ -1149,17 +1375,35 @@ var DQS={spring:["Something is starting again. Are you ready for it?","What do y
 function initDrop(){
   if(dTimer)clearInterval(dTimer);
   document.getElementById("dropSeason").textContent=seasonLabel();
-  var pool=DQS[getSeason()]||DQS.def;dIdx=Math.floor(Math.random()*pool.length);showDropQ(pool);startDTimer(pool);
-  var cv=document.getElementById("cCanvas"),wp=cv.parentElement;cv.width=wp.offsetWidth;cv.height=wp.offsetHeight||100;cCtx=cv.getContext("2d");redrawConst();
-  if(dAnswers.length>0){document.getElementById("monthlyEchoTxt").textContent='"'+dAnswers[0]+'"';document.getElementById("monthlyEcho").style.display="block";}
+  var pool=getRegionQuestions();
+  dIdx=Math.floor(Math.random()*pool.length);
+  showDropQ(pool);
+  startDTimer(pool);
+  var cv=document.getElementById("cCanvas"),wp=cv.parentElement;
+  cv.width=wp.offsetWidth;cv.height=wp.offsetHeight||100;
+  cCtx=cv.getContext("2d");
+  redrawConst();
+  if(dAnswers.length>0){
+    document.getElementById("monthlyEchoTxt").textContent='"'+dAnswers[0]+'"';
+    document.getElementById("monthlyEcho").style.display="block";
+  }
 }
-function showDropQ(pool){var p=pool||DQS[getSeason()]||DQS.def,el=document.getElementById("dropQ");el.style.opacity=0;setTimeout(function(){el.textContent='"'+p[dIdx]+'"';el.style.opacity=1;},280);}
-function startDTimer(pool){dCd=9;updTbar();dTimer=setInterval(function(){dCd--;updTbar();if(dCd<=0){var p=pool||DQS[getSeason()]||DQS.def;dIdx=(dIdx+1)%p.length;showDropQ(p);dCd=9;updTbar();}},1000);}
+function showDropQ(pool){var p=pool||getRegionQuestions(),el=document.getElementById("dropQ");el.style.opacity=0;setTimeout(function(){el.textContent='"'+p[dIdx]+'"';el.style.opacity=1;},280);}
+function startDTimer(pool){dCd=9;updTbar();dTimer=setInterval(function(){dCd--;updTbar();if(dCd<=0){var p=pool||getRegionQuestions();dIdx=(dIdx+1)%p.length;showDropQ(p);dCd=9;updTbar();}},1000);}
 function updTbar(){document.getElementById("tbar").style.width=(dCd/9*100)+"%";}
 window.submitDrop=function(){
   var inp=document.getElementById("dInp"),v=inp.value.trim();if(!v)return;
+  
+  var isCrisis = scanForCrisis(v);
+  if(isCrisis) {
+    showAnchor(true);
+    return;
+  }
+  
   dAnswers.push(v);inp.value="";addCStar(v);bumpImpact();growAdd();
   document.getElementById("constLabel").textContent=dAnswers.length+" drop"+(dAnswers.length!==1?"s":"");
+  saveState();
+  showToast("Drop answer added to the constellation!", "fa-circle-check");
   setTimeout(function(){document.querySelectorAll("[data-p='pSky']").forEach(function(n){n.classList.add("has-activity");});},400);
 };
 function redrawConst(){if(!cCtx)return;var cv=document.getElementById("cCanvas");cCtx.clearRect(0,0,cv.width,cv.height);for(var i=0;i<28;i++){cCtx.beginPath();cCtx.arc(Math.random()*cv.width,Math.random()*cv.height,.4,0,Math.PI*2);cCtx.fillStyle="rgba(255,255,255,.05)";cCtx.fill();}}
@@ -1299,29 +1543,75 @@ window.doBurn=function(){
     anim();
   }
   setTimeout(function(){
+    var wasCrisis = scanForCrisis(txt);
     ta.value="";
     ta.style.opacity="1";
     ta.style.pointerEvents="auto";
     var d=document.getElementById("burnDone");
     d.classList.add("show");
     setTimeout(function(){d.classList.remove("show");},3200);
-    if(heavy)setTimeout(showAnchor,900);
+    
+    if(wasCrisis) {
+      setTimeout(function() { showAnchor(true); }, 900);
+    } else if(heavy) {
+      setTimeout(function() { showAnchor(false); }, 900);
+    } else {
+      showToast("Letter burned completely. Embers dissolved.", "fa-fire");
+    }
     growAdd();
+    saveState();
   },2800);
 };
-window.saveDraft=function(){var ta=document.getElementById("burnTxt"),v=ta.value.trim();if(!v)return;drafts.unshift({body:v});ta.value="";renderDrafts();};
+window.saveDraft=function(){
+  var ta=document.getElementById("burnTxt"),v=ta.value.trim();if(!v)return;
+  drafts.unshift({body:v});ta.value="";
+  renderDrafts();
+  saveState();
+  showToast("Draft saved securely offline.", "fa-file-signature");
+};
 function renderDrafts(){
   var el=document.getElementById("draftList");
   if(!drafts.length){el.innerHTML='<div class="empty-st">No drafts yet.<br>Some things are safer here first.</div>';return;}
   el.innerHTML=drafts.map(function(d,i){return'<div class="draft-card"><div class="draft-body">"'+(d.body.slice(0,90))+(d.body.length>90?"...":"")+'"</div><div class="draft-acts"><button class="btn xs danger" onclick="burnDraftItem('+i+')">Burn</button><button class="btn xs ghost" onclick="delDraft('+i+')">&times;</button></div></div>';}).join("");
 }
-window.burnDraftItem=function(i){document.getElementById("burnTxt").value=drafts[i].body;drafts.splice(i,1);renderDrafts();initBurnCanvas();window.doBurn();};
-window.delDraft=function(i){drafts.splice(i,1);renderDrafts();};
+window.burnDraftItem=function(i){
+  document.getElementById("burnTxt").value=drafts[i].body;
+  drafts.splice(i,1);
+  renderDrafts();
+  saveState();
+  initBurnCanvas();
+  window.doBurn();
+};
+window.delDraft=function(i){
+  drafts.splice(i,1);
+  renderDrafts();
+  saveState();
+  showToast("Draft deleted permanently.", "fa-trash-can");
+};
 
 window.showKitWrite=function(){document.getElementById("kitMain").style.display="none";document.getElementById("kitWrite").style.display="block";document.getElementById("kitRead").style.display="none";};
-window.saveKit=function(){var v=document.getElementById("kitNote").value.trim();if(!v)return;kitContent=v;kitSaved=true;document.getElementById("kitWrite").style.display="none";document.getElementById("kitMain").style.display="block";};
-window.openKit=function(){if(!kitSaved){window.showKitWrite();return;}document.getElementById("kitMain").style.display="none";document.getElementById("kitRead").style.display="flex";document.getElementById("kitNoteDisplay").textContent=kitContent;setTimeout(function(){document.getElementById("breathRoom").classList.add("show");},1000);setTimeout(showAnchor,4000);};
-window.lockKit=function(){document.getElementById("kitRead").style.display="none";document.getElementById("kitMain").style.display="block";document.getElementById("breathRoom").classList.remove("show");};
+window.saveKit=function(){
+  var v=document.getElementById("kitNote").value.trim();if(!v)return;
+  kitContent=v;kitSaved=true;
+  document.getElementById("kitWrite").style.display="none";
+  document.getElementById("kitMain").style.display="block";
+  saveState();
+  showToast("Letter locked away safely for future you.", "fa-lock");
+};
+window.openKit=function(){
+  if(!kitSaved){window.showKitWrite();return;}
+  document.getElementById("kitMain").style.display="none";
+  document.getElementById("kitRead").style.display="flex";
+  document.getElementById("kitNoteDisplay").textContent=kitContent;
+  setTimeout(function(){document.getElementById("breathRoom").classList.add("show");},1000);
+  setTimeout(function() { showAnchor(false); }, 4000);
+};
+window.lockKit=function(){
+  document.getElementById("kitRead").style.display="none";
+  document.getElementById("kitMain").style.display="block";
+  document.getElementById("breathRoom").classList.remove("show");
+  showToast("Letter sealed and locked away again.", "fa-lock");
+};
 
 function growAdd(){growPts.push({t:Date.now()});drawGrow();}
 function drawGrow(){
@@ -1341,28 +1631,95 @@ var DUO_QS=["How heavy does today feel?","What word best describes your mood?","
 window.selDuoMode=function(el,mode){document.querySelectorAll(".dmc").forEach(function(c){c.classList.remove("active");});el.classList.add("active");document.getElementById("duoPact").style.display=mode==="pact"?"block":"none";document.getElementById("duoCapsule").style.display=mode==="capsule"?"block":"none";};
 window.selMood=function(el,v){
   document.querySelectorAll("#duoPact .dial").forEach(function(d){d.classList.remove("active");});el.classList.add("active");
-  var s=parseInt(document.getElementById("pactStreak").textContent||"0")+1;document.getElementById("pactStreak").textContent=s;
+  var s=parseInt(document.getElementById("pactStreak").textContent||"0")+1;
+  document.getElementById("pactStreak").textContent=s;
+  userState.pactStreak = s;
   document.getElementById("partnerSig").style.opacity=v>3?"0.92":"0.52";
   document.getElementById("duoDayQ").textContent=DUO_QS[Math.floor(Math.random()*DUO_QS.length)];
-  growAdd();if(v>=4)setTimeout(showAnchor,1600);
+  growAdd();
+  saveState();
+  showToast("Daily mood check-in complete. Streak updated to " + s + "!", "fa-fire");
+  if(v>=4)setTimeout(function() { showAnchor(false); }, 1600);
 };
 window.linkPact=function(){
   var letter=document.getElementById("inviteLetter").value.trim(),code=document.getElementById("pactCode").value.trim();if(!code)return;
   document.getElementById("pactLinkSec").innerHTML='<div style="background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:var(--radius-sm);padding:18px;text-align:center"><div style="font-size:24px;margin-bottom:8px">&#127754;</div><div style="font-size:13px;color:var(--blue);margin-bottom:4px;font-weight:500">Ripple sent.</div><div style="font-size:11px;color:var(--text-dim);line-height:1.75">'+(letter?'"'+letter+'"<br><br>':"")+'Check in daily. Their signal lights up when they do.</div></div>';
   document.getElementById("partnerSig").style.opacity="0.55";
+  userState.unlockedDuo = true;
+  saveState();
+  showToast("Duo Ripple sent. Connection established!", "fa-link");
 };
 window.sealCapsule=function(){
   var txt=document.getElementById("capsuleTxt").value.trim(),dt=document.getElementById("capsuleDate").value;if(!txt||!dt)return;
   document.getElementById("duoCapsule").innerHTML='<div class="card" style="text-align:center;padding:32px"><div style="font-size:38px;margin-bottom:12px">&#128274;</div><div style="font-family:var(--serif);font-style:italic;font-size:22px;font-weight:300;margin-bottom:8px">Sealed.</div><div style="font-size:12px;color:var(--text-dim);line-height:1.85">Your words are locked until <strong>'+dt+'</strong>.<br>Neither of you can open it alone.</div></div>';
+  userState.capsules.push({body:txt,unlock:dt});
+  saveState();
+  showToast("Time capsule sealed securely for " + dt + ".", "fa-box-archive");
 };
 
-function showAnchor(){if(anchorVis)return;anchorVis=true;document.getElementById("anchorOv").classList.add("show");}
+var HELPLINES = {
+  ng: "SURPIN Crisis Support: 0916 253 0000 | Mentally Aware Alliance: 0809 111 6264",
+  wa: "West Africa Crisis Helplines: Please reach out to your local digital mental health networks or emergency support services.",
+  uk: "Samaritans UK: 116 123 | Text SHOUT to 85258 for anonymous, 24/7 support.",
+  ot: "International Helplines: Find support services in your country at www.findahelpline.com or iasp.info/resources/Crisis_Centres/"
+};
+
+var SENSITIVE_WORDS = ["suicide", "kill myself", "killing myself", "end my life", "self-harm", "wanna die", "want to die", "harming myself", "cutting", "overdose", "hanging", "suicidal"];
+
+function scanForCrisis(text) {
+  var lower = text.toLowerCase();
+  return SENSITIVE_WORDS.some(function(w) {
+    return lower.indexOf(w) > -1;
+  });
+}
+
+window.showAnchor = function(isCrisis) {
+  if (anchorVis) return;
+  anchorVis = true;
+  
+  var title = document.querySelector("#anchorOv .anchor-title");
+  var sub = document.getElementById("anchorSub");
+  var btns = document.querySelector("#anchorOv .anchor-btns");
+  var anch = userState.anchor || "someone you trust";
+  
+  if (isCrisis) {
+    title.innerHTML = '"Let\'s take a soft pause..."';
+    sub.innerHTML = "Hey, it sounds like things are feeling incredibly heavy. Remember, you named <strong>" + anch + "</strong> as someone who would want to know if you were struggling. You don't have to carry this alone.<br><br><span style='color:var(--blue);font-weight:600;font-size:0.75rem;display:block;margin-top:6px;'>" + (HELPLINES[userState.region] || HELPLINES.ot) + "</span>";
+    
+    btns.innerHTML = '<button class="btn sm" onclick="goToBreathRoom()">Take a breath</button>' +
+                     '<button class="btn ghost sm" onclick="hideAnchor()">Close quietly</button>';
+  } else {
+    title.innerHTML = '"If this is more than you can carry alone..."';
+    sub.innerHTML = "You named <strong>" + anch + "</strong> as someone you trust. It might be time to say something, even just a little.";
+    btns.innerHTML = '<button class="btn sm" onclick="hideAnchor()">I will reach out</button>' +
+                     '<button class="btn ghost sm" onclick="hideAnchor()">Not yet</button>';
+  }
+  
+  document.getElementById("anchorOv").classList.add("show");
+};
+
+window.goToBreathRoom = function() {
+  hideAnchor();
+  navTo("pKit");
+  showKitWrite();
+  document.getElementById("kitMain").style.display = "none";
+  document.getElementById("kitRead").style.display = "flex";
+  document.getElementById("kitNoteDisplay").textContent = "Breathe in, breathe out. Let the waves settle.";
+  setTimeout(function(){
+    document.getElementById("breathRoom").classList.add("show");
+  }, 200);
+  showToast("Opening the Breath Room...", "fa-wind");
+};
+
 window.hideAnchor=function(){anchorVis=false;document.getElementById("anchorOv").classList.remove("show");};
 window.showMission=function(){document.getElementById("missionOv").classList.add("show");};
 window.hideMission=function(){document.getElementById("missionOv").classList.remove("show");};
 
-renderDrafts();
-document.getElementById("myCode").textContent="EPX-"+Math.floor(1000+Math.random()*9000);
+loadState();
+if (!userState.onboarded) {
+  renderDrafts();
+  document.getElementById("myCode").textContent="EPX-"+Math.floor(1000+Math.random()*9000);
+}
 var capMin=new Date();capMin.setDate(capMin.getDate()+30);
 document.getElementById("capsuleDate").min=capMin.toISOString().split("T")[0];
 document.getElementById("capsuleDate").value=new Date(Date.now()+180*24*60*60*1000).toISOString().split("T")[0];
