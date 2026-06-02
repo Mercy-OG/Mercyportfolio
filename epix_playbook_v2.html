@@ -370,9 +370,893 @@ body {
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
 
 
+<div class="book-toolbar">
+  <div class="tb-left">
+    <a href="index.html" class="tb-btn"><i class="fa-solid fa-house"></i> Home</a>
+    <a href="epix.html" class="tb-btn"><i class="fa-solid fa-arrow-left"></i> EPIX Initiative</a>
+  </div>
+  <div class="tb-center">
+    <button class="tb-btn active" id="btnSpread" onclick="setViewMode('spread')"><i class="fa-solid fa-book-open"></i> Spread View</button>
+    <button class="tb-btn" id="btnSingle" onclick="setViewMode('single')"><i class="fa-solid fa-scroll"></i> Single Page View</button>
+  </div>
+  <div class="tb-right">
+    <span class="tb-page-info" id="pageInfo">Spread 1 of 9</span>
+    <button class="tb-btn" onclick="prevSpread()"><i class="fa-solid fa-chevron-left"></i> Prev</button>
+    <button class="tb-btn" onclick="nextSpread()">Next <i class="fa-solid fa-chevron-right"></i></button>
+    <button class="tb-btn print-btn" onclick="window.print()"><i class="fa-solid fa-print"></i> Print / PDF</button>
+  </div>
+</div>
+
+
+<div class="book-container" id="bookContainer">
+  
+<!-- Spread 0: Cover Page -->
+<div class="spread-wrapper active single" id="spread0">
+  <div class="page cover-page" style="padding:0;background:#0d3d2a">
+    <img src="assets/images/playbook_cover.png" style="width:100%;height:100%;object-fit:cover;display:block;min-height:1123px" alt="Mute Notifications, Not Your Pain — Playbook 01">
+  </div>
+</div>
+
+
+<!-- Spread 1: Pages 2 & 3 -->
+<div class="spread-wrapper" id="spread1">
+  <div class="page left-page" style="display:grid;grid-template-columns:260px 1fr;min-height:1123px">
+    
+
+  <!-- LEFT: dark TOC panel -->
+  <div style="background:var(--green);padding:52px 36px;display:flex;flex-direction:column;justify-content:space-between">
+    <div>
+      <!-- Logo top -->
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:40px;padding-bottom:20px;border-bottom:0.5px solid rgba(200,168,75,0.2)">
+        <img src="assets/images/epix-logo.png" style="width:28px;height:28px;object-fit:contain;filter:brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(10deg);opacity:0.85" alt="EPIX Logo">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:10px;color:#c8a84b;letter-spacing:0.05em">The <strong>EPIX</strong> Initiative</div>
+          <div style="font-size:7.5px;color:#4a7060;letter-spacing:0.1em;text-transform:uppercase;margin-top:1px">Playbook 01</div>
+        </div>
+      </div>
+
+      <div style="font-size:8px;letter-spacing:0.2em;color:#c8a84b;text-transform:uppercase;margin-bottom:10px;font-family:'Space Grotesk',sans-serif">Contents</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:700;color:white;line-height:0.9;margin-bottom:24px">Table<br><span style="font-style:italic;color:#c8a84b">of</span><br>Contents</div>
+      <div style="width:28px;height:2px;background:#c8a84b;margin-bottom:28px"></div>
+
+      <div style="font-size:10px;color:#6a9a8a;line-height:1.8;margin-bottom:28px">Written for boys who deserve honest answers. Read whatever chapter you need most right now.</div>
+
+      <div class="toc-row"><div class="tl"><div class="toc-dot"></div><span class="tn">Welcome</span></div><span class="tp">03</span></div>
+      <div class="toc-row"><div class="tl"><div class="toc-dot"></div><span class="tn">Ch 01 — Your Body Is Changing</span></div><span class="tp">04</span></div>
+      <div class="toc-row"><div class="tl"><div class="toc-dot"></div><span class="tn">Ch 02 — Sexual Health, Straight Talk</span></div><span class="tp">07</span></div>
+      <div class="toc-row"><div class="tl"><div class="toc-dot"></div><span class="tn">Ch 03 — Your Mind Matters</span></div><span class="tp">10</span></div>
+      <div class="toc-row"><div class="tl"><div class="toc-dot"></div><span class="tn">Ch 04 — Screens, Phones &amp; You</span></div><span class="tp">13</span></div>
+      <div class="toc-row"><div class="tl"><div class="toc-dot"></div><span class="tn">Ch 05 — Relationships &amp; Respect</span></div><span class="tp">16</span></div>
+      <div class="toc-row"><div class="tl"><div class="toc-dot"></div><span class="tn">A Final Word</span></div><span class="tp">19</span></div>
+    </div>
+    <div style="font-size:7.5px;color:#3a5a4a;letter-spacing:0.1em;text-transform:uppercase">The EPIX Initiative · 2025</div>
+  </div>
+
+  <!-- RIGHT: illustration + intro -->
+  <div style="display:flex;flex-direction:column">
+    <!-- Hero illustration area -->
+    <div style="flex:1;background:var(--gray-1);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:620px">
+      <!-- Decorative geometry -->
+      <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(200,168,75,0.06)"></div>
+      <div style="position:absolute;bottom:20px;left:-20px;width:140px;height:140px;border-radius:50%;background:rgba(13,61,42,0.05)"></div>
+      <div style="position:absolute;top:60px;left:40px;width:60px;height:60px;border-radius:50%;background:rgba(200,168,75,0.1)"></div>
+      <!-- Illustrated figure -->
+      <svg width="280" height="440" viewBox="0 0 280 440" fill="none">
+        <ellipse cx="140" cy="430" rx="110" ry="50" fill="#d8e8dc" opacity="0.5"/>
+        <!-- Body -->
+        <ellipse cx="140" cy="235" rx="52" ry="65" fill="#1a5c3e"/>
+        <!-- Arms -->
+        <rect x="82" y="215" width="26" height="58" rx="10" fill="#1a5c3e"/>
+        <rect x="172" y="215" width="26" height="58" rx="10" fill="#1a5c3e"/>
+        <!-- Hands -->
+        <ellipse cx="95" cy="275" rx="10" ry="9" fill="#c8a84b" opacity="0.8"/>
+        <ellipse cx="185" cy="275" rx="10" ry="9" fill="#c8a84b" opacity="0.8"/>
+        <!-- Legs -->
+        <rect x="118" y="295" width="22" height="95" rx="9" fill="#1a5c3e"/>
+        <rect x="140" y="295" width="22" height="95" rx="9" fill="#0d3d2a"/>
+        <!-- Shoes -->
+        <ellipse cx="129" cy="390" rx="14" ry="8" fill="#0d3d2a"/>
+        <ellipse cx="151" cy="390" rx="14" ry="8" fill="#1a5c3e"/>
+        <!-- Head -->
+        <circle cx="140" cy="168" r="40" fill="#1a5c3e"/>
+        <!-- Face -->
+        <circle cx="128" cy="163" r="5" fill="white"/>
+        <circle cx="152" cy="163" r="5" fill="white"/>
+        <circle cx="129" cy="163" r="2.5" fill="#0a2e1c"/>
+        <circle cx="153" cy="163" r="2.5" fill="#0a2e1c"/>
+        <!-- Smile -->
+        <path d="M129 177 Q140 185 151 177" stroke="#c8a84b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- Hair-like top -->
+        <ellipse cx="140" cy="130" rx="28" ry="12" fill="#0d3d2a"/>
+        <!-- Thought bubble / speech concepts -->
+        <circle cx="210" cy="110" r="28" fill="white" opacity="0.9" stroke="#c8a84b" stroke-width="1"/>
+        <circle cx="192" cy="135" r="8" fill="white" opacity="0.8" stroke="#c8a84b" stroke-width="0.7"/>
+        <circle cx="183" cy="150" r="4" fill="white" opacity="0.7" stroke="#c8a84b" stroke-width="0.5"/>
+        <!-- Book icon in bubble -->
+        <rect x="197" y="98" width="20" height="16" rx="2" fill="#c8a84b" opacity="0.9"/>
+        <line x1="207" y1="98" x2="207" y2="114" stroke="white" stroke-width="1"/>
+        <rect x="199" y="101" width="6" height="1.5" rx="0.5" fill="white" opacity="0.7"/>
+        <rect x="209" y="101" width="6" height="1.5" rx="0.5" fill="white" opacity="0.7"/>
+        <!-- Accent dots -->
+        <circle cx="60" cy="150" r="6" fill="#c8a84b" opacity="0.3"/>
+        <circle cx="55" cy="280" r="4" fill="#c8a84b" opacity="0.2"/>
+        <circle cx="230" cy="310" r="8" fill="#0d3d2a" opacity="0.1"/>
+        <circle cx="72" cy="350" r="10" fill="#c8a84b" opacity="0.15"/>
+        <!-- Label lines -->
+        <line x1="50" y1="155" x2="88" y2="175" stroke="#c8a84b" stroke-width="0.5" opacity="0.5" stroke-dasharray="3 2"/>
+        <text x="20" y="153" font-size="7" fill="#0d3d2a" opacity="0.5" font-family="sans-serif">Growth</text>
+        <line x1="240" y1="240" x2="198" y2="240" stroke="#c8a84b" stroke-width="0.5" opacity="0.5" stroke-dasharray="3 2"/>
+        <text x="241" y="244" font-size="7" fill="#0d3d2a" opacity="0.5" font-family="sans-serif">Confidence</text>
+        <line x1="40" y1="290" x2="82" y2="270" stroke="#c8a84b" stroke-width="0.5" opacity="0.4" stroke-dasharray="3 2"/>
+        <text x="10" y="296" font-size="7" fill="#0d3d2a" opacity="0.5" font-family="sans-serif">Health</text>
+      </svg>
+    </div>
+
+    <!-- Bottom caption -->
+    <div style="padding:28px 36px;background:white;border-top:0.5px solid var(--gray-2)">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+        <img src="assets/images/epix-logo.png" style="width:22px;height:22px;object-fit:contain" alt="EPIX Logo">
+        <div style="font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:0.12em;font-family:'Space Grotesk',sans-serif;font-weight:600">About this playbook</div>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--green);margin-bottom:8px;line-height:1.3">Built for real boys. Answering real questions.</div>
+      <div style="font-size:10.5px;color:var(--muted);line-height:1.7;font-weight:300">This is not a textbook. There are no exams. Read it at your own pace, and know that everything here was written without judgment.</div>
+    </div>
+  </div>
+</div>
+
+
 <!-- ═══════════════════════════════════════
-     PAGE 1 — REAL COVER (from image)
+     PAGE 3 — WELCOME
      ═══════════════════════════════════════ -->
+
+  </div>
+  <div class="page right-page">
+    
+  <div class="rh">
+    <div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.5" alt="EPIX"><span class="rh-label">The EPIX Initiative · Playbook 01</span></div>
+    <span class="rh-num">03</span>
+  </div>
+
+  <div class="pad pad-b" style="padding-top:36px">
+    <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:44px">
+      <div>
+        <div class="tag">Welcome</div>
+        <div class="d1" style="margin-bottom:18px">Hey.<br><span style="font-style:italic;color:#0d3d2a;opacity:0.75">This one<br>is for you.</span></div>
+        <div class="gold-rule"></div>
+
+        <p class="body">Nobody gave you a manual when puberty started. Nobody sat you down and explained what was going to happen to your body, your mind, and your emotions. Most of the adults around you probably hoped you would just figure it out on your own.</p>
+        <p class="body">The truth is, most boys do try to figure it out on their own. They search the internet, ask their friends, or keep everything buried inside. None of those things really work, and a lot of them lead to confusion, shame, and silence.</p>
+        <p class="body">This playbook exists because you deserve better than that. It covers the things that actually affect you: what is happening to your body, sexual health, your mental wellbeing, how technology affects you, and how to navigate relationships without losing yourself.</p>
+
+        <div class="card-gold">
+          <p>"Growing up is not about pretending you have it all figured out. It is about being honest enough to admit when you do not."</p>
+          <cite>The EPIX Initiative</cite>
+        </div>
+
+        <p class="body">You do not have to read this from start to finish. Go to the chapter that feels most urgent right now. Come back to the rest later. There is no right way to use this playbook, as long as you use it honestly.</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="playbook-img-card">
+          <img src="assets/images/shield_mercy_stage.jpg" alt="Mercy Ogunwale - Project SHIELD Stage Presentation">
+          <div class="img-caption">REAL IMPACT · Mercy Ogunwale presenting hygiene and health strategies to students during Project SHIELD.</div>
+        </div>
+
+        <div class="card-dark">
+          <div style="font-size:8.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-family:'Space Grotesk',sans-serif">What this covers</div>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;gap:10px;align-items:flex-start"><div style="width:20px;height:20px;border-radius:50%;background:rgba(200,168,75,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><div style="width:5px;height:5px;background:var(--gold);border-radius:50%"></div></div><div><div style="font-size:10.5px;font-weight:600;color:white;margin-bottom:2px;font-family:'Space Grotesk',sans-serif">Adolescent Health</div><div style="font-size:9.5px;color:#6a9a8a;line-height:1.5">Body changes, growth, hygiene, physical development</div></div></div>
+            <div style="display:flex;gap:10px;align-items:flex-start"><div style="width:20px;height:20px;border-radius:50%;background:rgba(200,168,75,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><div style="width:5px;height:5px;background:var(--gold);border-radius:50%"></div></div><div><div style="font-size:10.5px;font-weight:600;color:white;margin-bottom:2px;font-family:'Space Grotesk',sans-serif">Sexual Health</div><div style="font-size:9.5px;color:#6a9a8a;line-height:1.5">Honest answers on sex, consent, and staying safe</div></div></div>
+            <div style="display:flex;gap:10px;align-items:flex-start"><div style="width:20px;height:20px;border-radius:50%;background:rgba(200,168,75,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><div style="width:5px;height:5px;background:var(--gold);border-radius:50%"></div></div><div><div style="font-size:10.5px;font-weight:600;color:white;margin-bottom:2px;font-family:'Space Grotesk',sans-serif">Mental Health</div><div style="font-size:9.5px;color:#6a9a8a;line-height:1.5">Emotions, stress, anxiety, depression, and coping</div></div></div>
+            <div style="display:flex;gap:10px;align-items:flex-start"><div style="width:20px;height:20px;border-radius:50%;background:rgba(200,168,75,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><div style="width:5px;height:5px;background:var(--gold);border-radius:50%"></div></div><div><div style="font-size:10.5px;font-weight:600;color:white;margin-bottom:2px;font-family:'Space Grotesk',sans-serif">Digital Health</div><div style="font-size:9.5px;color:#6a9a8a;line-height:1.5">Screen time, online safety, and social media pressure</div></div></div>
+            <div style="display:flex;gap:10px;align-items:flex-start"><div style="width:20px;height:20px;border-radius:50%;background:rgba(200,168,75,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><div style="width:5px;height:5px;background:var(--gold);border-radius:50%"></div></div><div><div style="font-size:10.5px;font-weight:600;color:white;margin-bottom:2px;font-family:'Space Grotesk',sans-serif">Relationships</div><div style="font-size:9.5px;color:#6a9a8a;line-height:1.5">Friendships, family, romance, and self-respect</div></div></div>
+          </div>
+        </div>
+        <div style="background:var(--gold-pale);border-radius:8px;padding:16px 18px;border:1px solid #e8d8a0">
+          <div style="font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:7px;font-family:'Space Grotesk',sans-serif">A note on honesty</div>
+          <div class="body-sm" style="margin:0">This playbook does not sugarcoat things. It also does not judge you. Whatever you are going through right now, you are not alone in it, and you are not strange for going through it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rf"><span>Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span>The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PAGE 4 — CH1 OPENER: YOUR BODY
+     ═══════════════════════════════════════ -->
+
+  </div>
+</div>
+
+
+<!-- Spread 2: Pages 4 & 5 -->
+<div class="spread-wrapper" id="spread2">
+  <div class="page left-page" style="display:grid;grid-template-columns:1fr 1fr;min-height:1123px">
+    
+
+  <!-- LEFT: illustration + title -->
+  <div style="display:flex;flex-direction:column;background:#0a2e1c">
+    <div style="flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:680px">
+      <!-- BG circles -->
+      <div style="position:absolute;bottom:-60px;left:-60px;width:240px;height:240px;border-radius:50%;background:rgba(200,168,75,0.06)"></div>
+      <div style="position:absolute;top:40px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(200,168,75,0.04)"></div>
+      
+      <div style="width:280px;height:440px;border-radius:12px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.12);background:var(--white)">
+        <img src="assets/images/playbook_growth.png" style="width:100%;height:100%;object-fit:cover;display:block" alt="Growth and Puberty Illustration">
+      </div>
+
+    </div>
+    <div style="padding:28px 32px;background:var(--green)">
+      <div style="font-size:8px;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-family:'Space Grotesk',sans-serif">Chapter One</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:white;line-height:1.0;margin-bottom:8px">Your Body<br>Is Changing.</div>
+      <div style="width:28px;height:1.5px;background:var(--gold);margin-bottom:10px"></div>
+      <div style="font-size:10px;color:#7aaa8e;line-height:1.7">And nobody gave you a manual. Until now.</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: chapter preview -->
+  <div style="background:var(--off);padding:52px 40px;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:8px;color:var(--gold);text-transform:uppercase;letter-spacing:0.16em;margin-bottom:22px;font-family:'Space Grotesk',sans-serif">In this chapter</div>
+    <div class="ch-list-item"><div class="ch-list-num">1</div><div><div class="ch-list-title">What is puberty really?</div><div class="ch-list-sub">The biology behind everything you are experiencing, explained plainly</div></div></div>
+    <div class="ch-list-item"><div class="ch-list-num">2</div><div><div class="ch-list-title">Physical changes and what to expect</div><div class="ch-list-sub">Height, voice, hair, skin, genitals, muscles, and everything in between</div></div></div>
+    <div class="ch-list-item"><div class="ch-list-num">3</div><div><div class="ch-list-title">Hygiene basics that actually matter</div><div class="ch-list-sub">Practical, no-nonsense guidance on taking care of your body every day</div></div></div>
+    <div class="ch-list-item"><div class="ch-list-num">4</div><div><div class="ch-list-title">When to be concerned</div><div class="ch-list-sub">Signs that something may need medical attention, and why that is okay</div></div></div>
+
+    <div style="margin-top:28px;background:var(--gold);border-radius:8px;padding:18px 20px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--green);line-height:1.35">"Every boy goes through this. The difference is whether you understand it or not."</div>
+    </div>
+
+    <div style="margin-top:20px;background:white;border-radius:8px;padding:16px 18px;border:1px solid var(--gray-2)">
+      <div style="font-size:9px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:7px;font-family:'Space Grotesk',sans-serif">A quick note</div>
+      <div style="font-size:10.5px;color:var(--body);line-height:1.7;font-weight:300">Puberty does not happen on a fixed schedule. If you started early or are starting late, that is not a problem. Bodies have their own timelines, and yours is not wrong.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PAGE 5 — CH1: PUBERTY & BODY CHANGES
+     ═══════════════════════════════════════ -->
+
+  </div>
+  <div class="page right-page">
+    
+  <div class="rh"><div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.5" alt="EPIX"><span class="rh-label">Chapter 01 · Your Body Is Changing</span></div><span class="rh-num">05</span></div>
+  <div class="pad pad-b" style="padding-top:32px">
+    <div class="two-col" style="gap:38px">
+      <div>
+        <div class="tag">Adolescent Health</div>
+        <div class="d3" style="margin-bottom:12px">What is puberty, and why is it happening to me?</div>
+        <div class="gold-rule-sm"></div>
+        <p class="body">Puberty is the process your body goes through to become an adult. It is driven by hormones, specifically testosterone, which your body starts producing in much larger amounts from around age 9 to 14. Testosterone is responsible for almost every physical change you are noticing.</p>
+        <p class="body">It does not happen at the same time or speed for everyone. Some boys start early, some start later. Neither is wrong. Comparing yourself to friends or classmates will only frustrate you, because each body has its own timeline.</p>
+        <div class="sh">What changes to expect</div>
+        <ul class="nl">
+          <li><div class="nc">1</div><p><strong style="color:var(--green)">Height and muscle growth.</strong> You may grow several centimetres in a single year. Your muscles also develop, especially if you are physically active.</p></li>
+          <li><div class="nc">2</div><p><strong style="color:var(--green)">Voice changes.</strong> Your voice will deepen and may crack unpredictably for a while. This is temporary and completely normal.</p></li>
+          <li><div class="nc">3</div><p><strong style="color:var(--green)">Body hair.</strong> Hair will appear under your arms, on your face, chest, legs, and around your genitals. The amount and pattern is genetic.</p></li>
+          <li><div class="nc">4</div><p><strong style="color:var(--green)">Genital development.</strong> Your penis and testicles will grow larger. This is normal and usually one of the first changes to happen.</p></li>
+          <li><div class="nc">5</div><p><strong style="color:var(--green)">Skin changes.</strong> Increased oil production means acne is common. Washing your face twice a day and not squeezing pimples helps manage it.</p></li>
+          <li><div class="nc">6</div><p><strong style="color:var(--green)">Sweating more.</strong> Your sweat glands become more active. Daily bathing and deodorant are not optional during puberty.</p></li>
+        </ul>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="playbook-img-card">
+          <img src="assets/images/shield_gracedieu_students_group.jpg" alt="Project SHIELD Adolescent Students Group">
+          <div class="img-caption">COMMUNITY · High school students engaged in peer health discussions during the Grace Dieu workshop.</div>
+        </div>
+
+        <div class="sbox"><div class="snum">9–14</div><div class="slabel">The age range when most boys start puberty. Starting a little earlier or later is still within the normal range.</div></div>
+        <div class="card-light"><div class="cl-title">Did you know?</div><p>Testosterone does not just affect your body. It also affects your mood, energy levels, and how competitive or risk-taking you feel. Understanding this helps you manage those feelings instead of being controlled by them.</p></div>
+        <div class="sh">Wet dreams: what nobody told you</div>
+        <p class="body-sm">A wet dream, or nocturnal emission, is when you ejaculate during sleep. It is not something you can control, and it is not something to be ashamed of. It is simply your body testing out its new reproductive functions. It happens to almost every male at some point during puberty.</p>
+        <div class="card-warn"><div class="wt">About erections</div><p>Random, unexpected erections are very common during puberty. They can be triggered by almost anything, or nothing at all. They are not a sign of anything being wrong. They reduce in frequency as you get older.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="rf"><span>Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span>The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- PAGE 6: CH1 HYGIENE -->
+
+  </div>
+</div>
+
+
+<!-- Spread 3: Pages 6 & 7 -->
+<div class="spread-wrapper" id="spread3">
+  <div class="page left-page">
+    
+  <div class="rh"><div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.5" alt="EPIX"><span class="rh-label">Chapter 01 · Your Body Is Changing</span></div><span class="rh-num">06</span></div>
+  <div class="pad pad-b" style="padding-top:32px">
+    <div class="d3" style="margin-bottom:6px">Hygiene: the basics that actually matter</div>
+    <div class="gold-rule-sm"></div>
+    <p class="body" style="max-width:500px">Nobody is born knowing how to look after an adult body. Here is a practical guide for taking care of yourself during puberty and beyond.</p>
+    <div class="three-col" style="margin:22px 0 26px">
+      <div class="card-dark"><div style="font-size:24px;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:700;margin-bottom:6px">01</div><div class="card-title">Daily bathing</div><div class="card-label">Shower every day, especially after physical activity. Pay extra attention to armpits, groin, and feet. Use mild soap.</div></div>
+      <div class="card-dark"><div style="font-size:24px;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:700;margin-bottom:6px">02</div><div class="card-title">Deodorant</div><div class="card-label">Deodorant masks smell. Antiperspirant reduces sweating. Either works, but you must use it consistently every day.</div></div>
+      <div class="card-dark"><div style="font-size:24px;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:700;margin-bottom:6px">03</div><div class="card-title">Face care</div><div class="card-label">Wash morning and night with a gentle face wash. Do not pop pimples. If acne is severe, see a doctor. It is treatable.</div></div>
+    </div>
+    
+        <div class="playbook-img-card" style="margin-bottom: 20px;">
+          <img src="assets/images/shield_students_soap.jpg" alt="Students learning handwashing">
+          <div class="img-caption">PRACTICAL HYGIENE · Project SHIELD students practicing correct hand sanitation methods using soap.</div>
+        </div>
+<div class="two-col" style="gap:30px">
+      <div>
+        <div class="sh">Genital hygiene</div>
+        <p class="body-sm">This is rarely talked about but very important. The area around and under the foreskin (if you are uncircumcised) can collect a white substance called smegma if not cleaned regularly. Pull back the foreskin gently and wash with water during your bath. No harsh soap is needed inside that area.</p>
+        <p class="body-sm">Keep the groin area clean and dry to prevent fungal infections, which are common in hot and humid climates like Nigeria. Change your underwear daily and choose cotton over synthetic materials.</p>
+        <div class="mf">
+          <div class="mf-myth"><div class="ml">Myth</div><p>Boys do not need to wash under the foreskin. It cleans itself.</p></div>
+          <div class="mf-fact"><div class="ml">Fact</div><p>The foreskin area requires gentle manual cleaning to prevent infection and odour. Water alone is enough.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="sh">Oral health</div>
+        <p class="body-sm">Brush your teeth twice a day, morning and before bed, for at least two minutes each time. Use fluoride toothpaste. If you have access to floss or mouthwash, use them. Bad breath during adolescence is common but manageable.</p>
+        <div class="sh">When to see a doctor</div>
+        <div style="display:flex;flex-direction:column">
+          <div class="ci"><div class="cd"></div><p>Pain, swelling, or unusual lumps in the testicles (do a self-check once a month)</p></div>
+          <div class="ci"><div class="cd"></div><p>Discharge or unusual smell from the penis not related to hygiene</p></div>
+          <div class="ci"><div class="cd"></div><p>Severe acne that over-the-counter products cannot manage</p></div>
+          <div class="ci"><div class="cd"></div><p>No signs of puberty by age 14, or puberty that seems to stop partway through</p></div>
+          <div class="ci"><div class="cd"></div><p>Breast tissue development (usually temporary but a doctor should confirm)</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rf"><span>Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span>The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- PAGE 7: CH2 OPENER -->
+
+  </div>
+  <div class="page right-page" style="background:var(--off)">
+    
+  <div class="rh" style="background:white"><div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.5" alt="EPIX"><span class="rh-label">The EPIX Initiative · Playbook 01</span></div><span class="rh-num">07</span></div>
+  <div style="display:grid;grid-template-columns:1fr 1.7fr;min-height:calc(1123px - 52px - 48px)">
+    <div style="background:var(--gold);padding:52px 36px;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div style="font-size:8px;letter-spacing:0.18em;color:var(--green);text-transform:uppercase;margin-bottom:16px;font-family:'Space Grotesk',sans-serif">Chapter Two</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;color:var(--green);line-height:0.92;margin-bottom:16px">Sexual<br>Health.</div>
+        <div style="width:28px;height:2.5px;background:var(--green);margin-bottom:16px"></div>
+        <p style="font-size:11.5px;color:var(--green);line-height:1.75;opacity:0.85;font-weight:300">Straight talk. No shame. No lectures. Just the facts you actually need to know about sex, safety, and growing up.</p>
+      </div>
+      <div style="background:rgba(13,61,42,0.08);border-radius:8px;padding:14px 16px">
+        <div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:5px;font-family:'Space Grotesk',sans-serif">Covered here</div>
+        <div style="font-size:10px;color:var(--green);opacity:0.7;line-height:1.6">Curiosity, consent, STIs, condoms, pornography, and protecting yourself</div>
+      </div>
+    </div>
+    <div style="padding:52px 44px;background:white;display:flex;flex-direction:column;justify-content:center">
+      <div class="sh" style="margin-top:0;font-size:15px">Why this conversation matters</div>
+      <div class="gold-rule-sm"></div>
+      <p class="body">Most boys in Nigeria learn about sex from their peers or from pornography. Both are unreliable sources. Peers often repeat myths they have heard, and pornography is entertainment, not education. It does not reflect how real sex, real bodies, or real relationships work.</p>
+      <p class="body">The result is that many young men enter sexual situations without understanding consent, without knowing how to protect themselves, and without any idea of what is normal. This chapter exists to change that.</p>
+      <div class="highlight">Sexual health is not a dirty topic. It is a health topic, and your health matters.</div>
+      <div class="sh">What we will cover</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:4px">
+        <div style="padding:11px 13px;border:0.5px solid var(--gray-2);border-radius:6px"><div style="width:4px;height:4px;background:var(--gold);border-radius:50%;margin-bottom:6px"></div><div style="font-size:10.5px;font-weight:600;color:var(--green);margin-bottom:2px;font-family:'Space Grotesk',sans-serif">Curiosity is normal</div><div style="font-size:9.5px;color:var(--muted);line-height:1.5">Understanding your own sexual feelings without shame</div></div>
+        <div style="padding:11px 13px;border:0.5px solid var(--gray-2);border-radius:6px"><div style="width:4px;height:4px;background:var(--gold);border-radius:50%;margin-bottom:6px"></div><div style="font-size:10.5px;font-weight:600;color:var(--green);margin-bottom:2px;font-family:'Space Grotesk',sans-serif">Consent always</div><div style="font-size:9.5px;color:var(--muted);line-height:1.5">What it means and why it is not optional</div></div>
+        <div style="padding:11px 13px;border:0.5px solid var(--gray-2);border-radius:6px"><div style="width:4px;height:4px;background:var(--gold);border-radius:50%;margin-bottom:6px"></div><div style="font-size:10.5px;font-weight:600;color:var(--green);margin-bottom:2px;font-family:'Space Grotesk',sans-serif">STIs and prevention</div><div style="font-size:9.5px;color:var(--muted);line-height:1.5">The facts on sexually transmitted infections</div></div>
+        <div style="padding:11px 13px;border:0.5px solid var(--gray-2);border-radius:6px"><div style="width:4px;height:4px;background:var(--gold);border-radius:50%;margin-bottom:6px"></div><div style="font-size:10.5px;font-weight:600;color:var(--green);margin-bottom:2px;font-family:'Space Grotesk',sans-serif">Condoms and protection</div><div style="font-size:9.5px;color:var(--muted);line-height:1.5">How to use them correctly and why they matter</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="rf" style="background:white"><span>Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span>The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- PAGE 8: CH2 CONTENT -->
+
+  </div>
+</div>
+
+
+<!-- Spread 4: Pages 8 & 9 -->
+<div class="spread-wrapper" id="spread4">
+  <div class="page left-page">
+    
+  <div class="rh"><div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.5" alt="EPIX"><span class="rh-label">Chapter 02 · Sexual Health, Straight Talk</span></div><span class="rh-num">08</span></div>
+  <div class="pad pad-b" style="padding-top:32px">
+    <div class="two-col" style="gap:36px">
+      <div>
+        <div class="d4" style="margin-bottom:10px">Consent: the one thing that is never negotiable</div>
+        <div class="gold-rule-sm"></div>
+        <p class="body">Consent means that everyone involved in a sexual activity genuinely and freely agrees to it. It is not about the absence of a no. It is about the clear presence of a yes.</p>
+        <div class="card-light">
+          <div class="cl-title">Consent must be</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;gap:8px;font-size:11px;color:var(--body);line-height:1.5"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-family:'Space Grotesk',sans-serif">Free</span>Not given under pressure, manipulation, or while under the influence of alcohol or drugs</div>
+            <div style="display:flex;gap:8px;font-size:11px;color:var(--body);line-height:1.5"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-family:'Space Grotesk',sans-serif">Reversible</span>Anyone can change their mind at any point, even if they said yes before</div>
+            <div style="display:flex;gap:8px;font-size:11px;color:var(--body);line-height:1.5"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-family:'Space Grotesk',sans-serif">Informed</span>Both people understand what they are agreeing to</div>
+            <div style="display:flex;gap:8px;font-size:11px;color:var(--body);line-height:1.5"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-family:'Space Grotesk',sans-serif">Enthusiastic</span>Not just tolerance, but genuine willingness</div>
+            <div style="display:flex;gap:8px;font-size:11px;color:var(--body);line-height:1.5"><span style="color:var(--green);font-weight:700;flex-shrink:0;font-family:'Space Grotesk',sans-serif">Specific</span>Agreeing to one thing does not mean agreeing to everything</div>
+          </div>
+        </div>
+        <p class="body-sm">Silence is not consent. Not saying no is not consent. Being in a relationship is not automatic consent. If you are ever unsure, ask.</p>
+        <div class="sh">Sexually transmitted infections (STIs)</div>
+        <p class="body-sm">STIs are infections passed from one person to another through sexual contact. They include HIV, gonorrhoea, syphilis, chlamydia, herpes, and others. Many STIs have no visible symptoms, which means someone can have one without knowing it. The only way to know for certain is to get tested.</p>
+        <div class="mf">
+          <div class="mf-myth"><div class="ml">Myth</div><p>You can tell if someone has an STI by looking at them.</p></div>
+          <div class="mf-fact"><div class="ml">Fact</div><p>Most STIs have no visible signs. The only reliable way to know is testing at a clinic.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="d4" style="margin-bottom:10px">Condoms: how and why</div>
+        <div class="gold-rule-sm"></div>
+        <p class="body-sm">A condom is the only contraceptive method that protects against both unwanted pregnancy and STIs at the same time. When used correctly and consistently, it is highly effective.</p>
+        <ul class="nl">
+          <li><div class="nc">1</div><p>Check the expiry date on the wrapper before use. An expired condom is more likely to break.</p></li>
+          <li><div class="nc">2</div><p>Open the wrapper carefully. Do not use your teeth or scissors, as these can damage the condom.</p></li>
+          <li><div class="nc">3</div><p>Pinch the tip of the condom before rolling it down to leave space for semen. Rolling without pinching increases the risk of breaking.</p></li>
+          <li><div class="nc">4</div><p>Roll it all the way to the base of the erect penis. If it does not roll down easily, it is on inside out. Use a new one.</p></li>
+          <li><div class="nc">5</div><p>After sex, hold the base while withdrawing to prevent spillage. Dispose of it properly. Do not flush it.</p></li>
+        </ul>
+        <div class="card-warn"><div class="wt">About pornography</div><p>Pornography does not represent real sex. The bodies, the duration, and the expectations shown are produced for an audience. Using it as a reference sets you up for unrealistic expectations and can harm how you see women and relationships.</p></div>
+        <div class="card-dark" style="margin-top:14px"><div style="font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-family:'Space Grotesk',sans-serif">Remember</div><div style="font-size:11px;color:#ccddd8;line-height:1.7">There is no timeline by which you have to be sexually active. Anyone who pressures you into sex is not someone you should be intimate with.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="rf"><span>Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span>The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- PAGE 9: CH3 OPENER -->
+
+  </div>
+  <div class="page right-page" style="background:var(--green)">
+    
+  <div style="display:grid;grid-template-columns:1.5fr 1fr;min-height:1123px">
+    <div style="padding:64px 52px;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:32px"><img src="assets/images/epix-logo.png" style="width:24px;height:24px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.6" alt="EPIX"><span style="font-size:8px;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;font-family:'Space Grotesk',sans-serif">Chapter Three</span></div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:62px;font-weight:700;color:white;line-height:0.88;margin-bottom:22px">Your<br>Mind<br><span style="font-style:italic;color:var(--gold)">Matters.</span></div>
+        <div style="width:48px;height:2px;background:var(--gold);margin-bottom:24px"></div>
+        <p style="font-size:13px;color:#8aaa9a;line-height:1.85;max-width:360px;font-weight:300">There is nothing weak about struggling emotionally. The most dangerous thing you can do is pretend you are fine when you are not. This chapter is about what is really going on in your head, and what to do about it.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px"><div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold)">1 in 5</div><div style="font-size:9.5px;color:#6a9a8a;line-height:1.5;margin-top:4px">adolescents worldwide experience a mental health condition</div></div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px"><div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold)">75%</div><div style="font-size:9.5px;color:#6a9a8a;line-height:1.5;margin-top:4px">of mental health issues begin before age 24</div></div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px"><div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold)">Boys</div><div style="font-size:9.5px;color:#6a9a8a;line-height:1.5;margin-top:4px">are significantly less likely to seek help than girls</div></div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px"><div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold)">Silence</div><div style="font-size:9.5px;color:#6a9a8a;line-height:1.5;margin-top:4px">is the biggest barrier between a problem and its solution</div></div>
+      </div>
+    </div>
+    <div style="background:rgba(0,0,0,0.18);padding:52px 36px;display:flex;flex-direction:column;justify-content:center;gap:18px">
+      <div style="font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:4px;font-family:'Space Grotesk',sans-serif">In this chapter</div>
+      <div style="border-left:2px solid var(--gold);padding-left:14px"><div style="font-size:11.5px;font-weight:600;color:white;margin-bottom:3px;font-family:'Space Grotesk',sans-serif">Understanding your emotions</div><div style="font-size:10px;color:#5a8a78;line-height:1.5">Anger, sadness, anxiety, and why boys are taught to suppress them</div></div>
+      <div style="border-left:2px solid rgba(200,168,75,0.35);padding-left:14px"><div style="font-size:11.5px;font-weight:600;color:white;margin-bottom:3px;font-family:'Space Grotesk',sans-serif">Stress and how it works</div><div style="font-size:10px;color:#5a8a78;line-height:1.5">School, family, peer pressure, and practical ways to cope</div></div>
+      <div style="border-left:2px solid rgba(200,168,75,0.35);padding-left:14px"><div style="font-size:11.5px;font-weight:600;color:white;margin-bottom:3px;font-family:'Space Grotesk',sans-serif">Depression and anxiety</div><div style="font-size:10px;color:#5a8a78;line-height:1.5">What they actually feel like and how to recognise them</div></div>
+      <div style="border-left:2px solid rgba(200,168,75,0.35);padding-left:14px"><div style="font-size:11.5px;font-weight:600;color:white;margin-bottom:3px;font-family:'Space Grotesk',sans-serif">Talking about it</div><div style="font-size:10px;color:#5a8a78;line-height:1.5">How to open up when you have never done it before</div></div>
+      <div style="border-left:2px solid rgba(200,168,75,0.35);padding-left:14px"><div style="font-size:11.5px;font-weight:600;color:white;margin-bottom:3px;font-family:'Space Grotesk',sans-serif">Healthy coping habits</div><div style="font-size:10px;color:#5a8a78;line-height:1.5">What actually works when things feel overwhelming</div></div>
+      <div style="background:var(--gold);border-radius:8px;padding:16px 18px;margin-top:10px"><div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--green);line-height:1.4">"Mute notifications.<br>Not your pain."</div><div style="font-size:8.5px;color:var(--green);opacity:0.65;margin-top:5px;letter-spacing:0.05em">The EPIX Initiative</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE 10: CH3 MENTAL HEALTH CONTENT -->
+
+  </div>
+</div>
+
+
+<!-- Spread 5: Pages 10 & 11 -->
+<div class="spread-wrapper" id="spread5">
+  <div class="page left-page">
+    
+  <div class="rh"><div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.5" alt="EPIX"><span class="rh-label">Chapter 03 · Your Mind Matters</span></div><span class="rh-num">10</span></div>
+  <div class="pad pad-b" style="padding-top:32px">
+    <div class="sidebar">
+      <div>
+        <div class="tag">Mental Health</div>
+        <div class="d3" style="margin-bottom:12px">Why do I feel things so intensely right now?</div>
+        <div class="gold-rule-sm"></div>
+        <p class="body">During adolescence, the prefrontal cortex, which is the part of the brain responsible for decision-making, emotional regulation, and impulse control, is still developing. It does not fully mature until your mid-twenties. This means that the emotional intensity you feel right now is partly neurological. You are not too sensitive. You are not overreacting. Your brain is literally not yet fully equipped to process emotions the way an adult's brain does.</p>
+        <p class="body">On top of that, testosterone increases emotional reactivity. Combined with social pressure, academic stress, family expectations, and comparison to peers, it is no wonder that adolescence can feel overwhelming at times.</p>
+        <div class="sh">Anger: what it is really about</div>
+        <p class="body-sm">Boys are often socialised to express emotions through anger because it is seen as acceptable and even "masculine." But a lot of the time, anger is a secondary emotion. Underneath anger is usually hurt, fear, embarrassment, or helplessness. Learning to identify what is underneath your anger is one of the most useful things you can do for yourself.</p>
+        <div class="card-gold"><p>"The reason boys seem angry more than sad is because they have been taught that anger is the only acceptable face of pain."</p></div>
+        <div class="sh">Depression: more than just sadness</div>
+        <p class="body-sm">Depression is not just feeling sad for a day or two. It is a persistent state where sadness, emptiness, or numbness lasts for weeks, interferes with daily life, and does not improve with time. Common signs in adolescent males include:</p>
+        <div style="display:flex;flex-direction:column">
+          <div class="ci"><div class="cd"></div><p>Persistent low mood or irritability lasting more than two weeks</p></div>
+          <div class="ci"><div class="cd"></div><p>Loss of interest in things you previously enjoyed</p></div>
+          <div class="ci"><div class="cd"></div><p>Changes in sleep: either too much or not enough</p></div>
+          <div class="ci"><div class="cd"></div><p>Feeling worthless, hopeless, or like a burden to others</p></div>
+          <div class="ci"><div class="cd"></div><p>Difficulty concentrating in school or making decisions</p></div>
+          <div class="ci"><div class="cd"></div><p>Withdrawing from people and activities</p></div>
+        </div>
+        <p class="body-sm" style="margin-top:12px">If you recognise several of these signs lasting more than two weeks, please speak to a trusted adult or a health professional. Depression is medical and it is treatable.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="sbox"><div class="snum">55%</div><div class="slabel">of adolescents living with HIV in one Nigerian study showed signs of depression, yet most had never spoken about it to anyone</div></div>
+        <div class="sh">Anxiety</div>
+        <p class="body-sm">Anxiety is your brain's alarm system going off too frequently or too intensely. It becomes a problem when the anxiety is constant, disproportionate to the actual situation, or stops you from doing things you need to do.</p>
+        <div class="card-light"><div class="cl-title">Signs of anxiety</div><p>Racing thoughts you cannot switch off, tight chest, feeling like something bad is about to happen for no reason, avoiding situations out of fear, and physical symptoms like nausea, headaches, or muscle tension.</p></div>
+        <div class="sh">Healthy coping habits</div>
+        <ul class="nl">
+          <li><div class="nc">1</div><p><strong style="color:var(--green)">Physical exercise.</strong> Even 30 minutes of walking reduces stress hormones significantly.</p></li>
+          <li><div class="nc">2</div><p><strong style="color:var(--green)">Sleep.</strong> Adolescents need 8 to 10 hours. Sleep deprivation amplifies every negative emotion.</p></li>
+          <li><div class="nc">3</div><p><strong style="color:var(--green)">Talking.</strong> Start with: "I have not been feeling great lately."</p></li>
+          <li><div class="nc">4</div><p><strong style="color:var(--green)">Limiting alcohol and substances.</strong> They worsen mood and anxiety significantly.</p></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="rf"><span>Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span>The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- PAGE 11: CH3 QA -->
+
+  </div>
+  <div class="page right-page">
+    
+  <div class="rh"><div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.5" alt="EPIX"><span class="rh-label">Chapter 03 · Your Mind Matters</span></div><span class="rh-num">11</span></div>
+  <div class="pad pad-b" style="padding-top:32px">
+    <div class="d2" style="margin-bottom:8px">The questions boys ask<br><span style="font-style:italic">but nobody answers</span></div>
+    <div class="gold-rule"></div>
+    <p class="body" style="max-width:460px;margin-bottom:24px">These are real questions. They deserve real answers.</p>
+    <div class="two-col" style="gap:30px">
+      <div>
+        <div class="qa"><div class="qq">Is it normal for a guy to cry?</div><div class="qa-ans">Yes. Crying is a physiological stress response that exists in every human being regardless of gender. The idea that boys should not cry was invented socially, not biologically. Suppressing tears does not make you stronger. It just keeps emotional pressure building inside you with nowhere to go.</div></div>
+        <div class="qa"><div class="qq">Sometimes I feel like nobody would notice if I disappeared. Is that normal?</div><div class="qa-ans">Feeling invisible or disconnected is something many adolescents experience. But if this thought comes with a feeling that you do not want to be here, please tell someone you trust immediately. Those feelings are signals that you need support, not signals to stay silent. You are not a burden for needing help.</div></div>
+        <div class="qa"><div class="qq">My family says I should just pray and stop being weak. How do I explain that it is not that simple?</div><div class="qa-ans">Mental health struggles are not a sign of weak faith or weak character. They are medical experiences, just like malaria or a broken bone. Faith can be a powerful source of comfort, but it does not replace the need for proper support. You can honour your faith and still seek help. They are not opposites.</div></div>
+        <div class="qa"><div class="qq">I feel angry all the time and I do not know why.</div><div class="qa-ans">Persistent anger without a clear cause is often a sign of something deeper: accumulated stress, unexpressed pain, or depression presenting as irritability. Tracking when it happens and what preceded it can help you start to understand it.</div></div>
+      </div>
+      <div>
+        <div class="qa"><div class="qq">How do I talk to someone about how I am feeling without it being awkward?</div><div class="qa-ans">Start small. You do not need to deliver a full emotional breakdown the first time. Try something like: "I have been feeling stressed lately" or "I have been going through something difficult." Most people will naturally follow up. The hardest part is almost always the first sentence.</div></div>
+        <div class="qa"><div class="qq">I use games, music, or my phone to escape when I feel bad. Is that okay?</div><div class="qa-ans">Using distractions to get temporary relief from difficult emotions is normal. The problem comes when it becomes the only way you cope, and you never actually deal with the underlying feeling. Distractions are fine occasionally. They are not a long-term solution.</div></div>
+        <div class="qa"><div class="qq">Can boys get eating disorders or body image problems?</div><div class="qa-ans">Absolutely. Boys are increasingly affected by body image pressures, especially around muscularity and fitness. Obsessive gym habits, restricting food, or excessive supplement use can all be signs of disordered thinking around the body.</div></div>
+        <div style="background:var(--green-pale);border-radius:10px;padding:18px 20px;border:1px solid #c8ddd0">
+          <div style="font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:9px;font-family:'Space Grotesk',sans-serif">The bottom line</div>
+          <p style="font-size:11.5px;color:var(--body);line-height:1.75;font-weight:300">Seeking help for your mental health is not weakness. It is one of the most self-aware and courageous things a person can do. The boys who learn this early live better, fuller, and more honest lives.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rf"><span>Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span>The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- PAGE 12: CH4 OPENER DIGITAL HEALTH -->
+
+  </div>
+</div>
+
+
+<!-- Spread 6: Pages 12 & 13 -->
+<div class="spread-wrapper" id="spread6">
+  <div class="page left-page">
+    
+  <div class="rh"><div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.5" alt="EPIX"><span class="rh-label">The EPIX Initiative · Playbook 01</span></div><span class="rh-num">13</span></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;min-height:calc(1123px - 52px - 48px)">
+    <div style="padding:44px 44px;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div style="font-size:8px;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:14px;font-family:'Space Grotesk',sans-serif">Chapter Four</div>
+        <div class="d1" style="margin-bottom:14px">Screens,<br>Phones<br><span style="font-style:italic">&amp; You.</span></div>
+        <div class="gold-rule"></div>
+        <p class="body">Your phone is not the enemy. But the relationship you have with it could be quietly shaping your mood, your focus, your sleep, and how you see yourself and others. This chapter helps you take back control.</p>
+        <div class="highlight">The average adolescent spends over 6 hours a day on screens. Most of that time is passive, not productive.</div>
+        <div class="sh">What we cover</div>
+        <div style="display:flex;flex-direction:column">
+          <div class="ci"><div class="cd"></div><p>How social media affects your self-image and mood</p></div>
+          <div class="ci"><div class="cd"></div><p>Screen time and sleep: what the research actually shows</p></div>
+          <div class="ci"><div class="cd"></div><p>Online safety and what to do if something goes wrong</p></div>
+          <div class="ci"><div class="cd"></div><p>Recognising when your phone use is becoming a problem</p></div>
+          <div class="ci"><div class="cd"></div><p>Using technology intentionally instead of compulsively</p></div>
+        </div>
+      </div>
+      <div style="background:var(--gold-pale);border-radius:8px;padding:14px 18px;border:1px solid #e8d8a0"><div style="font-size:11px;color:var(--body);line-height:1.7;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:14px">"This is not about taking away your phone. It is about making sure you are in charge of it, not the other way around."</div></div>
+    </div>
+    <div style="background:var(--gray-1);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative">
+      <div style="position:absolute;top:-30px;right:-30px;width:180px;height:180px;border-radius:50%;background:rgba(200,168,75,0.06)"></div>
+      <div style="position:absolute;bottom:-20px;left:-20px;width:120px;height:120px;border-radius:50%;background:rgba(13,61,42,0.05)"></div>
+      
+      <div style="width:280px;height:440px;border-radius:12px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.12);background:var(--white)">
+        <img src="assets/images/playbook_digital.png" style="width:100%;height:100%;object-fit:cover;display:block" alt="Digital Wellness Illustration">
+      </div>
+
+    </div>
+  </div>
+  <div class="rf"><span>Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span>The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- PAGE 13: CH4 CONTENT -->
+
+  </div>
+  <div class="page right-page">
+    
+  <div class="rh"><div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.5" alt="EPIX"><span class="rh-label">Chapter 04 · Screens, Phones &amp; You</span></div><span class="rh-num">14</span></div>
+  <div class="pad pad-b" style="padding-top:32px">
+    <div class="two-col" style="gap:36px">
+      <div>
+        <div class="d4" style="margin-bottom:10px">Social media and your self-image</div>
+        <div class="gold-rule-sm"></div>
+        <p class="body">Social media shows you the highlight reel of everyone else's life. What you see is what people chose to post: the best photos, the fun moments, the achievements. You do not see the failed attempts, the anxiety, the loneliness, or the filters and editing that went into most of those images.</p>
+        <p class="body">When you compare your internal experience to someone else's curated external presentation, you will almost always feel worse about yourself. This is not a character flaw. It is the natural result of an unequal comparison.</p>
+        <div class="mf">
+          <div class="mf-myth"><div class="ml">What you see</div><p>Everyone else seems confident, popular, and living their best life.</p></div>
+          <div class="mf-fact"><div class="ml">The reality</div><p>Most people online are performing a version of themselves they wish was true, not the full picture.</p></div>
+        </div>
+        <div class="sh">Screen time and sleep</div>
+        <p class="body-sm">Blue light from screens suppresses melatonin, the hormone that makes you feel sleepy. Using your phone within an hour of bedtime delays sleep onset, reduces deep sleep quality, and means you wake up less rested even after 8 hours. Over time, poor sleep significantly worsens mood, concentration, and emotional regulation.</p>
+        <ul class="nl">
+          <li><div class="nc">1</div><p>Put your phone in a different room 45 to 60 minutes before you sleep.</p></li>
+          <li><div class="nc">2</div><p>Charge it outside your bedroom. The bedroom should be for sleep, not scrolling.</p></li>
+          <li><div class="nc">3</div><p>Turn off notifications for social media apps. Check them on your own schedule.</p></li>
+        </ul>
+      </div>
+      <div>
+        <div class="d4" style="margin-bottom:10px">Online safety</div>
+        <div class="gold-rule-sm"></div>
+        <p class="body-sm">The internet creates situations that can feel private but are not. Here are things every adolescent male should know:</p>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:16px">
+          <div style="border:0.5px solid var(--gray-2);border-radius:6px;padding:11px 13px"><div style="font-size:10.5px;font-weight:600;color:var(--green);margin-bottom:4px;font-family:'Space Grotesk',sans-serif">Images and videos</div><div style="font-size:10px;color:var(--body);line-height:1.6;font-weight:300">Never send intimate images of yourself to anyone, even someone you trust. Once an image leaves your device, you lose control of it permanently.</div></div>
+          <div style="border:0.5px solid var(--gray-2);border-radius:6px;padding:11px 13px"><div style="font-size:10.5px;font-weight:600;color:var(--green);margin-bottom:4px;font-family:'Space Grotesk',sans-serif">Strangers online</div><div style="font-size:10px;color:var(--body);line-height:1.6;font-weight:300">People online are not always who they say they are. Be cautious about sharing your location, school, or personal details with people you have not met in person.</div></div>
+          <div style="border:0.5px solid var(--gray-2);border-radius:6px;padding:11px 13px"><div style="font-size:10.5px;font-weight:600;color:var(--green);margin-bottom:4px;font-family:'Space Grotesk',sans-serif">Cyberbullying</div><div style="font-size:10px;color:var(--body);line-height:1.6;font-weight:300">If someone is harassing you online, screenshot it and tell a trusted adult. Blocking is not weakness. Protecting your peace is intelligence.</div></div>
+          <div style="border:0.5px solid var(--gray-2);border-radius:6px;padding:11px 13px"><div style="font-size:10.5px;font-weight:600;color:var(--green);margin-bottom:4px;font-family:'Space Grotesk',sans-serif">Gambling and betting apps</div><div style="font-size:10px;color:var(--body);line-height:1.6;font-weight:300">Sports betting platforms are designed to be addictive. Many adolescents develop compulsive betting habits that cause serious financial and psychological harm.</div></div>
+        </div>
+        <div class="card-warn"><div class="wt">When to tell an adult immediately</div><p>If someone online asks you to meet in person, sends sexual content, asks you to keep conversations secret, or makes you uncomfortable in any way, tell a trusted adult right away. These are not normal internet interactions.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="rf"><span>Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span>The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- PAGE 14: CH5 OPENER -->
+
+  </div>
+</div>
+
+
+<!-- Spread 7: Pages 14 & 15 -->
+<div class="spread-wrapper" id="spread7">
+  <div class="page left-page" style="background:var(--gold-pale)">
+    
+  <div class="rh" style="background:var(--gold-pale);border-bottom:0.5px solid #e0d5b5"><div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.4" alt="EPIX"><span class="rh-label" style="color:#9a8a5a">The EPIX Initiative · Playbook 01</span></div><span class="rh-num">16</span></div>
+  <div class="pad" style="padding-top:44px;padding-bottom:68px">
+    <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:44px">
+      <div>
+        <div style="font-size:8px;letter-spacing:0.18em;color:var(--green);text-transform:uppercase;margin-bottom:16px;font-family:'Space Grotesk',sans-serif">Chapter Five</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:700;color:var(--green);line-height:0.88;margin-bottom:18px">Relation<br>ships<br><span style="font-style:italic;font-size:38px;color:#9a7a30">&amp; Respect.</span></div>
+        <div style="width:44px;height:2.5px;background:var(--green);margin-bottom:22px"></div>
+        <p style="font-size:13px;color:var(--body);line-height:1.85;max-width:380px;font-weight:300">How you treat other people, and how you allow them to treat you, says everything about the kind of man you are becoming. This chapter is about relationships in every form.</p>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+          <div style="background:white;border-radius:8px;padding:13px 16px;border:0.5px solid #e0d5b5;box-shadow:0 2px 8px rgba(0,0,0,0.04)"><div style="font-size:10.5px;font-weight:700;color:var(--green);margin-bottom:4px;font-family:'Space Grotesk',sans-serif">Friendships</div><div style="font-size:10px;color:var(--body);line-height:1.6;font-weight:300">Who you spend your time with shapes who you become. Good friendships make you better.</div></div>
+          <div style="background:white;border-radius:8px;padding:13px 16px;border:0.5px solid #e0d5b5;box-shadow:0 2px 8px rgba(0,0,0,0.04)"><div style="font-size:10.5px;font-weight:700;color:var(--green);margin-bottom:4px;font-family:'Space Grotesk',sans-serif">Family dynamics</div><div style="font-size:10px;color:var(--body);line-height:1.6;font-weight:300">Navigating complicated family situations without losing yourself.</div></div>
+          <div style="background:white;border-radius:8px;padding:13px 16px;border:0.5px solid #e0d5b5;box-shadow:0 2px 8px rgba(0,0,0,0.04)"><div style="font-size:10.5px;font-weight:700;color:var(--green);margin-bottom:4px;font-family:'Space Grotesk',sans-serif">Romantic relationships</div><div style="font-size:10px;color:var(--body);line-height:1.6;font-weight:300">What healthy attraction and love actually look like versus what popular culture tells you.</div></div>
+          <div style="background:white;border-radius:8px;padding:13px 16px;border:0.5px solid #e0d5b5;box-shadow:0 2px 8px rgba(0,0,0,0.04)"><div style="font-size:10.5px;font-weight:700;color:var(--green);margin-bottom:4px;font-family:'Space Grotesk',sans-serif">Peer pressure</div><div style="font-size:10px;color:var(--body);line-height:1.6;font-weight:300">Understanding how it works and why saying no is one of the most powerful skills you can build.</div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:var(--green);border-radius:12px;padding:28px 24px;color:white">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin-bottom:12px;line-height:1.25">A man is not measured by how many people fear him.</div>
+          <div style="font-size:11px;color:#8aaa9a;line-height:1.75;font-weight:300">He is measured by how safe people feel around him, how honestly he communicates, and how consistently he shows up for the people he cares about.</div>
+        </div>
+        <div style="background:white;border-radius:10px;padding:20px 22px;border:0.5px solid #e0d5b5">
+          <div style="font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;font-family:'Space Grotesk',sans-serif">Quick self-check</div>
+          <div style="display:flex;flex-direction:column">
+            <div class="ci" style="border-color:#e8e0c8"><div class="cd"></div><p style="font-size:10.5px">Do my friends make me feel good about who I am?</p></div>
+            <div class="ci" style="border-color:#e8e0c8"><div class="cd"></div><p style="font-size:10.5px">Can I say no to them without fear of rejection?</p></div>
+            <div class="ci" style="border-color:#e8e0c8"><div class="cd"></div><p style="font-size:10.5px">Do I treat romantic interests as people, not conquests?</p></div>
+            <div class="ci" style="border-color:#e8e0c8"><div class="cd"></div><p style="font-size:10.5px">Am I honest in how I communicate with people I care about?</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rf" style="background:transparent;border-top:0.5px solid #e0d5b5"><span style="color:#9a8a5a">Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span style="color:#9a8a5a">The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- PAGE 15: CH5 CONTENT -->
+
+  </div>
+  <div class="page right-page">
+    
+  <div class="rh"><div style="display:flex;align-items:center;gap:8px"><img src="assets/images/epix-logo.png" style="width:20px;height:20px;object-fit:contain;opacity:0.5" alt="EPIX"><span class="rh-label">Chapter 05 · Relationships &amp; Respect</span></div><span class="rh-num">17</span></div>
+  <div class="pad pad-b" style="padding-top:32px">
+    <div class="two-col" style="gap:36px">
+        <div class="playbook-img-card">
+          <img src="assets/images/shield_gracedieu_students_all.jpg" alt="Students and educators group portrait">
+          <div class="img-caption">TRUST & RESPECT · High school student community celebrating graduation at the end of Project SHIELD.</div>
+        </div>
+
+      <div>
+        <div class="tag">Friendships</div>
+        <div class="d4" style="margin-bottom:10px">The friends you choose will shape you more than you realise</div>
+        <div class="gold-rule-sm"></div>
+        <p class="body">Research consistently shows that the people you spend the most time with have a significant influence on your habits, your beliefs, and your future choices. This is not about judging others. It is about being intentional about who you allow close to you.</p>
+        <div class="card-light"><div class="cl-title">Signs of a healthy friendship</div><p>You can be yourself without performing. They support you without requiring you to compromise your values. Disagreements are possible without the friendship ending. You feel better about yourself after spending time with them, not worse.</p></div>
+        <div class="sh">Peer pressure: how it actually works</div>
+        <p class="body-sm">Most peer pressure is not someone physically forcing you to do something. It is more subtle: the feeling that if you do not go along with what the group is doing, you will be left out, mocked, or seen as weak. That feeling is real, but it is not a reliable guide for decision-making.</p>
+        <div class="card-gold"><p>"The boys who follow the crowd because they are afraid of being alone end up lonelier than the ones who stood apart."</p></div>
+        <div class="sh">Family dynamics</div>
+        <p class="body-sm">Family can be a source of enormous support, but it can also be a source of real stress. Arguments with parents, absent fathers, pressure to provide, academic expectations, and feeling misunderstood at home are all experiences that many adolescent boys in Nigeria navigate.</p>
+        <p class="body-sm">You cannot control what your family does. You can control how you respond, and over time, you can choose the kind of family environment you want to build for yourself as an adult.</p>
+      </div>
+      <div>
+        <div class="tag">Romantic Relationships</div>
+        <div class="d4" style="margin-bottom:10px">What healthy attraction and relationships look like</div>
+        <div class="gold-rule-sm"></div>
+        <p class="body-sm">Attraction is normal. Wanting romantic connection is normal. What matters is how you pursue it and what you do when it does not go the way you hoped.</p>
+        <ul class="nl">
+          <li><div class="nc">1</div><p><strong style="color:var(--green)">Respect before anything else.</strong> Interest in someone does not give you entitlement to their time, attention, or body. A relationship begins with mutual respect, not pursuit.</p></li>
+          <li><div class="nc">2</div><p><strong style="color:var(--green)">Rejection is not an attack.</strong> If someone is not interested, that is their right. How you handle rejection says a great deal about your character. Walk away with dignity.</p></li>
+          <li><div class="nc">3</div><p><strong style="color:var(--green)">Communicate honestly.</strong> Most relationship problems come from things left unsaid. If something bothers you, say it directly and calmly rather than pulling away or acting out.</p></li>
+          <li><div class="nc">4</div><p><strong style="color:var(--green)">There is no rush.</strong> You do not need to be in a relationship to prove your worth. Emotional maturity, not relationship status, is what actually impresses people in the long run.</p></li>
+        </ul>
+        <div class="mf" style="margin-top:16px">
+          <div class="mf-myth"><div class="ml">Toxic belief</div><p>A real man does not catch feelings or show vulnerability in relationships.</p></div>
+          <div class="mf-fact"><div class="ml">The truth</div><p>The ability to be emotionally present is what builds lasting, meaningful relationships.</p></div>
+        </div>
+        <div class="card-dark" style="margin-top:14px"><div style="font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:7px;font-family:'Space Grotesk',sans-serif">On masculinity</div><div style="font-size:11px;color:#ccddd8;line-height:1.7;font-weight:300">Being a man is not about being the loudest, the toughest, or the most sexually active. It is about being someone others can rely on, including yourself. Character is built in private moments when nobody is watching.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="rf"><span>Mute Notifications, Not Your Pain</span><div style="display:flex;align-items:center;gap:6px"><img src="assets/images/epix-logo.png" style="width:14px;height:14px;object-fit:contain;opacity:0.3" alt="EPIX"><span>The EPIX Initiative · 2025</span></div></div>
+</div>
+
+
+<!-- PAGE 16: CLOSING -->
+
+  </div>
+</div>
+
+
+<!-- Spread 8: Pages 16 & 17 -->
+<div class="spread-wrapper" id="spread8">
+  <div class="page left-page" style="background:var(--green)">
+    
+  <div style="min-height:1123px;display:flex;flex-direction:column;justify-content:space-between;padding:68px 58px">
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px"><img src="assets/images/epix-logo.png" style="width:30px;height:30px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.5" alt="EPIX"><div style="font-size:8px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;font-family:'Space Grotesk',sans-serif">A Final Word</div></div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:700;color:white;line-height:0.9;margin-bottom:22px">You made it<br><span style="font-style:italic;color:var(--gold)">to the end.</span></div>
+      <div style="width:52px;height:2px;background:var(--gold);margin-bottom:32px"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:44px;flex:1;align-items:center">
+      <div>
+        <p style="font-size:13.5px;color:#a0c0b4;line-height:1.9;margin-bottom:18px;font-weight:300">That means something. It means you were willing to sit with information about your body, your mind, your relationships, and your wellbeing, and that is more than a lot of people ever do.</p>
+        <p style="font-size:13.5px;color:#a0c0b4;line-height:1.9;margin-bottom:18px;font-weight:300">You are going to face situations that are hard. You are going to feel things that are difficult to explain. You are going to be under pressure to be something you are not. And some days you are going to get it wrong.</p>
+        <p style="font-size:13.5px;color:#a0c0b4;line-height:1.9;margin-bottom:28px;font-weight:300">All of that is part of growing up. None of it disqualifies you from also being well, honest, healthy, and respected by the people who matter.</p>
+        <div style="background:rgba(200,168,75,0.12);border-radius:12px;padding:24px 28px;margin-bottom:24px;border:1px solid rgba(200,168,75,0.2)">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--gold);line-height:1.35;margin-bottom:10px">"The best investment you will ever make is in understanding yourself."</div>
+          <div style="font-size:9px;color:#4a7060;letter-spacing:0.08em;font-family:'Space Grotesk',sans-serif">The EPIX Initiative</div>
+        </div>
+        <p style="font-size:12px;color:#5a8a78;line-height:1.85;font-weight:300">This playbook is the first in a series. More are coming. Share this one with another boy who needs it. Knowledge only compounds when it moves.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="font-size:8.5px;color:var(--gold);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:4px;font-family:'Space Grotesk',sans-serif">Quick reference</div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:13px 15px;border:0.5px solid rgba(255,255,255,0.06)"><div style="font-size:10.5px;font-weight:600;color:white;margin-bottom:3px;font-family:'Space Grotesk',sans-serif">Your body</div><div style="font-size:9.5px;color:#5a8a78;line-height:1.5">Puberty is a process to understand. Give yourself time.</div></div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:13px 15px;border:0.5px solid rgba(255,255,255,0.06)"><div style="font-size:10.5px;font-weight:600;color:white;margin-bottom:3px;font-family:'Space Grotesk',sans-serif">Sexual health</div><div style="font-size:9.5px;color:#5a8a78;line-height:1.5">Consent is always required. Condoms are always smart.</div></div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:13px 15px;border:0.5px solid rgba(255,255,255,0.06)"><div style="font-size:10.5px;font-weight:600;color:white;margin-bottom:3px;font-family:'Space Grotesk',sans-serif">Mental health</div><div style="font-size:9.5px;color:#5a8a78;line-height:1.5">Feelings are information, not weakness. Seeking help is strength.</div></div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:13px 15px;border:0.5px solid rgba(255,255,255,0.06)"><div style="font-size:10.5px;font-weight:600;color:white;margin-bottom:3px;font-family:'Space Grotesk',sans-serif">Digital life</div><div style="font-size:9.5px;color:#5a8a78;line-height:1.5">You are in charge of your phone, not the other way around.</div></div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:13px 15px;border:0.5px solid rgba(255,255,255,0.06)"><div style="font-size:10.5px;font-weight:600;color:white;margin-bottom:3px;font-family:'Space Grotesk',sans-serif">Relationships</div><div style="font-size:9.5px;color:#5a8a78;line-height:1.5">Respect yourself. Respect others. Communicate honestly.</div></div>
+        <div style="border-top:0.5px solid rgba(200,168,75,0.2);padding-top:14px;margin-top:6px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><img src="assets/images/epix-logo.png" style="width:18px;height:18px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.4" alt="EPIX"><div style="font-size:8.5px;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:0.04em">The EPIX Initiative</div></div>
+          <div style="font-size:8px;color:#3a5a4a;letter-spacing:0.06em">2025 · Playbook 01 of the Health Education Series</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;border-top:0.5px solid rgba(200,168,75,0.15);padding-top:22px;margin-top:22px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:white">MUTE <span style="color:var(--gold)">NOTIFICATIONS</span>, NOT YOUR PAIN.</div>
+      <img src="assets/images/epix-logo.png" style="width:32px;height:32px;object-fit:contain;filter:brightness(0) invert(1);opacity:0.3" alt="EPIX">
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+  </div>
+  
+<div class="page right-page" style="background:var(--green)">
+  <div style="min-height:1123px;display:flex;flex-direction:column;justify-content:space-between;padding:68px 58px;text-align:center">
+    <div></div>
+    <div>
+      <div style="width:140px;height:140px;margin:0 auto 24px;border-radius:50%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,0.15)">
+        <img src="assets/images/epix-logo.png" style="width:100px;height:100px;object-fit:contain;filter:brightness(0) invert(1)" alt="EPIX Logo">
+      </div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:white;letter-spacing:0.04em;margin-bottom:8px">The EPIX Initiative</h2>
+      <p style="font-size:11px;color:#8aaa9a;letter-spacing:0.18em;text-transform:uppercase;font-family:'Space Grotesk',sans-serif;margin-bottom:30px">Evidence-Based Adolescent Education</p>
+      <div style="width:40px;height:2px;background:var(--gold);margin:0 auto 30px"></div>
+    </div>
+    <div>
+      <div style="background:white;padding:12px 20px;border-radius:4px;display:inline-block;margin-bottom:20px;box-shadow:0 4px 10px rgba(0,0,0,0.1)">
+        <div style="font-family:'Courier New',Courier,monospace;font-size:24px;letter-spacing:1px;color:black;font-weight:bold;margin-bottom:2px">||| | |||| | ||| || |</div>
+        <div style="font-size:8px;letter-spacing:0.1em;color:var(--muted)">ISBN 978-01-EPIX-2025</div>
+      </div>
+      <div style="font-size:10.5px;color:#8aaa9a;line-height:1.7;font-weight:300;margin-bottom:20px">
+        Written by Mercy Ogunwale, Founder &amp; Product Lead<br>
+        Web: <a href="index.html" style="color:var(--gold);text-decoration:none">www.mercyogunwale.com</a><br>
+        Email: contact@mercyogunwale.com
+      </div>
+      <div style="font-size:8px;color:#3a5a4a;letter-spacing:0.06em">
+        © 2025 The EPIX Initiative. All rights reserved.<br>
+        Mute Notifications, Not Your Pain · Health Series
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+  let activeSpread = 0;
+  const spreads = document.querySelectorAll('.spread-wrapper');
+  let currentMode = 'spread';
+
+  function showSpread(index) {
+    if (index < 0 || index >= spreads.length) return;
+    spreads.forEach((s, idx) => {
+      if (currentMode === 'spread') {
+        s.style.display = idx === index ? 'flex' : 'none';
+      }
+    });
+    activeSpread = index;
+    document.getElementById('pageInfo').innerText = `Spread ${activeSpread + 1} of ${spreads.length}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function prevSpread() {
+    if (activeSpread > 0) {
+      showSpread(activeSpread - 1);
+    }
+  }
+
+  function nextSpread() {
+    if (activeSpread < spreads.length - 1) {
+      showSpread(activeSpread + 1);
+    }
+  }
+
+  function setViewMode(mode) {
+    currentMode = mode;
+    const container = document.getElementById('bookContainer');
+    
+    if (mode === 'single') {
+      document.getElementById('btnSingle').classList.add('active');
+      document.getElementById('btnSpread').classList.remove('active');
+      container.classList.add('single-mode');
+      spreads.forEach(s => {
+        s.style.display = 'flex';
+      });
+      document.getElementById('pageInfo').innerText = 'All Pages';
+    } else {
+      document.getElementById('btnSpread').classList.add('active');
+      document.getElementById('btnSingle').classList.remove('active');
+      container.classList.remove('single-mode');
+      showSpread(activeSpread);
+    }
+  }
+
+  // Handle keyboard arrow keys
+  document.addEventListener('keydown', (e) => {
+    if (currentMode === 'spread') {
+      if (e.key === 'ArrowLeft') {
+        prevSpread();
+      } else if (e.key === 'ArrowRight') {
+        nextSpread();
+      }
+    }
+  });
+
+  // Initialize
+  showSpread(0);
+</script>
+</body>
+
+</html>
