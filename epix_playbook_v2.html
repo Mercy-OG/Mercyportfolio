@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mute Notifications, Not Your Pain — Playbook 01 | The EPIX Initiative</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#0d3d2a;--green-mid:#1a5c3e;--green-light:#e8f2ec;--green-pale:#f0f7f3;
+  --gold:#c8a84b;--gold-light:#f5edd8;--gold-pale:#fdf8ee;
+  --navy:#1a2744;
+  --white:#ffffff;--off:#fafaf8;--gray-1:#f4f4f0;--gray-2:#e8e8e2;--gray-3:#c8c8c0;
+  --ink:#1a1a18;--body:#3d3d38;--muted:#8a8a82;
+}
+body{font-family:'Inter',sans-serif;background:#b8b8b8;color:var(--ink)}
+
+/* ── PAGE ── */
+.page{width:794px;min-height:1123px;background:var(--white);margin:0 auto 40px;position:relative;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.18)}
+
+/* ── LOGO INLINE SVG RECREATION ── */
+.logo-mark{display:inline-flex;align-items:center;gap:8px}
+.logo-mark img{width:32px;height:32px;object-fit:contain}
+.logo-mark .logo-text{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--green);letter-spacing:0.02em}
+.logo-mark .logo-text strong{font-weight:700}
+
+.logo-mark-sm img{width:22px;height:22px;object-fit:contain;opacity:0.7}
+.logo-mark-sm .logo-text{font-size:8.5px;color:var(--muted);letter-spacing:0.06em}
+
+/* ── RUNNING HEADER ── */
+.rh{display:flex;justify-content:space-between;align-items:center;padding:16px 52px;border-bottom:0.5px solid var(--gray-2);height:52px}
+.rh-label{font-size:8px;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;font-weight:500}
+.rh-num{font-size:11px;color:var(--gold);font-weight:600;font-family:'Cormorant Garamond',serif}
+
+/* ── RUNNING FOOTER ── */
+.rf{position:absolute;bottom:0;left:0;right:0;height:48px;display:flex;justify-content:space-between;align-items:center;padding:0 52px;border-top:0.5px solid var(--gray-2);background:var(--white)}
+.rf span{font-size:8px;color:var(--muted);letter-spacing:0.08em}
+
+/* ── CONTENT PAD ── */
+.pad{padding:44px 52px}
+.pad-b{padding-bottom:68px}
+
+/* ── ACCENT ELEMENTS ── */
+.gold-rule{width:36px;height:2.5px;background:var(--gold);margin-bottom:14px;border-radius:2px}
+.gold-rule-sm{width:22px;height:1.5px;background:var(--gold);margin-bottom:10px;border-radius:2px}
+.tag{display:inline-block;border:1px solid var(--gold);color:var(--green);font-size:7.5px;padding:2.5px 10px;border-radius:20px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;margin-bottom:14px;font-family:'Space Grotesk',sans-serif}
+.tag-inv{background:var(--green);border-color:var(--green);color:var(--gold)}
+
+/* ── TYPOGRAPHY ── */
+.d1{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--green);line-height:0.92}
+.d2{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--green);line-height:1.0}
+.d3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--green);line-height:1.1}
+.d4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--green);line-height:1.15}
+.sh{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--green);margin-bottom:10px;margin-top:22px}
+.sh:first-child{margin-top:0}
+.body{font-size:11.5px;color:var(--body);line-height:1.85;margin-bottom:13px;font-weight:300}
+.body-sm{font-size:10.5px;color:var(--body);line-height:1.8;margin-bottom:11px;font-weight:300}
+.caption{font-size:8.5px;color:var(--muted);letter-spacing:0.06em;line-height:1.5}
+
+/* ── LAYOUT ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.sidebar{display:grid;grid-template-columns:1.65fr 1fr;gap:32px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* ── CARDS & BOXES ── */
+.card-dark{background:var(--green);border-radius:10px;padding:22px 20px;color:white}
+.card-dark .card-num{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:6px}
+.card-dark .card-label{font-size:10px;color:#7aaa8e;line-height:1.55}
+.card-dark .card-title{font-size:11.5px;font-weight:600;color:white;margin-bottom:5px;font-family:'Space Grotesk',sans-serif}
+
+.card-light{background:var(--green-pale);border:1px solid #d0e5d8;border-radius:8px;padding:16px 18px;margin:14px 0}
+.card-light .cl-title{font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:7px;font-family:'Space Grotesk',sans-serif}
+.card-light p{font-size:11px;color:var(--body);line-height:1.7}
+
+.card-gold{background:var(--gold-pale);border-left:3px solid var(--gold);padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0}
+.card-gold p{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--green);line-height:1.6}
+.card-gold cite{display:block;font-size:9px;color:var(--muted);margin-top:5px;font-style:normal;letter-spacing:0.06em}
+
+.card-warn{border:1.5px solid var(--gold);border-radius:8px;padding:14px 18px;background:#fffcf3;margin:14px 0}
+.card-warn .wt{font-size:8.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:7px;font-family:'Space Grotesk',sans-serif}
+.card-warn p{font-size:11px;color:var(--body);line-height:1.7}
+
+.highlight{background:var(--gold);color:var(--green);font-weight:600;font-size:12px;padding:11px 18px;border-radius:6px;margin:14px 0;line-height:1.45;font-family:'Space Grotesk',sans-serif}
+
+/* ── MYTH/FACT ── */
+.mf{display:grid;grid-template-columns:1fr 1fr;border-radius:8px;overflow:hidden;margin:14px 0;border:1px solid var(--gray-2)}
+.mf-myth{background:#fff5f5;padding:14px 16px}
+.mf-fact{background:var(--green-pale);padding:14px 16px}
+.mf .ml{font-size:8px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:7px;font-family:'Space Grotesk',sans-serif}
+.mf-myth .ml{color:#c0392b}.mf-fact .ml{color:var(--green)}
+.mf p{font-size:10.5px;line-height:1.6;color:var(--body)}
+
+/* ── CHECKLIST ── */
+.ci{display:flex;gap:11px;padding:9px 0;border-bottom:0.5px solid var(--gray-2);align-items:flex-start}
+.ci:last-child{border-bottom:none}
+.cd{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--gold);flex-shrink:0;margin-top:2px}
+.ci p{font-size:11px;color:var(--body);line-height:1.6}
+
+/* ── NUMBERED LIST ── */
+.nl{list-style:none}
+.nl li{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
+.nc{width:24px;height:24px;border-radius:50%;background:var(--green);color:var(--gold);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-family:'Space Grotesk',sans-serif}
+.nl li p{font-size:11px;color:var(--body);line-height:1.7}
+
+/* ── QA ── */
+.qa{margin-bottom:20px}
+.qq{font-weight:600;font-size:12.5px;color:var(--green);margin-bottom:5px;padding-left:12px;border-left:2px solid var(--gold);font-family:'Space Grotesk',sans-serif;line-height:1.4}
+.qa-ans{font-size:11px;color:var(--body);line-height:1.75;padding-left:12px}
+
+/* ── STAT BOX ── */
+.sbox{background:var(--green);border-radius:10px;padding:20px 18px;color:white}
+.sbox .snum{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:6px}
+.sbox .slabel{font-size:10px;color:#8abaa8;line-height:1.5}
+
+/* ── GREEN SIDE PANEL ── */
+.side-green{background:var(--green);padding:44px 36px;display:flex;flex-direction:column;justify-content:space-between}
+.side-green .sg-eyebrow{font-size:8px;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;font-family:'Space Grotesk',sans-serif}
+.side-green .sg-title{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:white;line-height:0.95;margin-bottom:16px}
+.side-green .sg-rule{width:30px;height:2px;background:var(--gold);margin-bottom:16px}
+.side-green .sg-body{font-size:11px;color:#8aaa9a;line-height:1.75}
+
+/* ── TOC ITEM ── */
+.toc-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:0.5px solid rgba(255,255,255,0.08)}
+.toc-row:last-child{border-bottom:none}
+.toc-row .tl{display:flex;align-items:center;gap:9px}
+.toc-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;flex-shrink:0}
+.toc-row .tn{font-size:10px;color:#d0ddd8}
+.toc-row .tp{font-size:10px;color:var(--gold);font-weight:500;font-family:'Cormorant Garamond',serif}
+
+/* ── CHAPTER OPEN IN-PAGE LIST ── */
+.ch-list-item{display:flex;gap:14px;padding:14px 0;border-bottom:0.5px solid var(--gray-2)}
+.ch-list-item:last-child{border-bottom:none}
+.ch-list-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold);opacity:0.35;line-height:1;flex-shrink:0;width:30px}
+.ch-list-title{font-size:12px;font-weight:600;color:var(--green);margin-bottom:3px;font-family:'Space Grotesk',sans-serif}
+.ch-list-sub{font-size:10px;color:var(--muted);line-height:1.5}
+
+/* ── DECORATIVE ── */
+.geo-accent{position:absolute;border-radius:50%;pointer-events:none}
+
+@media print{body{background:white}.page{margin:0;box-shadow:none;page-break-after:always}}
+
+/* ── BOOK SPREAD VIEWPORT & CONTROLS ── */
+body {
+  background: #ccd5d0;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Toolbar Header */
+.book-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: rgba(13, 61, 42, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(200, 168, 75, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 1000;
+  color: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.tb-left, .tb-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tb-center {
+  display: flex;
+  gap: 8px;
+}
+.tb-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e8f2ec;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.tb-btn:hover {
+  background: rgba(200, 168, 75, 0.15);
+  border-color: var(--gold);
+  color: white;
+}
+.tb-btn.active {
+  background: var(--gold);
+  color: var(--green);
+  border-color: var(--gold);
+  font-weight: 600;
+}
+.tb-page-info {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: var(--gold-light);
+  margin-right: 12px;
+}
+
+/* Book Spread Container */
+.book-container {
+  margin-top: 60px;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+}
+
+.spread-wrapper {
+  display: none;
+  justify-content: center;
+  position: relative;
+  transition: opacity 0.3s ease;
+}
+.spread-wrapper.active {
+  display: flex;
+}
+
+/* Pages in Spreads */
+.page {
+  margin: 0;
+  width: 794px;
+  height: 1123px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  transition: transform 0.2s ease;
+}
+
+/* Left/Right Book Page Styling */
+.page.left-page {
+  border-radius: 6px 0 0 6px;
+  box-shadow: -15px 15px 40px rgba(0,0,0,0.1);
+  border-right: 1px solid rgba(0,0,0,0.05);
+}
+.page.right-page {
+  border-radius: 0 6px 6px 0;
+  box-shadow: 15px 15px 40px rgba(0,0,0,0.1);
+}
+.page.cover-page {
+  border-radius: 6px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+}
+
+/* Fold Shadow Seam Overlay */
+.spread-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 24px;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 75%, rgba(0,0,0,0.15) 100%);
+  z-index: 10;
+  pointer-events: none;
+}
+/* Disable seam for single page cover/back-cover */
+.spread-wrapper.single::after {
+  display: none;
+}
+
+/* ── IMAGE WRAPPERS FOR PINTEREST STYLE LOOK ── */
+.playbook-img-card {
+  margin: 14px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--gray-2);
+  background: var(--white);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.playbook-img-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+.playbook-img-card .img-caption {
+  padding: 10px 14px;
+  font-size: 8.5px;
+  color: var(--muted);
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: 0.05em;
+  background: var(--off);
+  border-top: 0.5px solid var(--gray-2);
+  line-height: 1.4;
+}
+
+/* Single Mode Stacking styling */
+.book-container.single-mode .spread-wrapper {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.book-container.single-mode .spread-wrapper::after {
+  display: none;
+}
+.book-container.single-mode .page {
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+/* ── RESPONSIVE SCALING ── */
+@media (max-width: 1650px) {
+  .spread-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  .spread-wrapper::after {
+    display: none;
+  }
+  .page.left-page, .page.right-page {
+    border-radius: 6px;
+  }
+  /* Fallback spread alignment */
+  .book-container:not(.single-mode) .spread-wrapper.active {
+    display: flex;
+  }
+}
+
+@media (max-width: 840px) {
+  .book-toolbar {
+    padding: 0 12px;
+    height: 50px;
+  }
+  .book-container {
+    margin-top: 50px;
+    padding: 20px 10px;
+  }
+  .page {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    min-height: 700px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+  .tb-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  .tb-page-info {
+    font-size: 11px;
+    margin-right: 4px;
+  }
+  .pad {
+    padding: 24px 20px;
+  }
+  .rh {
+    padding: 12px 20px;
+  }
+  .rf {
+    padding: 0 20px;
+    position: relative;
+    margin-top: 20px;
+  }
+}
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+<!-- ═══════════════════════════════════════
+     PAGE 1 — REAL COVER (from image)
+     ═══════════════════════════════════════ -->
